@@ -268,23 +268,26 @@ body {
     position: sticky;
     top: 0;
     z-index: 100;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: minmax(160px, auto) repeat(7, 1fr);
+    grid-template-rows: auto auto;
     padding: 0;
     overflow: visible;
 }
 
 .sidebar-brand {
+    grid-row: 1 / 3;
+    grid-column: 1;
     display: flex;
     align-items: center;
-    gap: var(--gap-md);
-    padding: 6px var(--gap-xl);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    flex-shrink: 0;
+    gap: 8px;
+    padding: 0 14px;
+    background: rgba(92,55,206,0.10);
+    border-right: 1px solid rgba(255,255,255,0.06);
 }
 
 .brand-icon {
-    width: 28px; height: 28px;
+    width: 26px; height: 26px;
     border-radius: var(--radius-sm);
     background: linear-gradient(135deg, var(--brand-40), var(--brand-30));
     display: flex;
@@ -295,31 +298,28 @@ body {
 
 .brand-icon i {
     color: #fff;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .brand-name {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: var(--fw-bold);
     color: var(--text-primary);
     letter-spacing: 0.3px;
     white-space: nowrap;
+    line-height: 1.2;
 }
 
 .brand-tagline {
-    display: inline;
-    font-size: 11px;
+    display: block;
+    font-size: 9px;
     color: var(--gray-40);
-    margin-left: 6px;
+    letter-spacing: 0.4px;
 }
 
-/* ---- Nav Items (2-row grid) ---- */
+/* ---- Nav Items (2-row color tabs) ---- */
 .sidebar-nav {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: auto auto;
-    gap: 0;
-    width: 100%;
+    display: contents;
 }
 
 .nav-item {
@@ -341,7 +341,7 @@ body {
 }
 
 /* --- Per-tab color palette --- */
-/* Row 1 */
+/* Row 1 (cols 2-8) */
 .nav-item[data-page="exec-overview"]       { color: #7eb8f0; background: rgba(126,184,240,0.06); }
 .nav-item[data-page="about-arrow"]         { color: #6ecfb8; background: rgba(110,207,184,0.06); }
 .nav-item[data-page="competitive-analysis"]{ color: #f0a86e; background: rgba(240,168,110,0.06); }
@@ -349,7 +349,7 @@ body {
 .nav-item[data-page="use-cases-value"]     { color: #8be87e; background: rgba(139,232,126,0.06); }
 .nav-item[data-page="war-room"]            { color: #f07e7e; background: rgba(240,126,126,0.06); }
 .nav-item[data-page="key-problems"]        { color: #d4a0f0; background: rgba(212,160,240,0.06); }
-/* Row 2 */
+/* Row 2 (cols 2-8) */
 .nav-item[data-page="win-themes"]          { color: #f0c46e; background: rgba(240,196,110,0.06); }
 .nav-item[data-page="solution-blueprint"]  { color: #6eb8f0; background: rgba(110,184,240,0.06); }
 .nav-item[data-page="solution-design"]     { color: #a0e8c8; background: rgba(160,232,200,0.06); }
@@ -1630,12 +1630,13 @@ sup.ref {
    ============================================================ */
 @media (max-width: 1024px) {
     .main-content { padding: var(--gap-3xl) var(--gap-xl); }
-    .nav-item { font-size: 10.5px; padding: 5px 2px; }
+    .nav-item { font-size: 10px; padding: 5px 2px; }
+    .sidebar { grid-template-columns: minmax(120px, auto) repeat(7, 1fr); }
 }
 
 @media (max-width: 768px) {
     .sidebar-brand { display: none; }
-    .sidebar-nav { grid-template-columns: repeat(4, 1fr); }
+    .sidebar { grid-template-columns: repeat(7, 1fr); }
     .main-content { padding: var(--gap-xl) var(--gap-md); }
     .metrics-row { grid-template-columns: repeat(2, 1fr); }
     .leadership-grid { grid-template-columns: 1fr; }
@@ -1752,7 +1753,6 @@ sup.ref {
             <div class="brand-tagline">Strategic Intelligence</div>
         </div>
     </div>
-    <div class="sidebar-nav">
         <a class="nav-item active" data-page="exec-overview" onclick="navigateTo('exec-overview')"><i class="bi bi-clipboard-data"></i> Executive Overview</a>
         <a class="nav-item" data-page="about-arrow" onclick="navigateTo('about-arrow')"><i class="bi bi-globe2"></i> About Arrow</a>
         <a class="nav-item" data-page="competitive-analysis" onclick="navigateTo('competitive-analysis')"><i class="bi bi-people"></i> Competitive Analysis</a>
@@ -1767,7 +1767,6 @@ sup.ref {
         <a class="nav-item" data-page="solution-approach" onclick="navigateTo('solution-approach')"><i class="bi bi-journal-text"></i> Solution Approach</a>
         <a class="nav-item" data-page="bpm40-transformation" onclick="navigateTo('bpm40-transformation')"><i class="bi bi-diagram-3"></i> BPM 4.0 Transformation</a>
         <a class="nav-item" data-page="infosys-advantage" onclick="navigateTo('infosys-advantage')"><i class="bi bi-building"></i> Infosys Advantage</a>
-    </div>
 </nav>
 
 <!-- ============================================================
@@ -7780,10 +7779,10 @@ sup.ref {
         <button class="bpm-sankey-btn active" data-domain="all" style="font-size:10px;padding:4px 10px;border-radius:var(--radius-full);border:1px solid var(--border-subtle);background:var(--brand-20);color:#fff;cursor:pointer;font-weight:var(--fw-semibold);">All Domains</button>
     </div>
 
-    <!-- Sankey container -->
-    <div id="bpm-sankey-container" style="background:var(--bg-surface);border-radius:var(--radius-md);border:1px solid var(--border-subtle);padding:16px;margin-bottom:var(--gap-2xl);position:relative;overflow-x:auto;">
-        <svg id="bpm-sankey-svg" style="width:100%;display:block;"></svg>
-        <div id="bpm-sankey-tooltip" style="position:fixed;display:none;background:var(--gray-90);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);padding:8px 12px;font-size:11px;color:var(--text-primary);pointer-events:none;z-index:9999;max-width:300px;box-shadow:0 4px 12px rgba(0,0,0,0.5);"></div>
+    <!-- Sankey container — fixed height, reference-style -->
+    <div id="bpm-sankey-container" style="background:var(--bg-surface);border-radius:var(--radius-md);border:1px solid var(--border-subtle);padding:16px;margin-bottom:var(--gap-2xl);position:relative;overflow:hidden;height:720px;">
+        <div id="bpm-sankey-chart" style="width:100%;height:100%;"></div>
+        <div id="bpm-sankey-tooltip" style="position:fixed;display:none;background:rgba(0,0,0,0.92);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:10px 14px;font-size:11px;color:#fff;pointer-events:none;z-index:9999;max-width:320px;box-shadow:0 6px 20px rgba(0,0,0,0.6);line-height:1.5;"></div>
     </div>
 
     <!-- ════════════════════════════════════════════════════════════
@@ -8126,12 +8125,12 @@ sup.ref {
 
 </div>
 
-<!-- ═══ BPM 4.0 Sankey Diagram Script ═══ -->
+<!-- ═══ BPM 4.0 Sankey Diagram Script (Reference-Style) ═══ -->
 <script>
 (function() {
     const SANKEY_DATA = [{"num": 1, "name": "PTP", "short": "PTP", "color": "#2E86AB", "l5_count": 117, "l2_count": 2, "retained": 0, "outsourced": 0, "l2s": [{"id": "1.1", "name": "Accounts Payable", "activities": 60, "l3s": [{"id": "1.1.1", "name": "Master Data Management", "activities": 10}, {"id": "1.1.2", "name": "Invoice Receipt", "activities": 4}, {"id": "1.1.3", "name": "Invoice Processing", "activities": 11}, {"id": "1.1.4", "name": "Electronic Invoice Processing & Verification", "activities": 5}, {"id": "1.1.5", "name": "Vendor / Employee Queries", "activities": 3}, {"id": "1.1.6", "name": "AP General", "activities": 5}, {"id": "1.1.7", "name": "Intercompany", "activities": 7}, {"id": "1.1.8", "name": "Invoice Payment", "activities": 11}, {"id": "1.1.9", "name": "T&E Processing", "activities": 4}]}, {"id": "1.2", "name": "Supplier Accounting", "activities": 51, "l3s": [{"id": "1.2.1", "name": "Price Protection", "activities": 10}, {"id": "1.2.2", "name": "Ship and debit", "activities": 26}, {"id": "1.2.3", "name": "Business Cost Adjustment", "activities": 3}, {"id": "1.2.4", "name": "Average Unit Cost", "activities": 5}, {"id": "1.2.5", "name": "Credit and rebill", "activities": 2}, {"id": "1.2.6", "name": "Supplier Trade Profile", "activities": 2}, {"id": "1.2.7", "name": "Supplier Accounting reports", "activities": 3}]}]}, {"num": 2, "name": "OtC", "short": "OtC", "color": "#A23B72", "l5_count": 76, "l2_count": 1, "retained": 36, "outsourced": 51, "l2s": [{"id": "2.1", "name": "Accounts Receivable", "activities": 76, "l3s": [{"id": "2.1.1", "name": "Sales Policy", "activities": 3}, {"id": "2.1.2", "name": "Master Data Management", "activities": 7}, {"id": "2.1.3", "name": "AR Regular Activities", "activities": 4}, {"id": "2.1.4", "name": "Credit Risk", "activities": 12}, {"id": "2.1.5", "name": "Sales Order Management", "activities": 8}, {"id": "2.1.6", "name": "Customer Billing", "activities": 19}, {"id": "2.1.7", "name": "Collection", "activities": 10}, {"id": "2.1.8", "name": "Cash Application", "activities": 9}, {"id": "2.1.9", "name": "Deductions Accounting", "activities": 4}]}]}, {"num": 3, "name": "RtR", "short": "RtR", "color": "#F18F01", "l5_count": 279, "l2_count": 1, "retained": 163, "outsourced": 208, "l2s": [{"id": "3.1", "name": "General Ledger", "activities": 279, "l3s": [{"id": "3.1.1", "name": "Master Data Management", "activities": 7}, {"id": "3.1.2", "name": "General Ledger Accounting", "activities": 86}, {"id": "3.1.3", "name": "Cost Accounting", "activities": 6}, {"id": "3.1.4", "name": "Revenue Recognition (Products)", "activities": 21}, {"id": "3.1.5", "name": "Revenue Recognition (Services)", "activities": 26}, {"id": "3.1.6", "name": "Treasury & Cash Transactions", "activities": 37}, {"id": "3.1.7", "name": "Closing & Consolidation", "activities": 30}, {"id": "3.1.8", "name": "Tax & Statutory Accounting", "activities": 66}]}]}, {"num": 4, "name": "CMF", "short": "CMF", "color": "#E74C3C", "l5_count": 40, "l2_count": 1, "retained": 0, "outsourced": 0, "l2s": [{"id": "4.1", "name": "Customer Master File", "activities": 40, "l3s": [{"id": "4.1.1", "name": "Onboarding new customers", "activities": 40}]}]}, {"num": 5, "name": "MDM", "short": "MDM", "color": "#3498DB", "l5_count": 141, "l2_count": 3, "retained": 0, "outsourced": 0, "l2s": [{"id": "5.1", "name": "Part Master", "activities": 94, "l3s": [{"id": "5.1.1", "name": "Part Master", "activities": 84}, {"id": "5.1.2", "name": "Sorcing Rule", "activities": 10}]}, {"id": "5.2", "name": "Lead Time", "activities": 16, "l3s": [{"id": "5.2.1", "name": "Lead Time", "activities": 16}]}, {"id": "5.3", "name": "Price Master", "activities": 31, "l3s": [{"id": "5.3.1", "name": "Price Master", "activities": 31}]}]}, {"num": 6, "name": "Demand Creation", "short": "DC", "color": "#8E44AD", "l5_count": 230, "l2_count": 1, "retained": 0, "outsourced": 0, "l2s": [{"id": "6.1", "name": "Design Registrations", "activities": 230, "l3s": [{"id": "6.1.1", "name": "Registration Process", "activities": 129}, {"id": "6.1.2", "name": "Submitted Not Approved", "activities": 28}, {"id": "6.1.3", "name": "Updates Management", "activities": 29}, {"id": "6.1.4", "name": "Reconciliation", "activities": 27}, {"id": "6.1.5", "name": "Quality Checks", "activities": 17}]}]}, {"num": 7, "name": "Order Booking", "short": "OB", "color": "#27AE60", "l5_count": 58, "l2_count": 3, "retained": 0, "outsourced": 0, "l2s": [{"id": "7.1", "name": "Quotes", "activities": 20, "l3s": [{"id": "7.1.1", "name": "Creating Quotes", "activities": 20}]}, {"id": "7.2", "name": "Sales Order", "activities": 34, "l3s": [{"id": "7.2.1", "name": "Creating Order", "activities": 34}]}, {"id": "7.3", "name": "Sales Order", "activities": 4, "l3s": [{"id": "7.3.1", "name": "Order Booking", "activities": 4}]}]}, {"num": 8, "name": "Supply Chain Planning", "short": "SCP", "color": "#D4AC0D", "l5_count": 20, "l2_count": 2, "retained": 0, "outsourced": 0, "l2s": [{"id": "8.1", "name": "Planning & Forecasting", "activities": 12, "l3s": [{"id": "8.1.1", "name": "Forecast Intake", "activities": 4}, {"id": "8.1.2", "name": "Demand Consensus", "activities": 4}, {"id": "8.1.3", "name": "Supply Planning", "activities": 4}]}, {"id": "8.2", "name": "Risk-Adjusted Planning", "activities": 8, "l3s": [{"id": "8.2.1", "name": "Risk Overlay", "activities": 4}, {"id": "8.2.2", "name": "S&OP/IBP", "activities": 4}]}]}, {"num": 9, "name": "Material Planning", "short": "MP", "color": "#1ABC9C", "l5_count": 6, "l2_count": 1, "retained": 0, "outsourced": 0, "l2s": [{"id": "9.1", "name": "MRP upload", "activities": 6, "l3s": [{"id": "9.1.1", "name": "MRP upload", "activities": 6}]}]}, {"num": 10, "name": "Sourcing & Procurement", "short": "S&P", "color": "#E67E22", "l5_count": 12, "l2_count": 2, "retained": 0, "outsourced": 0, "l2s": [{"id": "10.1", "name": "Supplier Strategy", "activities": 4, "l3s": [{"id": "10.1.1", "name": "Preferred Source Setup", "activities": 4}]}, {"id": "10.2", "name": "PO Management", "activities": 8, "l3s": [{"id": "10.2.1", "name": "PO Creation", "activities": 4}, {"id": "10.2.2", "name": "PO Acknowledgment", "activities": 4}]}]}, {"num": 11, "name": "PO Management", "short": "POM", "color": "#2C3E50", "l5_count": 25, "l2_count": 3, "retained": 0, "outsourced": 0, "l2s": [{"id": "11.1", "name": "Purchase Planning", "activities": 10, "l3s": [{"id": "11.1.1", "name": "Demand Review", "activities": 5}, {"id": "11.1.2", "name": "Buy Strategy Finalization", "activities": 5}]}, {"id": "11.2", "name": "Purchase Order Management", "activities": 10, "l3s": [{"id": "11.2.1", "name": "PO Creation", "activities": 5}, {"id": "11.2.2", "name": "PO Acknowledgment", "activities": 5}]}, {"id": "11.3", "name": "Expediting", "activities": 5, "l3s": [{"id": "11.3.1", "name": "Order Tracking", "activities": 5}]}]}, {"num": 12, "name": "Pull-In / Push-Out", "short": "PIPO", "color": "#16A085", "l5_count": 3, "l2_count": 2, "retained": 0, "outsourced": 0, "l2s": [{"id": "12.1", "name": "Request Initiation", "activities": 2, "l3s": [{"id": "12.1.1", "name": "Request Earlier Delivery", "activities": 1}, {"id": "12.1.2", "name": "Request Later Delivery", "activities": 1}]}, {"id": "12.2", "name": "Confirmation", "activities": 1, "l3s": [{"id": "12.2.1", "name": "Confirm Acceptance", "activities": 1}]}]}, {"num": 13, "name": "Inventory Management", "short": "IM", "color": "#C0392B", "l5_count": 4, "l2_count": 1, "retained": 0, "outsourced": 0, "l2s": [{"id": "13.1", "name": "Inventory Optimization", "activities": 4, "l3s": [{"id": "13.1.1", "name": "Replenishment", "activities": 4}]}]}, {"num": 14, "name": "Logistics & Fulfillment", "short": "L&F", "color": "#2980B9", "l5_count": 4, "l2_count": 1, "retained": 0, "outsourced": 0, "l2s": [{"id": "14.1", "name": "Outbound Logistics", "activities": 4, "l3s": [{"id": "14.1.1", "name": "International Shipping", "activities": 4}]}]}, {"num": 15, "name": "PO RECON", "short": "POR", "color": "#7D3C98", "l5_count": 120, "l2_count": 7, "retained": 0, "outsourced": 0, "l2s": [{"id": "15.1", "name": "Backlog", "activities": 32, "l3s": [{"id": "15.1.1", "name": "Request backlog", "activities": 12}, {"id": "15.1.2", "name": "Formatting of backlog", "activities": 12}, {"id": "15.1.3", "name": "Uploading backlog", "activities": 8}]}, {"id": "15.2", "name": "Exception Management", "activities": 29, "l3s": [{"id": "15.2.1", "name": "Export exception from oracle", "activities": 2}, {"id": "15.2.2", "name": "Price Exception", "activities": 7}, {"id": "15.2.3", "name": "Part Exception", "activities": 4}, {"id": "15.2.4", "name": "Quantity Exception", "activities": 5}, {"id": "15.2.5", "name": "NBD Exception", "activities": 4}, {"id": "15.2.6", "name": "Arrow Only Exception", "activities": 4}, {"id": "15.2.7", "name": "Supplier Only Exception", "activities": 3}]}, {"id": "15.3", "name": "Exception Communication", "activities": 6, "l3s": [{"id": "15.3.1", "name": "Sending exception to Buyer", "activities": 1}, {"id": "15.3.2", "name": "Buyer feedback", "activities": 5}]}, {"id": "15.4", "name": "Corrections", "activities": 8, "l3s": [{"id": "15.4.1", "name": "System changes", "activities": 8}]}, {"id": "15.5", "name": "Shiplog", "activities": 19, "l3s": [{"id": "15.5.1", "name": "Request Shiplog", "activities": 11}, {"id": "15.5.2", "name": "Uploading Shiplog", "activities": 8}]}, {"id": "15.6", "name": "Manual PO confirmation", "activities": 14, "l3s": [{"id": "15.6.1", "name": "Receive manual confirmation to shared email Box", "activities": 14}]}, {"id": "15.7", "name": "Overdue PO", "activities": 12, "l3s": [{"id": "15.7.1", "name": "Extract the overdue POs from oracle", "activities": 2}, {"id": "15.7.2", "name": "Compare the overdue POs with supplier backlog and shiplog", "activities": 10}]}]}, {"num": 16, "name": "Stock Rotation", "short": "SR", "color": "#D35400", "l5_count": 334, "l2_count": 2, "retained": 0, "outsourced": 0, "l2s": [{"id": "16.1", "name": "Returns/Scrap Rotations", "activities": 221, "l3s": [{"id": "16.1.1", "name": "Allowance", "activities": 57}, {"id": "16.1.2", "name": "Asset Report", "activities": 43}, {"id": "16.1.3", "name": "Supplier Report", "activities": 43}, {"id": "16.1.4", "name": "Shipment", "activities": 78}]}, {"id": "16.2", "name": "Adhoc Returns/Scraps", "activities": 113, "l3s": [{"id": "16.2.1", "name": "Request Received", "activities": 10}, {"id": "16.2.2", "name": "Report Validation", "activities": 43}, {"id": "16.2.3", "name": "Shipment", "activities": 46}, {"id": "16.2.4", "name": "Reporting", "activities": 14}]}]}, {"num": 17, "name": "Risk & Resiliency", "short": "R&R", "color": "#117A65", "l5_count": 4, "l2_count": 1, "retained": 0, "outsourced": 0, "l2s": [{"id": "17.1", "name": "Risk Management", "activities": 4, "l3s": [{"id": "17.1.1", "name": "BOM Risk Mapping", "activities": 4}]}]}, {"num": 18, "name": "AWSC INTERCOMPANY TRANSFER", "short": "ICT", "color": "#6C3483", "l5_count": 99, "l2_count": 5, "retained": 0, "outsourced": 0, "l2s": [{"id": "18.1", "name": "Quote", "activities": 13, "l3s": [{"id": "18.1.1", "name": "Quote request", "activities": 13}]}, {"id": "18.2", "name": "Purchasing", "activities": 18, "l3s": [{"id": "18.2.1", "name": "Purchase order creation", "activities": 18}]}, {"id": "18.3", "name": "Sales", "activities": 22, "l3s": [{"id": "18.3.1", "name": "Order Booking", "activities": 22}]}, {"id": "18.4", "name": "Order Queries", "activities": 26, "l3s": [{"id": "18.4.1", "name": "SO and PO Queries", "activities": 26}]}, {"id": "18.5", "name": "Quality issue", "activities": 20, "l3s": [{"id": "18.5.1", "name": "Quality issue", "activities": 20}]}]}];
     const SVG_NS = "http://www.w3.org/2000/svg";
-    
+
     // ── Filter buttons ──
     const ctrlDiv = document.getElementById("bpm-sankey-controls");
     SANKEY_DATA.forEach(d => {
@@ -8146,7 +8145,7 @@ sup.ref {
         });
         ctrlDiv.appendChild(btn);
     });
-    
+
     let activeFilter = "all";
     ctrlDiv.addEventListener("click", e => {
         const btn = e.target.closest(".bpm-sankey-btn");
@@ -8166,243 +8165,208 @@ sup.ref {
         }
         drawSankey();
     });
-    
+
     const tooltip = document.getElementById("bpm-sankey-tooltip");
-    
     function showTip(e, html) {
         tooltip.innerHTML = html;
         tooltip.style.display = "block";
-        const tx = Math.min(e.clientX + 12, window.innerWidth - 320);
-        const ty = Math.min(e.clientY - 40, window.innerHeight - 100);
-        tooltip.style.left = tx + "px";
-        tooltip.style.top = ty + "px";
+        tooltip.style.left = Math.min(e.clientX + 14, window.innerWidth - 340) + "px";
+        tooltip.style.top = Math.min(e.clientY - 30, window.innerHeight - 100) + "px";
     }
     function hideTip() { tooltip.style.display = "none"; }
-    
+
+    /* ═══════════════════════════════════════════════════════════
+       drawSankey() — Reference-style: thin nodes, labels outside,
+       proportional Y within fixed container, L1→L2→L3 always
+       ═══════════════════════════════════════════════════════════ */
     function drawSankey() {
-        const svg = document.getElementById("bpm-sankey-svg");
-        svg.innerHTML = "";
-        
+        const container = document.getElementById("bpm-sankey-chart");
+        const rect = container.getBoundingClientRect();
+        const W = Math.max(rect.width || 900, 900);
+        const H = Math.max(rect.height || 680, 500);
+        const pad = { top: 32, right: 20, bottom: 16, left: 20 };
+        const innerW = W - pad.left - pad.right;
+        const innerH = H - pad.top - pad.bottom;
+        const NODE_W = 18;
+        const NODE_GAP = 3;
+        const COL_COUNT = 3;
+        const colWidth = innerW / COL_COUNT;
+
         // Filter data
         let data = activeFilter === "all" ? SANKEY_DATA : SANKEY_DATA.filter(d => d.num == activeFilter);
         if (data.length === 0) return;
-        
-        const showL3 = data.length <= 3; // Show L3 column only when filtered to 1-3 domains
-        const colCount = showL3 ? 3 : 2;
-        
-        // Layout constants
-        const W = Math.max(900, svg.parentElement.getBoundingClientRect().width - 32);
-        const PAD_TOP = 40;
-        const PAD_BOTTOM = 20;
-        const PAD_LEFT = 10;
-        const PAD_RIGHT = 10;
-        const NODE_W = showL3 ? 130 : 150;
-        const NODE_GAP = 3;
-        const COL_GAP = showL3 ? (W - PAD_LEFT - PAD_RIGHT - NODE_W * 3) / 2 : (W - PAD_LEFT - PAD_RIGHT - NODE_W * 2);
-        
-        // Build nodes
-        let l1Nodes = [];
-        let l2Nodes = [];
-        let l3Nodes = [];
-        let links12 = [];
-        let links23 = [];
-        
+
+        // Build nodes & links
+        const nodesByCol = { 0: [], 1: [], 2: [] };
+        const links = [];
+        const nodeMap = {};
+
         data.forEach(d => {
-            const l1 = { id: "l1_" + d.num, label: d.short + " — " + d.name, value: Math.max(d.l5_count, 1), color: d.color, domain: d.num, level: 0 };
-            l1Nodes.push(l1);
-            
+            const l1 = { id: "l1_" + d.num, label: d.short + " \u2014 " + d.name, value: Math.max(d.l5_count, 1), color: d.color, col: 0 };
+            nodesByCol[0].push(l1);
+            nodeMap[l1.id] = l1;
+
             d.l2s.forEach(l2 => {
                 const l2id = "l2_" + l2.id;
-                let existing = l2Nodes.find(n => n.id === l2id);
-                if (!existing) {
-                    existing = { id: l2id, label: l2.name, value: Math.max(l2.activities, 1), color: d.color, domain: d.num, level: 1 };
-                    l2Nodes.push(existing);
+                if (!nodeMap[l2id]) {
+                    const n = { id: l2id, label: l2.name, value: Math.max(l2.activities, 1), color: d.color, col: 1 };
+                    nodesByCol[1].push(n);
+                    nodeMap[l2id] = n;
                 }
-                links12.push({ source: l1.id, target: l2id, value: Math.max(l2.activities, 1), color: d.color });
-                
-                if (showL3) {
-                    l2.l3s.forEach(l3 => {
-                        const l3id = "l3_" + l3.id;
-                        let ex3 = l3Nodes.find(n => n.id === l3id);
-                        if (!ex3) {
-                            ex3 = { id: l3id, label: l3.name, value: Math.max(l3.activities, 1), color: d.color, domain: d.num, level: 2 };
-                            l3Nodes.push(ex3);
-                        }
-                        links23.push({ source: l2id, target: l3id, value: Math.max(l3.activities, 1), color: d.color });
-                    });
-                }
+                links.push({ source: l1.id, target: l2id, value: Math.max(l2.activities, 1), color: d.color });
+
+                l2.l3s.forEach(l3 => {
+                    const l3id = "l3_" + l3.id;
+                    if (!nodeMap[l3id]) {
+                        const n = { id: l3id, label: l3.name, value: Math.max(l3.activities, 1), color: d.color, col: 2 };
+                        nodesByCol[2].push(n);
+                        nodeMap[l3id] = n;
+                    }
+                    links.push({ source: l2id, target: l3id, value: Math.max(l3.activities, 1), color: d.color });
+                });
             });
         });
-        
-        // Calculate positions
-        function layoutColumn(nodes, x) {
-            const totalValue = nodes.reduce((s, n) => s + n.value, 0);
+
+        // Proportional Y layout — fit all nodes within innerH
+        for (let c = 0; c < COL_COUNT; c++) {
+            const nodes = nodesByCol[c];
+            const totalVal = nodes.reduce((s, n) => s + n.value, 0);
             const totalGaps = (nodes.length - 1) * NODE_GAP;
-            const availH = totalValue * 1.2 + totalGaps + PAD_TOP + PAD_BOTTOM;
-            const scale = 1.2; // pixels per activity
-            let y = PAD_TOP;
+            const availH = innerH - totalGaps;
+            let y = pad.top;
             nodes.forEach(n => {
-                n.x = x;
+                n.x = pad.left + c * colWidth;
                 n.y = y;
-                n.h = Math.max(n.value * scale, 8);
+                n.h = Math.max((n.value / totalVal) * availH, 2);
                 n.w = NODE_W;
                 y += n.h + NODE_GAP;
             });
-            return y + PAD_BOTTOM;
         }
-        
-        const h1 = layoutColumn(l1Nodes, PAD_LEFT);
-        const h2 = layoutColumn(l2Nodes, PAD_LEFT + NODE_W + COL_GAP);
-        let h3 = 0;
-        if (showL3 && l3Nodes.length > 0) {
-            h3 = layoutColumn(l3Nodes, PAD_LEFT + (NODE_W + COL_GAP) * 2);
-        }
-        
-        const totalH = Math.max(h1, h2, h3, 400);
-        svg.setAttribute("viewBox", `0 0 ${W} ${totalH}`);
-        svg.style.height = totalH + "px";
-        
+
+        // Create SVG
+        const svg = document.createElementNS(SVG_NS, "svg");
+        svg.setAttribute("width", W);
+        svg.setAttribute("height", H);
+        svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+        svg.style.display = "block";
+
         // Column headers
-        const headers = ["L1 — Process Domain", "L2 — Key Process"];
-        if (showL3) headers.push("L3 — Sub-Process");
-        const colXs = [PAD_LEFT, PAD_LEFT + NODE_W + COL_GAP];
-        if (showL3) colXs.push(PAD_LEFT + (NODE_W + COL_GAP) * 2);
-        
+        const headers = ["L1 \u2014 Domain", "L2 \u2014 Process", "L3 \u2014 Sub-Process"];
         headers.forEach((h, i) => {
             const txt = document.createElementNS(SVG_NS, "text");
-            txt.setAttribute("x", colXs[i] + NODE_W / 2);
-            txt.setAttribute("y", 16);
-            txt.setAttribute("text-anchor", "middle");
-            txt.setAttribute("fill", "#888");
+            txt.setAttribute("x", pad.left + i * colWidth + 10);
+            txt.setAttribute("y", 14);
+            txt.setAttribute("fill", "rgba(255,255,255,0.65)");
             txt.setAttribute("font-size", "10");
             txt.setAttribute("font-weight", "600");
-            txt.setAttribute("text-transform", "uppercase");
-            txt.setAttribute("letter-spacing", "0.5");
+            txt.setAttribute("letter-spacing", "0.3");
             txt.textContent = h;
             svg.appendChild(txt);
         });
-        
-        // Draw links (bezier curves)
-        function drawLinks(links, sourceNodes, targetNodes) {
-            // Track connection offsets
-            const srcOffsets = {};
-            const tgtOffsets = {};
-            
-            links.forEach(lk => {
-                const src = sourceNodes.find(n => n.id === lk.source);
-                const tgt = targetNodes.find(n => n.id === lk.target);
-                if (!src || !tgt) return;
-                
-                if (!srcOffsets[lk.source]) srcOffsets[lk.source] = 0;
-                if (!tgtOffsets[lk.target]) tgtOffsets[lk.target] = 0;
-                
-                const linkH = Math.max((lk.value / src.value) * src.h, 1.5);
-                const sy = src.y + srcOffsets[lk.source];
-                const ty = tgt.y + tgtOffsets[lk.target];
-                
-                srcOffsets[lk.source] += linkH;
-                tgtOffsets[lk.target] += Math.max((lk.value / tgt.value) * tgt.h, 1.5);
-                
-                const x0 = src.x + src.w;
-                const x1 = tgt.x;
-                const mx = (x0 + x1) / 2;
-                
-                const path = document.createElementNS(SVG_NS, "path");
-                const d = `M${x0},${sy + linkH/2} C${mx},${sy + linkH/2} ${mx},${ty + linkH/2} ${x1},${ty + linkH/2}`;
-                path.setAttribute("d", d);
-                path.setAttribute("fill", "none");
-                path.setAttribute("stroke", lk.color);
-                path.setAttribute("stroke-width", Math.max(linkH, 1.5));
-                path.setAttribute("stroke-opacity", "0.25");
-                path.style.transition = "stroke-opacity 0.2s";
-                
-                path.addEventListener("mouseenter", e => {
-                    path.setAttribute("stroke-opacity", "0.6");
-                    const sn = sourceNodes.find(n => n.id === lk.source);
-                    const tn = targetNodes.find(n => n.id === lk.target);
-                    showTip(e, `<div style="font-weight:600;margin-bottom:4px;">${sn ? sn.label : lk.source} &rarr; ${tn ? tn.label : lk.target}</div><div style="color:#aaa;">Activities: <b style="color:#fff;">${lk.value}</b></div>`);
-                });
-                path.addEventListener("mousemove", e => showTip(e, tooltip.innerHTML));
-                path.addEventListener("mouseleave", () => { path.setAttribute("stroke-opacity", "0.25"); hideTip(); });
-                svg.appendChild(path);
+
+        // Draw links — smooth bezier S-curves
+        links.forEach(lk => {
+            const src = nodeMap[lk.source];
+            const tgt = nodeMap[lk.target];
+            if (!src || !tgt) return;
+            // Accumulate offsets for stacking
+            if (src._srcOff === undefined) src._srcOff = 0;
+            if (tgt._tgtOff === undefined) tgt._tgtOff = 0;
+            const srcH = Math.max((lk.value / src.value) * src.h, 1);
+            const tgtH = Math.max((lk.value / tgt.value) * tgt.h, 1);
+            const sy = src.y + src._srcOff + srcH / 2;
+            const ty = tgt.y + tgt._tgtOff + tgtH / 2;
+            src._srcOff += srcH;
+            tgt._tgtOff += tgtH;
+            const x0 = src.x + src.w;
+            const x1 = tgt.x;
+            const xi = (x1 - x0) * 0.5;
+            const strokeW = Math.max(2, Math.min(tgtH, 28));
+
+            const path = document.createElementNS(SVG_NS, "path");
+            path.setAttribute("d", "M " + x0 + " " + sy + " C " + (x0 + xi) + " " + sy + ", " + (x1 - xi) + " " + ty + ", " + x1 + " " + ty);
+            path.setAttribute("fill", "none");
+            path.setAttribute("stroke", lk.color);
+            path.setAttribute("stroke-opacity", "0.4");
+            path.setAttribute("stroke-width", strokeW);
+            path.style.cursor = "pointer";
+            path.style.transition = "stroke-opacity 0.15s";
+            path.addEventListener("mouseenter", ev => {
+                path.setAttribute("stroke-opacity", "0.75");
+                showTip(ev, '<div style="font-weight:700;margin-bottom:4px;">' + src.label + ' \u2192 ' + tgt.label + '</div><div style="color:rgba(255,255,255,0.6);">L5 Activities: <b style="color:#fff;">' + lk.value + '</b></div>');
             });
-        }
-        
-        drawLinks(links12, l1Nodes, l2Nodes);
-        if (showL3) drawLinks(links23, l2Nodes, l3Nodes);
-        
-        // Draw nodes
-        function drawNodes(nodes) {
-            nodes.forEach(n => {
-                // Node rect
-                const rect = document.createElementNS(SVG_NS, "rect");
-                rect.setAttribute("x", n.x);
-                rect.setAttribute("y", n.y);
-                rect.setAttribute("width", n.w);
-                rect.setAttribute("height", n.h);
-                rect.setAttribute("rx", "3");
-                rect.setAttribute("fill", n.color);
-                rect.setAttribute("fill-opacity", n.level === 0 ? "0.9" : "0.7");
-                rect.style.cursor = "pointer";
-                rect.style.transition = "fill-opacity 0.2s";
-                
-                rect.addEventListener("mouseenter", e => {
-                    rect.setAttribute("fill-opacity", "1");
-                    showTip(e, `<div style="font-weight:600;color:${n.color};margin-bottom:4px;">${n.label}</div><div style="color:#aaa;">L5 Activities: <b style="color:#fff;">${n.value}</b></div><div style="color:#aaa;">Level: <b style="color:#fff;">L${n.level + 1}</b></div>`);
+            path.addEventListener("mousemove", ev => { tooltip.style.left = Math.min(ev.clientX + 14, window.innerWidth - 340) + "px"; tooltip.style.top = (ev.clientY - 30) + "px"; });
+            path.addEventListener("mouseleave", () => { path.setAttribute("stroke-opacity", "0.4"); hideTip(); });
+            svg.appendChild(path);
+        });
+
+        // Draw nodes — thin bars with labels outside
+        for (let c = 0; c < COL_COUNT; c++) {
+            const labelSpace = colWidth - NODE_W - 10;
+            nodesByCol[c].forEach(n => {
+                // Thin node bar
+                const r = document.createElementNS(SVG_NS, "rect");
+                r.setAttribute("x", n.x);
+                r.setAttribute("y", n.y);
+                r.setAttribute("width", n.w);
+                r.setAttribute("height", n.h);
+                r.setAttribute("rx", "3");
+                r.setAttribute("fill", n.color);
+                r.setAttribute("stroke", "rgba(255,255,255,0.3)");
+                r.setAttribute("stroke-width", "0.5");
+                r.style.cursor = "pointer";
+                r.addEventListener("mouseenter", ev => {
+                    r.setAttribute("stroke-width", "1.5");
+                    r.setAttribute("stroke", "rgba(255,255,255,0.7)");
+                    showTip(ev, '<div style="color:' + n.color + ';font-weight:700;margin-bottom:3px;">' + n.label + '</div><div style="color:rgba(255,255,255,0.6);">L5 Activities: <b style="color:#fff;">' + n.value + '</b></div><div style="color:rgba(255,255,255,0.4);font-size:10px;">Level: L' + (n.col + 1) + '</div>');
                 });
-                rect.addEventListener("mousemove", e => showTip(e, tooltip.innerHTML));
-                rect.addEventListener("mouseleave", () => {
-                    rect.setAttribute("fill-opacity", n.level === 0 ? "0.9" : "0.7");
-                    hideTip();
-                });
-                svg.appendChild(rect);
-                
-                // Label
-                if (n.h >= 10) {
-                    const maxChars = Math.floor(n.w / 6) - 2;
-                    let label = n.label.length > maxChars ? n.label.substring(0, maxChars - 1) + "…" : n.label;
-                    
+                r.addEventListener("mousemove", ev => { tooltip.style.left = Math.min(ev.clientX + 14, window.innerWidth - 340) + "px"; tooltip.style.top = (ev.clientY - 30) + "px"; });
+                r.addEventListener("mouseleave", () => { r.setAttribute("stroke-width", "0.5"); r.setAttribute("stroke", "rgba(255,255,255,0.3)"); hideTip(); });
+                svg.appendChild(r);
+
+                // Label OUTSIDE the node (to the right)
+                if (n.h > 8) {
+                    const maxChars = Math.floor(labelSpace / 6);
+                    let label = n.label;
+                    if (label.length > maxChars) label = label.substring(0, maxChars - 1) + "\u2026";
                     const txt = document.createElementNS(SVG_NS, "text");
-                    txt.setAttribute("x", n.x + 6);
-                    txt.setAttribute("y", n.y + n.h / 2 + 3);
+                    txt.setAttribute("x", n.x + n.w + 5);
+                    txt.setAttribute("y", n.y + n.h / 2);
+                    txt.setAttribute("dominant-baseline", "middle");
                     txt.setAttribute("fill", "#fff");
-                    txt.setAttribute("font-size", n.h >= 16 ? "10" : "8");
-                    txt.setAttribute("font-weight", "600");
+                    txt.setAttribute("font-size", n.h > 14 ? "10" : "8");
                     txt.setAttribute("pointer-events", "none");
                     txt.textContent = label;
                     svg.appendChild(txt);
                 }
-                
-                // Value badge (right side)
-                if (n.h >= 14 && n.value > 1) {
+
+                // Activity count — smaller, right-aligned in the label column
+                if (n.h > 12 && n.value > 1) {
                     const badge = document.createElementNS(SVG_NS, "text");
-                    badge.setAttribute("x", n.x + n.w - 6);
-                    badge.setAttribute("y", n.y + n.h / 2 + 3);
+                    badge.setAttribute("x", n.x + n.w + labelSpace - 2);
+                    badge.setAttribute("y", n.y + n.h / 2);
+                    badge.setAttribute("dominant-baseline", "middle");
                     badge.setAttribute("text-anchor", "end");
-                    badge.setAttribute("fill", "rgba(255,255,255,0.7)");
+                    badge.setAttribute("fill", "rgba(255,255,255,0.35)");
                     badge.setAttribute("font-size", "9");
-                    badge.setAttribute("font-weight", "600");
                     badge.setAttribute("pointer-events", "none");
                     badge.textContent = n.value;
                     svg.appendChild(badge);
                 }
             });
         }
-        
-        drawNodes(l1Nodes);
-        drawNodes(l2Nodes);
-        if (showL3) drawNodes(l3Nodes);
+
+        // Clear old SVG & append new
+        container.innerHTML = "";
+        container.appendChild(svg);
     }
-    
+
     // Initial draw
     drawSankey();
-    
+
     // Redraw on resize
     let resizeTimer;
-    window.addEventListener("resize", () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(drawSankey, 200);
-    });
+    window.addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(drawSankey, 200); });
 })();
 </script>
 
