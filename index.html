@@ -7765,22 +7765,22 @@ sup.ref {
          SECTION 3 — SANKEY FLOW DIAGRAM
          ════════════════════════════════════════════════════════════ -->
     <div class="section-heading">
-        <i class="bi bi-diagram-3"></i> 3. Process Taxonomy Flow &mdash; L1 &rarr; L2 &rarr; L3
+        <i class="bi bi-diagram-3"></i> 3. Process Taxonomy Flow &mdash; Value Chain &rarr; Activity &rarr; Agentification
     </div>
 
     <div style="font-size:var(--size-caption);color:var(--text-secondary);margin-bottom:var(--gap-lg);line-height:1.6;">
-        The Sankey diagram below visualizes the complete L1&ndash;L3 process hierarchy across all 18 domains.
-        Flow width is proportional to the number of L5 activities in each process branch.
-        <b>Hover</b> over nodes and links for detailed activity counts. Use the <b>filter buttons</b> to focus on specific domains.
+        The Sankey diagram below visualizes the complete process taxonomy from Value Chain through Activity to Agentification classification.
+        Flow width is proportional to monthly hours (FTE effort) in each process branch. AL0&ndash;AL4 columns on the right show progressive FTE reduction through AI agent deployment.
+        <b>Hover</b> over nodes and links for detailed breakdowns. Use the <b>filter buttons</b> to focus on specific value chains.
     </div>
 
     <!-- Sankey filter controls -->
     <div id="bpm-sankey-controls" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:var(--gap-lg);">
-        <button class="bpm-sankey-btn active" data-domain="all" style="font-size:10px;padding:4px 10px;border-radius:var(--radius-full);border:1px solid var(--border-subtle);background:var(--brand-20);color:#fff;cursor:pointer;font-weight:var(--fw-semibold);">All Domains</button>
+        <button class="bpm-sankey-btn active" data-domain="all" style="font-size:10px;padding:4px 10px;border-radius:var(--radius-full);border:1px solid var(--border-subtle);background:var(--brand-20);color:#fff;cursor:pointer;font-weight:var(--fw-semibold);">All Value Chains</button>
     </div>
 
     <!-- Sankey container — fixed height, reference-style -->
-    <div id="bpm-sankey-container" style="background:var(--bg-surface);border-radius:var(--radius-md);border:1px solid var(--border-subtle);padding:16px;margin-bottom:var(--gap-2xl);position:relative;overflow:hidden;height:720px;">
+    <div id="bpm-sankey-container" style="background:var(--bg-surface);border-radius:var(--radius-md);border:1px solid var(--border-subtle);padding:16px;margin-bottom:var(--gap-2xl);position:relative;overflow:hidden;height:780px;">
         <div id="bpm-sankey-chart" style="width:100%;height:100%;"></div>
         <div id="bpm-sankey-tooltip" style="position:fixed;display:none;background:rgba(0,0,0,0.92);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:10px 14px;font-size:11px;color:#fff;pointer-events:none;z-index:9999;max-width:320px;box-shadow:0 6px 20px rgba(0,0,0,0.6);line-height:1.5;"></div>
     </div>
@@ -8125,239 +8125,2578 @@ sup.ref {
 
 </div>
 
-<!-- ═══ BPM 4.0 Sankey Diagram Script (Reference-Style) ═══ -->
+<!-- ═══ BPM 4.0 Sankey Diagram — Full Taxonomy with AL0-AL4 ═══ -->
 <script>
 (function() {
-    const SANKEY_DATA = [{"num": 1, "name": "PTP", "short": "PTP", "color": "#2E86AB", "l5_count": 117, "l2_count": 2, "retained": 0, "outsourced": 0, "l2s": [{"id": "1.1", "name": "Accounts Payable", "activities": 60, "l3s": [{"id": "1.1.1", "name": "Master Data Management", "activities": 10}, {"id": "1.1.2", "name": "Invoice Receipt", "activities": 4}, {"id": "1.1.3", "name": "Invoice Processing", "activities": 11}, {"id": "1.1.4", "name": "Electronic Invoice Processing & Verification", "activities": 5}, {"id": "1.1.5", "name": "Vendor / Employee Queries", "activities": 3}, {"id": "1.1.6", "name": "AP General", "activities": 5}, {"id": "1.1.7", "name": "Intercompany", "activities": 7}, {"id": "1.1.8", "name": "Invoice Payment", "activities": 11}, {"id": "1.1.9", "name": "T&E Processing", "activities": 4}]}, {"id": "1.2", "name": "Supplier Accounting", "activities": 51, "l3s": [{"id": "1.2.1", "name": "Price Protection", "activities": 10}, {"id": "1.2.2", "name": "Ship and debit", "activities": 26}, {"id": "1.2.3", "name": "Business Cost Adjustment", "activities": 3}, {"id": "1.2.4", "name": "Average Unit Cost", "activities": 5}, {"id": "1.2.5", "name": "Credit and rebill", "activities": 2}, {"id": "1.2.6", "name": "Supplier Trade Profile", "activities": 2}, {"id": "1.2.7", "name": "Supplier Accounting reports", "activities": 3}]}]}, {"num": 2, "name": "OtC", "short": "OtC", "color": "#A23B72", "l5_count": 76, "l2_count": 1, "retained": 36, "outsourced": 51, "l2s": [{"id": "2.1", "name": "Accounts Receivable", "activities": 76, "l3s": [{"id": "2.1.1", "name": "Sales Policy", "activities": 3}, {"id": "2.1.2", "name": "Master Data Management", "activities": 7}, {"id": "2.1.3", "name": "AR Regular Activities", "activities": 4}, {"id": "2.1.4", "name": "Credit Risk", "activities": 12}, {"id": "2.1.5", "name": "Sales Order Management", "activities": 8}, {"id": "2.1.6", "name": "Customer Billing", "activities": 19}, {"id": "2.1.7", "name": "Collection", "activities": 10}, {"id": "2.1.8", "name": "Cash Application", "activities": 9}, {"id": "2.1.9", "name": "Deductions Accounting", "activities": 4}]}]}, {"num": 3, "name": "RtR", "short": "RtR", "color": "#F18F01", "l5_count": 279, "l2_count": 1, "retained": 163, "outsourced": 208, "l2s": [{"id": "3.1", "name": "General Ledger", "activities": 279, "l3s": [{"id": "3.1.1", "name": "Master Data Management", "activities": 7}, {"id": "3.1.2", "name": "General Ledger Accounting", "activities": 86}, {"id": "3.1.3", "name": "Cost Accounting", "activities": 6}, {"id": "3.1.4", "name": "Revenue Recognition (Products)", "activities": 21}, {"id": "3.1.5", "name": "Revenue Recognition (Services)", "activities": 26}, {"id": "3.1.6", "name": "Treasury & Cash Transactions", "activities": 37}, {"id": "3.1.7", "name": "Closing & Consolidation", "activities": 30}, {"id": "3.1.8", "name": "Tax & Statutory Accounting", "activities": 66}]}]}, {"num": 4, "name": "CMF", "short": "CMF", "color": "#E74C3C", "l5_count": 40, "l2_count": 1, "retained": 0, "outsourced": 0, "l2s": [{"id": "4.1", "name": "Customer Master File", "activities": 40, "l3s": [{"id": "4.1.1", "name": "Onboarding new customers", "activities": 40}]}]}, {"num": 5, "name": "MDM", "short": "MDM", "color": "#3498DB", "l5_count": 141, "l2_count": 3, "retained": 0, "outsourced": 0, "l2s": [{"id": "5.1", "name": "Part Master", "activities": 94, "l3s": [{"id": "5.1.1", "name": "Part Master", "activities": 84}, {"id": "5.1.2", "name": "Sorcing Rule", "activities": 10}]}, {"id": "5.2", "name": "Lead Time", "activities": 16, "l3s": [{"id": "5.2.1", "name": "Lead Time", "activities": 16}]}, {"id": "5.3", "name": "Price Master", "activities": 31, "l3s": [{"id": "5.3.1", "name": "Price Master", "activities": 31}]}]}, {"num": 6, "name": "Demand Creation", "short": "DC", "color": "#8E44AD", "l5_count": 230, "l2_count": 1, "retained": 0, "outsourced": 0, "l2s": [{"id": "6.1", "name": "Design Registrations", "activities": 230, "l3s": [{"id": "6.1.1", "name": "Registration Process", "activities": 129}, {"id": "6.1.2", "name": "Submitted Not Approved", "activities": 28}, {"id": "6.1.3", "name": "Updates Management", "activities": 29}, {"id": "6.1.4", "name": "Reconciliation", "activities": 27}, {"id": "6.1.5", "name": "Quality Checks", "activities": 17}]}]}, {"num": 7, "name": "Order Booking", "short": "OB", "color": "#27AE60", "l5_count": 58, "l2_count": 3, "retained": 0, "outsourced": 0, "l2s": [{"id": "7.1", "name": "Quotes", "activities": 20, "l3s": [{"id": "7.1.1", "name": "Creating Quotes", "activities": 20}]}, {"id": "7.2", "name": "Sales Order", "activities": 34, "l3s": [{"id": "7.2.1", "name": "Creating Order", "activities": 34}]}, {"id": "7.3", "name": "Sales Order", "activities": 4, "l3s": [{"id": "7.3.1", "name": "Order Booking", "activities": 4}]}]}, {"num": 8, "name": "Supply Chain Planning", "short": "SCP", "color": "#D4AC0D", "l5_count": 20, "l2_count": 2, "retained": 0, "outsourced": 0, "l2s": [{"id": "8.1", "name": "Planning & Forecasting", "activities": 12, "l3s": [{"id": "8.1.1", "name": "Forecast Intake", "activities": 4}, {"id": "8.1.2", "name": "Demand Consensus", "activities": 4}, {"id": "8.1.3", "name": "Supply Planning", "activities": 4}]}, {"id": "8.2", "name": "Risk-Adjusted Planning", "activities": 8, "l3s": [{"id": "8.2.1", "name": "Risk Overlay", "activities": 4}, {"id": "8.2.2", "name": "S&OP/IBP", "activities": 4}]}]}, {"num": 9, "name": "Material Planning", "short": "MP", "color": "#1ABC9C", "l5_count": 6, "l2_count": 1, "retained": 0, "outsourced": 0, "l2s": [{"id": "9.1", "name": "MRP upload", "activities": 6, "l3s": [{"id": "9.1.1", "name": "MRP upload", "activities": 6}]}]}, {"num": 10, "name": "Sourcing & Procurement", "short": "S&P", "color": "#E67E22", "l5_count": 12, "l2_count": 2, "retained": 0, "outsourced": 0, "l2s": [{"id": "10.1", "name": "Supplier Strategy", "activities": 4, "l3s": [{"id": "10.1.1", "name": "Preferred Source Setup", "activities": 4}]}, {"id": "10.2", "name": "PO Management", "activities": 8, "l3s": [{"id": "10.2.1", "name": "PO Creation", "activities": 4}, {"id": "10.2.2", "name": "PO Acknowledgment", "activities": 4}]}]}, {"num": 11, "name": "PO Management", "short": "POM", "color": "#2C3E50", "l5_count": 25, "l2_count": 3, "retained": 0, "outsourced": 0, "l2s": [{"id": "11.1", "name": "Purchase Planning", "activities": 10, "l3s": [{"id": "11.1.1", "name": "Demand Review", "activities": 5}, {"id": "11.1.2", "name": "Buy Strategy Finalization", "activities": 5}]}, {"id": "11.2", "name": "Purchase Order Management", "activities": 10, "l3s": [{"id": "11.2.1", "name": "PO Creation", "activities": 5}, {"id": "11.2.2", "name": "PO Acknowledgment", "activities": 5}]}, {"id": "11.3", "name": "Expediting", "activities": 5, "l3s": [{"id": "11.3.1", "name": "Order Tracking", "activities": 5}]}]}, {"num": 12, "name": "Pull-In / Push-Out", "short": "PIPO", "color": "#16A085", "l5_count": 3, "l2_count": 2, "retained": 0, "outsourced": 0, "l2s": [{"id": "12.1", "name": "Request Initiation", "activities": 2, "l3s": [{"id": "12.1.1", "name": "Request Earlier Delivery", "activities": 1}, {"id": "12.1.2", "name": "Request Later Delivery", "activities": 1}]}, {"id": "12.2", "name": "Confirmation", "activities": 1, "l3s": [{"id": "12.2.1", "name": "Confirm Acceptance", "activities": 1}]}]}, {"num": 13, "name": "Inventory Management", "short": "IM", "color": "#C0392B", "l5_count": 4, "l2_count": 1, "retained": 0, "outsourced": 0, "l2s": [{"id": "13.1", "name": "Inventory Optimization", "activities": 4, "l3s": [{"id": "13.1.1", "name": "Replenishment", "activities": 4}]}]}, {"num": 14, "name": "Logistics & Fulfillment", "short": "L&F", "color": "#2980B9", "l5_count": 4, "l2_count": 1, "retained": 0, "outsourced": 0, "l2s": [{"id": "14.1", "name": "Outbound Logistics", "activities": 4, "l3s": [{"id": "14.1.1", "name": "International Shipping", "activities": 4}]}]}, {"num": 15, "name": "PO RECON", "short": "POR", "color": "#7D3C98", "l5_count": 120, "l2_count": 7, "retained": 0, "outsourced": 0, "l2s": [{"id": "15.1", "name": "Backlog", "activities": 32, "l3s": [{"id": "15.1.1", "name": "Request backlog", "activities": 12}, {"id": "15.1.2", "name": "Formatting of backlog", "activities": 12}, {"id": "15.1.3", "name": "Uploading backlog", "activities": 8}]}, {"id": "15.2", "name": "Exception Management", "activities": 29, "l3s": [{"id": "15.2.1", "name": "Export exception from oracle", "activities": 2}, {"id": "15.2.2", "name": "Price Exception", "activities": 7}, {"id": "15.2.3", "name": "Part Exception", "activities": 4}, {"id": "15.2.4", "name": "Quantity Exception", "activities": 5}, {"id": "15.2.5", "name": "NBD Exception", "activities": 4}, {"id": "15.2.6", "name": "Arrow Only Exception", "activities": 4}, {"id": "15.2.7", "name": "Supplier Only Exception", "activities": 3}]}, {"id": "15.3", "name": "Exception Communication", "activities": 6, "l3s": [{"id": "15.3.1", "name": "Sending exception to Buyer", "activities": 1}, {"id": "15.3.2", "name": "Buyer feedback", "activities": 5}]}, {"id": "15.4", "name": "Corrections", "activities": 8, "l3s": [{"id": "15.4.1", "name": "System changes", "activities": 8}]}, {"id": "15.5", "name": "Shiplog", "activities": 19, "l3s": [{"id": "15.5.1", "name": "Request Shiplog", "activities": 11}, {"id": "15.5.2", "name": "Uploading Shiplog", "activities": 8}]}, {"id": "15.6", "name": "Manual PO confirmation", "activities": 14, "l3s": [{"id": "15.6.1", "name": "Receive manual confirmation to shared email Box", "activities": 14}]}, {"id": "15.7", "name": "Overdue PO", "activities": 12, "l3s": [{"id": "15.7.1", "name": "Extract the overdue POs from oracle", "activities": 2}, {"id": "15.7.2", "name": "Compare the overdue POs with supplier backlog and shiplog", "activities": 10}]}]}, {"num": 16, "name": "Stock Rotation", "short": "SR", "color": "#D35400", "l5_count": 334, "l2_count": 2, "retained": 0, "outsourced": 0, "l2s": [{"id": "16.1", "name": "Returns/Scrap Rotations", "activities": 221, "l3s": [{"id": "16.1.1", "name": "Allowance", "activities": 57}, {"id": "16.1.2", "name": "Asset Report", "activities": 43}, {"id": "16.1.3", "name": "Supplier Report", "activities": 43}, {"id": "16.1.4", "name": "Shipment", "activities": 78}]}, {"id": "16.2", "name": "Adhoc Returns/Scraps", "activities": 113, "l3s": [{"id": "16.2.1", "name": "Request Received", "activities": 10}, {"id": "16.2.2", "name": "Report Validation", "activities": 43}, {"id": "16.2.3", "name": "Shipment", "activities": 46}, {"id": "16.2.4", "name": "Reporting", "activities": 14}]}]}, {"num": 17, "name": "Risk & Resiliency", "short": "R&R", "color": "#117A65", "l5_count": 4, "l2_count": 1, "retained": 0, "outsourced": 0, "l2s": [{"id": "17.1", "name": "Risk Management", "activities": 4, "l3s": [{"id": "17.1.1", "name": "BOM Risk Mapping", "activities": 4}]}]}, {"num": 18, "name": "AWSC INTERCOMPANY TRANSFER", "short": "ICT", "color": "#6C3483", "l5_count": 99, "l2_count": 5, "retained": 0, "outsourced": 0, "l2s": [{"id": "18.1", "name": "Quote", "activities": 13, "l3s": [{"id": "18.1.1", "name": "Quote request", "activities": 13}]}, {"id": "18.2", "name": "Purchasing", "activities": 18, "l3s": [{"id": "18.2.1", "name": "Purchase order creation", "activities": 18}]}, {"id": "18.3", "name": "Sales", "activities": 22, "l3s": [{"id": "18.3.1", "name": "Order Booking", "activities": 22}]}, {"id": "18.4", "name": "Order Queries", "activities": 26, "l3s": [{"id": "18.4.1", "name": "SO and PO Queries", "activities": 26}]}, {"id": "18.5", "name": "Quality issue", "activities": 20, "l3s": [{"id": "18.5.1", "name": "Quality issue", "activities": 20}]}]}];
-    const SVG_NS = "http://www.w3.org/2000/svg";
+    const taxonomyData = {
+  "Procure-to-Pay": {
+    "color": "#2E86AB",
+    "children": {
+      "Accounts Payable": {
+        "children": {
+          "Master Data Management": {
+            "children": {
+              "AP Master Data": {
+                "time": 105,
+                "type": "Analysis"
+              }
+            }
+          },
+          "Purchase Requisition Management": {
+            "children": {
+              "Catalog Management": {
+                "time": 90,
+                "type": "Approving"
+              },
+              "Purchase Requisition Processing": {
+                "time": 15,
+                "type": "Follow-up"
+              },
+              "Spot/Tactical Sourcing": {
+                "time": 30,
+                "type": "Approving"
+              }
+            }
+          },
+          "Purchase Order Management": {
+            "children": {
+              "Purchase Order Processing": {
+                "time": 45,
+                "type": "Approving"
+              },
+              "PO Acknowledgement & Supplier Expediting": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "PO Change Management": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          },
+          "AP Regular Activities": {
+            "children": {
+              "AP Regular Activities": {
+                "time": 60,
+                "type": "Analysis"
+              }
+            }
+          },
+          "Invoice Receipt": {
+            "children": {
+              "Document Handling / Mailroom": {
+                "time": 60,
+                "type": "Communication"
+              },
+              "Invoice Scanning": {
+                "time": 90,
+                "type": "Documentation"
+              }
+            }
+          },
+          "Invoice Processing": {
+            "children": {
+              "Invoice Processing": {
+                "time": 165,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Electronic Invoice Processing & Verification": {
+            "children": {
+              "Electronic Invoice Processing (semi-automated)": {
+                "time": 75,
+                "type": "Exception Handling"
+              },
+              "Check system for errors": {
+                "time": 20,
+                "type": "Exception Handling"
+              },
+              "Investigate root cause of error and make correction if appeared": {
+                "time": 20,
+                "type": "Exception Handling"
+              }
+            }
+          },
+          "Invoice Authorization": {
+            "children": {
+              "Invoice Approval": {
+                "time": 45,
+                "type": "Approving"
+              },
+              "Generate and analyse weekly / monthly report": {
+                "time": 20,
+                "type": "Analysis"
+              },
+              "Define approver(s) to be chased": {
+                "time": 20,
+                "type": "Approving"
+              },
+              "Contact approvers wrt missing invoice approval": {
+                "time": 20,
+                "type": "Approving"
+              },
+              "Provide explanation": {
+                "time": 20,
+                "type": "Transaction"
+              },
+              "Register reason of unapproved invoice": {
+                "time": 20,
+                "type": "Approving"
+              }
+            }
+          },
+          "Invoice Payment": {
+            "children": {
+              "Invoice Payment / Disbursement": {
+                "time": 180,
+                "type": "Transaction"
+              },
+              "Prepayment / Advanced / Rush Payment": {
+                "time": 105,
+                "type": "Transaction"
+              }
+            }
+          },
+          "AP Self Billing": {
+            "children": {
+              "Self-Billing": {
+                "time": 75,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Corporate / Purchasing card": {
+            "children": {
+              "Corporate / Purchasing card": {
+                "time": 105,
+                "type": "Report Preparation"
+              }
+            }
+          },
+          "T&E Processing": {
+            "children": {
+              "Travel & Expenses": {
+                "time": 105,
+                "type": "Documentation"
+              }
+            }
+          },
+          "Vendor / Employee Queries": {
+            "children": {
+              "Vendor / Employee Queries": {
+                "time": 60,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Order-to-Cash": {
+    "color": "#A23B72",
+    "children": {
+      "Accounts Receivable": {
+        "children": {
+          "Sales Policy": {
+            "children": {
+              "Sales Policy": {
+                "time": 45,
+                "type": "Data Entry"
+              }
+            }
+          },
+          "Master Data Management": {
+            "children": {
+              "Customer Master Data": {
+                "time": 105,
+                "type": "Analysis"
+              }
+            }
+          },
+          "AR Regular Activities": {
+            "children": {
+              "AR Regular Activities": {
+                "time": 60,
+                "type": "Analysis"
+              }
+            }
+          },
+          "Credit Risk": {
+            "children": {
+              "Credit Management": {
+                "time": 180,
+                "type": "Approving"
+              }
+            }
+          },
+          "Sales Order Management": {
+            "children": {
+              "Sales Order Processing": {
+                "time": 120,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Customer Billing": {
+            "children": {
+              "Invoicing": {
+                "time": 90,
+                "type": "Communication"
+              },
+              "Intercompany Invoicing": {
+                "time": 90,
+                "type": "Communication"
+              },
+              "Returns & Credits": {
+                "time": 105,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Collection": {
+            "children": {
+              "Collection": {
+                "time": 150,
+                "type": "Data Collection"
+              }
+            }
+          },
+          "Cash Application": {
+            "children": {
+              "Cash Application": {
+                "time": 135,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Deductions Accounting": {
+            "children": {
+              "Deductions Accounting": {
+                "time": 60,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Record-to-Report": {
+    "color": "#F18F01",
+    "children": {
+      "General Ledger": {
+        "children": {
+          "Master Data Management": {
+            "children": {
+              "GL Master Data (account, internal order, cost center, profit center, fixed asset etc.)": {
+                "time": 105,
+                "type": "Analysis"
+              }
+            }
+          },
+          "General Ledger Accounting": {
+            "children": {
+              "GL Regular Activities": {
+                "time": 75,
+                "type": "Transaction"
+              },
+              "Journal Entry Processing": {
+                "time": 255,
+                "type": "Transaction"
+              },
+              "Fixed Assets Processing": {
+                "time": 135,
+                "type": "Transaction"
+              },
+              "Stock Accouting": {
+                "time": 60,
+                "type": "Reconciliation"
+              },
+              "Payroll Accounting": {
+                "time": 120,
+                "type": "Reconciliation"
+              },
+              "Hedging Accounting": {
+                "time": 165,
+                "type": "Verification"
+              },
+              "Equity Accounting": {
+                "time": 60,
+                "type": "Report Preparation"
+              },
+              "Warranty provisions": {
+                "time": 75,
+                "type": "Reconciliation"
+              },
+              "Intercompany Processing": {
+                "time": 105,
+                "type": "Transaction"
+              },
+              "GR/IR Clearing and Reconciliation": {
+                "time": 60,
+                "type": "Transaction"
+              },
+              "Balance Sheet Accounts Reconciliation": {
+                "time": 105,
+                "type": "Documentation"
+              }
+            }
+          },
+          "Cost Accounting": {
+            "children": {
+              "Profit Center Accounting": {
+                "time": 90,
+                "type": "Reconciliation"
+              }
+            }
+          },
+          "Revenue Recognition (Products)": {
+            "children": {
+              "Customer Service": {
+                "time": 60,
+                "type": "Reconciliation"
+              },
+              "Software Customer Service": {
+                "time": 60,
+                "type": "Transaction"
+              },
+              "Project Accounting": {
+                "time": 75,
+                "type": "Verification"
+              },
+              "Monitoring reports": {
+                "time": 60,
+                "type": "Report Preparation"
+              },
+              "VSOE & FV calculation": {
+                "time": 60,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Revenue Recognition (Services)": {
+            "children": {
+              "Tendering Process": {
+                "time": 45,
+                "type": "Approving"
+              },
+              "Project Opening": {
+                "time": 75,
+                "type": "Documentation"
+              },
+              "Change Order": {
+                "time": 60,
+                "type": "Documentation"
+              },
+              "Invoicing": {
+                "time": 60,
+                "type": "Transaction"
+              },
+              "Collection": {
+                "time": 60,
+                "type": "Approving"
+              },
+              "Project Closing": {
+                "time": 90,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Treasury & Cash Transactions": {
+            "children": {
+              "Managing treasury policies and procedures": {
+                "time": 120,
+                "type": "Transaction"
+              },
+              "Managing cash": {
+                "time": 120,
+                "type": "Analysis"
+              },
+              "Managing in-house bank account": {
+                "time": 105,
+                "type": "Transaction"
+              },
+              "Managing debt and investment": {
+                "time": 105,
+                "type": "Report Preparation"
+              },
+              "Managing financial risks": {
+                "time": 105,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Closing & Consolidation": {
+            "children": {
+              "Month / Quarter End Closing Activities": {
+                "time": 105,
+                "type": "Report Preparation"
+              },
+              "Year End Closing Activities": {
+                "time": 150,
+                "type": "Transaction"
+              },
+              "Period End Reporting": {
+                "time": 75,
+                "type": "Transaction"
+              },
+              "Consolidation Reporting": {
+                "time": 120,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Tax & Statutory Accounting": {
+            "children": {
+              "Domestic VAT Return": {
+                "time": 90,
+                "type": "Transaction"
+              },
+              "Foreign VAT Return": {
+                "time": 75,
+                "type": "Transaction"
+              },
+              "Intrastat & Extrastat Reporting": {
+                "time": 60,
+                "type": "Report Preparation"
+              },
+              "CIT Return": {
+                "time": 120,
+                "type": "Transaction"
+              },
+              "Deferred Tax Calculation": {
+                "time": 60,
+                "type": "Transaction"
+              },
+              "Local Taxes": {
+                "time": 60,
+                "type": "Report Preparation"
+              },
+              "Withholding Tax": {
+                "time": 75,
+                "type": "Transaction"
+              },
+              "Excise Duty": {
+                "time": 30,
+                "type": "Calculation"
+              },
+              "Statistical Reporting": {
+                "time": 45,
+                "type": "Calculation"
+              },
+              "National Bank Reporting": {
+                "time": 75,
+                "type": "Report Preparation"
+              },
+              "Other Local Reporting": {
+                "time": 45,
+                "type": "Report Preparation"
+              },
+              "Preparation for Statutory Closing": {
+                "time": 75,
+                "type": "Reconciliation"
+              },
+              "Statutory Financial Statement Reporting": {
+                "time": 45,
+                "type": "Report Preparation"
+              },
+              "Financial Statement Reporting": {
+                "time": 75,
+                "type": "Report Preparation"
+              },
+              "Handling external audits (interim & final)": {
+                "time": 60,
+                "type": "Verification"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "ERAP": {
+    "color": "#C73E1D",
+    "children": {
+      "Strategy Planning": {
+        "children": {
+          "Strategic Plan": {
+            "children": {
+              "Initiate strategic plan process": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Prepare strategic plan": {
+                "time": 165,
+                "type": "Calculation"
+              },
+              "Consolidate strategic plan": {
+                "time": 60,
+                "type": "Calculation"
+              }
+            }
+          },
+          "External Developments": {
+            "children": {
+              "Determine financial impact": {
+                "time": 135,
+                "type": "Calculation"
+              },
+              "Perform benchmarking": {
+                "time": 120,
+                "type": "Follow-up"
+              }
+            }
+          }
+        }
+      },
+      "Operational Planning": {
+        "children": {
+          "Budgeting": {
+            "children": {
+              "Initiate budgeting process": {
+                "time": 45,
+                "type": "Report Preparation"
+              },
+              "Prepare budget": {
+                "time": 75,
+                "type": "Transaction"
+              },
+              "Consolidate budget": {
+                "time": 45,
+                "type": "Verification"
+              }
+            }
+          },
+          "Forecasting": {
+            "children": {
+              "Initiate forecasting process": {
+                "time": 15,
+                "type": "Transaction"
+              },
+              "Prepare forecast": {
+                "time": 75,
+                "type": "Transaction"
+              },
+              "Consolidate forecast": {
+                "time": 45,
+                "type": "Verification"
+              }
+            }
+          }
+        }
+      },
+      "Business Performance Analysis & Reporting": {
+        "children": {
+          "Business Performance Analysis": {
+            "children": {
+              "Peform industry trend analysis": {
+                "time": 75,
+                "type": "Analysis"
+              },
+              "Perform competitor analysis": {
+                "time": 90,
+                "type": "Analysis"
+              },
+              "Perform sales analysis": {
+                "time": 105,
+                "type": "Analysis"
+              },
+              "Perform profitability analysis": {
+                "time": 60,
+                "type": "Analysis"
+              },
+              "Perform operational performance analysis": {
+                "time": 150,
+                "type": "Transaction"
+              },
+              "Perform contract performance analysis": {
+                "time": 15,
+                "type": "Analysis"
+              },
+              "Perform project evaluation analysis": {
+                "time": 15,
+                "type": "Analysis"
+              },
+              "Perform capital expenditure request analysis": {
+                "time": 30,
+                "type": "Approving"
+              },
+              "Perform other performance variance analysis": {
+                "time": 45,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Business Performance Reporting": {
+            "children": {
+              "Perform profit & loss reporting": {
+                "time": 135,
+                "type": "Report Preparation"
+              },
+              "Perform balance sheet reporting": {
+                "time": 165,
+                "type": "Report Preparation"
+              },
+              "Perform cash flow reporting": {
+                "time": 15,
+                "type": "Report Preparation"
+              },
+              "Perform other financial reporting": {
+                "time": 165,
+                "type": "Report Preparation"
+              },
+              "Perform non-financial reporting": {
+                "time": 45,
+                "type": "Report Preparation"
+              },
+              "Perform monthly business review reporting": {
+                "time": 15,
+                "type": "Report Preparation"
+              },
+              "Perform external performance reporting": {
+                "time": 45,
+                "type": "Report Preparation"
+              }
+            }
+          }
+        }
+      },
+      "Decision Support": {
+        "children": {
+          "Cost Analysis": {
+            "children": {
+              "Perform cost and cost variance analysis": {
+                "time": 45,
+                "type": "Analysis"
+              },
+              "Perform cost reporting": {
+                "time": 45,
+                "type": "Analysis"
+              }
+            }
+          },
+          "Project Analysis": {
+            "children": {
+              "Marketing": {
+                "time": 105,
+                "type": "Analysis"
+              },
+              "Research & Development": {
+                "time": 195,
+                "type": "Calculation"
+              },
+              "Capital Expenditure": {
+                "time": 135,
+                "type": "Calculation"
+              },
+              "Restructuring": {
+                "time": 135,
+                "type": "Calculation"
+              }
+            }
+          },
+          "Cost Pricing": {
+            "children": {
+              "Cost price modelling": {
+                "time": 15,
+                "type": "Data Entry"
+              },
+              "Cost price calculation": {
+                "time": 15,
+                "type": "Calculation"
+              }
+            }
+          },
+          "New Business & Pricing": {
+            "children": {
+              "Sales price modelling and calculation": {
+                "time": 120,
+                "type": "Transaction"
+              },
+              "Deal structuring": {
+                "time": 75,
+                "type": "Report Preparation"
+              }
+            }
+          },
+          "Mergers & Acquisitions": {
+            "children": {
+              "M&A strategy and design": {
+                "time": 75,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Customer Rebates": {
+            "children": {
+              "Define Rebate Agreement": {
+                "time": 30,
+                "type": "Data Entry"
+              },
+              "Prepare Rebate payout": {
+                "time": 60,
+                "type": "Data Entry"
+              },
+              "Monitor Rebate provisions": {
+                "time": 15,
+                "type": "Data Entry"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Controls & Compliance": {
+    "color": "#3B1F2B",
+    "children": {
+      "Establish internal controls, policies, and procedures": {
+        "children": {
+          "Define control objectives and financial reporting risks": {
+            "children": {}
+          },
+          "Define Internal controls to mitigate financial reporting risks identified": {
+            "children": {
+              "Assess the need to change existing controls due to internal and external developments (e.g. outcome of assessment of financial reporting risks, new directives, audit issues).": {
+                "time": 20,
+                "type": "Analysis"
+              },
+              "Propose changed controls (incl. detailed guidelines) and validate": {
+                "time": 20,
+                "type": "Verification"
+              },
+              "Document and communicate (changes to) internal control standard.": {
+                "time": 20,
+                "type": "Communication"
+              }
+            }
+          }
+        }
+      },
+      "Operate controls and monitor compliance with internal controls policies and procedures": {
+        "children": {
+          "Design and implement control activities": {
+            "children": {}
+          },
+          "Allocate controls to organization within sector/function": {
+            "children": {
+              "Calculate and maintain risk based control allocation sheets": {
+                "time": 20,
+                "type": "Calculation"
+              },
+              "Allocate relevant controls to organizations in the compliance tool (for their subsequent execution and self assessment process)": {
+                "time": 20,
+                "type": "Analysis"
+              }
+            }
+          },
+          "Inclusion and Exclusion procedure of controls": {
+            "children": {
+              "Review of requests  for control inclusion/exclusion in the compliance tool": {
+                "time": 20,
+                "type": "Verification"
+              },
+              "Process inclusion or exclusion in the ICS tool": {
+                "time": 20,
+                "type": "Transaction"
+              },
+              "Communicate to requestors and controllers in case exclusions are not granted": {
+                "time": 20,
+                "type": "ERP Automated"
+              }
+            }
+          },
+          "Allocate controls to process executors and process owners": {
+            "children": {
+              "Reconcile the controls in scope based on generated controls vs previous quarter controls and RBCA allocation file. Anomalies are timely esclated and followed upon": {
+                "time": 20,
+                "type": "Calculation"
+              },
+              "Assign controls and assess if there are any changes in personnel and control scope.": {
+                "time": 20,
+                "type": "Analysis"
+              },
+              "Update site administration template in the ICS tool in case of changes": {
+                "time": 20,
+                "type": "Data Entry"
+              }
+            }
+          },
+          "Map actual process steps to detailed guidelines for ICS/SOx controls": {
+            "children": {
+              "Perform mapping of the processes and procedures to the ICS guidelines": {
+                "time": 20,
+                "type": "Transaction"
+              },
+              "Gaps identified are analysed, remediated and control procedure adjusted.": {
+                "time": 20,
+                "type": "Analysis"
+              },
+              "Update and maintain unit mapping template.": {
+                "time": 20,
+                "type": "Data Entry"
+              }
+            }
+          },
+          "Maintain detailed control description for Sox controls": {
+            "children": {
+              "Customize subset of SOx controls within entities": {
+                "time": 20,
+                "type": "Verification"
+              },
+              "Review changes in SOx controls based on changes in control allocations and mapping process": {
+                "time": 20,
+                "type": "Transaction"
+              },
+              "Align with SOx process responsible on any  changes": {
+                "time": 20,
+                "type": "Transaction"
+              },
+              "Adjust detailed control description in Sox control in ICS tool": {
+                "time": 20,
+                "type": "Verification"
+              }
+            }
+          },
+          "Quality review following significant changes in unit's control environment and/or processes": {
+            "children": {
+              "Download and track changes in DCD compared to previous quarter": {
+                "time": 20,
+                "type": "Follow-up"
+              },
+              "Define quality assurance scope and notify relevant units": {
+                "time": 20,
+                "type": "Communication"
+              },
+              "Perform QA review and agree with unit on design, documentation issues": {
+                "time": 20,
+                "type": "Documentation"
+              },
+              "Upload issues raised in ICS tool manually": {
+                "time": 20,
+                "type": "Escalation"
+              }
+            }
+          },
+          "Monitor control effectiveness": {
+            "children": {
+              "Self assessment and reporting (scoring) on controls executed": {
+                "time": 60,
+                "type": "Verification"
+              },
+              "Quarterly review by Unit Management": {
+                "time": 90,
+                "type": "Verification"
+              }
+            }
+          },
+          "Remediate control deficiencies": {
+            "children": {
+              "Support in defining and implementation of corrective actions on ineffective self assessment scores": {
+                "time": 30,
+                "type": "Documentation"
+              },
+              "Implement and document corrective actions for control issues (audits, independent testing)": {
+                "time": 15,
+                "type": "Documentation"
+              },
+              "Monitor progress and timeliness of remediation of issues": {
+                "time": 60,
+                "type": "Verification"
+              }
+            }
+          },
+          "Operate compliance function": {
+            "children": {
+              "Re-perform self assessments": {
+                "time": 30,
+                "type": "Communication"
+              },
+              "Support and/or coordinate  (external) audits": {
+                "time": 45,
+                "type": "Analysis"
+              },
+              "Define and maintain test procedures for IAS": {
+                "time": 45,
+                "type": "Communication"
+              },
+              "Prepare test plan for IAS": {
+                "time": 45,
+                "type": "Communication"
+              },
+              "Test design and operating effectiveness of Sox controls by IAS": {
+                "time": 135,
+                "type": "Documentation"
+              },
+              "Review quality ICS self assessment and review process by IAS": {
+                "time": 90,
+                "type": "Documentation"
+              },
+              "Provide support and training on SOx / ICS framework": {
+                "time": 45,
+                "type": "Transaction"
+              },
+              "Implement compliance improvement initiatives, projects and activities.": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Implement and maintain controls-related enabling technologies and tools": {
+            "children": {
+              "Maintain ICS tool": {
+                "time": 105,
+                "type": "Transaction"
+              },
+              "Maintain Document Management System / Knowledge Base (e.g. WIKI, SharePoint)": {
+                "time": 105,
+                "type": "Transaction"
+              },
+              "Maintain Audit Control tool": {
+                "time": 20,
+                "type": ""
+              },
+              "Maintain data analytics tool": {
+                "time": 60,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Operate multi-process controls": {
+            "children": {
+              "Operate SOD and access management": {
+                "time": 165,
+                "type": "Transaction"
+              },
+              "SOD outside ERP": {
+                "time": 45,
+                "type": "Transaction"
+              },
+              "Monitor issues over internal controls escalated by service providers": {
+                "time": 30,
+                "type": "Escalation"
+              }
+            }
+          }
+        }
+      },
+      "Operate internal audit function": {
+        "children": {
+          "Operate internal audit fuction": {
+            "children": {
+              "Define and maintain test procedures for IAS": {
+                "time": 45,
+                "type": "Communication"
+              },
+              "Prepare audit plan": {
+                "time": 45,
+                "type": "Communication"
+              },
+              "Test design and operating effectiveness of Sox controls by IAS": {
+                "time": 120,
+                "type": "Documentation"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Business Assurance": {
+    "color": "#4A7C59",
+    "children": {
+      "Product Design": {
+        "children": {
+          "Offer & Price Governance": {
+            "children": {
+              "Catalogue Governance": {
+                "time": 30,
+                "type": "Documentation"
+              },
+              "Pricing Governance": {
+                "time": 30,
+                "type": "Approving"
+              }
+            }
+          },
+          "Contract & Policy Controls": {
+            "children": {
+              "Terms & Conditions": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "RA Design Reviews": {
+                "time": 30,
+                "type": "Escalation"
+              }
+            }
+          }
+        }
+      },
+      "Order Capture": {
+        "children": {
+          "Lead-to-Order Intake": {
+            "children": {
+              "Channel Capture": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "KYC & Credit Vetting": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Order Validation": {
+            "children": {
+              "Eligibility & Feasibility": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Duplication & Fraud": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      },
+      "Order Management": {
+        "children": {
+          "Orchestration": {
+            "children": {
+              "Decomposition": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "State Management": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Integrity Controls": {
+            "children": {
+              "Data Quality": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "SLA Monitoring": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      },
+      "Provisioning": {
+        "children": {
+          "Resource Assignment": {
+            "children": {
+              "Logical Provisioning": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Physical Provisioning": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Activation Readiness": {
+            "children": {
+              "Config Consistency": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Audit Trails": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      },
+      "Service Activation": {
+        "children": {
+          "Network Activation": {
+            "children": {
+              "Core Activation": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Access Activation": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Commercial Activation": {
+            "children": {
+              "Billing Account": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Offer Realization": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      },
+      "Usage Capture": {
+        "children": {
+          "Network Event Generation": {
+            "children": {
+              "CDR/UDR Generation": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Event Time Integrity": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Collection & Storage": {
+            "children": {
+              "Batch & Streaming": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Completeness Controls": {
+                "time": 30,
+                "type": "Data Collection"
+              }
+            }
+          }
+        }
+      },
+      "Mediation": {
+        "children": {
+          "Normalization & Enrichment": {
+            "children": {
+              "Parsing & Mapping": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Reference Enrichment": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Aggregation & Delivery": {
+            "children": {
+              "De-dup & Correlation": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Downstream Feeds": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      },
+      "Rating": {
+        "children": {
+          "Charging & Discounting": {
+            "children": {
+              "Real-time Charging": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Offline Rating": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Integrity Controls": {
+            "children": {
+              "Tariff Parity": {
+                "time": 30,
+                "type": "Documentation"
+              },
+              "Reload & Rerate": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      },
+      "Billing": {
+        "children": {
+          "Bill Build": {
+            "children": {
+              "Bill Calculation": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Proration & Adjustments": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Bill Integrity": {
+            "children": {
+              "Bill Presentment": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "QA & Sampling": {
+                "time": 30,
+                "type": "Analysis"
+              }
+            }
+          }
+        }
+      },
+      "Invoicing": {
+        "children": {
+          "Invoice Generation": {
+            "children": {
+              "Account Invoices": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Enterprise Invoices": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Dispatch & Acknowledgment": {
+            "children": {
+              "Delivery": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Acknowledgment": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      },
+      "Collections": {
+        "children": {
+          "Dunning & Recovery": {
+            "children": {
+              "Strategy": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Treatment": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Payment Assurance": {
+            "children": {
+              "Cash Application": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Leakage Controls": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      },
+      "Credit Management": {
+        "children": {
+          "Risk Controls": {
+            "children": {
+              "Limit Management": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Usage Controls": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Collections Interface": {
+            "children": {
+              "Scorecards": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Dispute Link": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      },
+      "Interconnect": {
+        "children": {
+          "Partner Rating & Billing": {
+            "children": {
+              "TAP/NRTRDE/BCDRs": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Interconnect Billing": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Reconciliation": {
+            "children": {
+              "Traffic Reconcile": {
+                "time": 30,
+                "type": "Escalation"
+              },
+              "Rate Disputes": {
+                "time": 30,
+                "type": "Calculation"
+              }
+            }
+          }
+        }
+      },
+      "Roaming": {
+        "children": {
+          "Wholesale & Retail": {
+            "children": {
+              "Wholesale Settlement": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Retail Controls": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Fraud & Assurance": {
+            "children": {
+              "NRTRDE Controls": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Roaming Specific RA": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      },
+      "Partner Settlement": {
+        "children": {
+          "Commission & Dealer": {
+            "children": {
+              "Commission Calc": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Dealer Reconcile": {
+                "time": 30,
+                "type": "Escalation"
+              }
+            }
+          },
+          "Content & OTT": {
+            "children": {
+              "Revenue Share": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Data Exchange": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      },
+      "Adjustments & Credits": {
+        "children": {
+          "Disputes & Waivers": {
+            "children": {
+              "Case Handling": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Approval Workflow": {
+                "time": 30,
+                "type": "Approving"
+              }
+            }
+          },
+          "Journal Processing": {
+            "children": {
+              "Credit/Debit Notes": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Rerate & Rebills": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      },
+      "Revenue Recognition": {
+        "children": {
+          "IFRS/GAAP Rules": {
+            "children": {
+              "Contract Identification": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Timing & Performance": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Subledger Controls": {
+            "children": {
+              "Deferred Revenue": {
+                "time": 15,
+                "type": "Transaction"
+              },
+              "Cut-over & Close": {
+                "time": 30,
+                "type": "Escalation"
+              }
+            }
+          }
+        }
+      },
+      "GL & Reporting": {
+        "children": {
+          "Accounting Interface": {
+            "children": {
+              "Subledger to GL": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Tax & Statutory": {
+                "time": 15,
+                "type": "Transaction"
+              }
+            }
+          },
+          "RA Analytics & MI": {
+            "children": {
+              "KPI & Dashboards": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Controls Monitoring": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Fraud Management": {
+    "color": "#6B4C9A",
+    "children": {
+      "Subscription & Identity Fraud": {
+        "children": {
+          "KYC & Identity Verification": {
+            "children": {
+              "Document Authenticity": {
+                "time": 30,
+                "type": "Documentation"
+              },
+              "Biometric & Liveness": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Application Scoring": {
+            "children": {
+              "Fraud & Credit Score": {
+                "time": 30,
+                "type": "Calculation"
+              },
+              "Watchlist Screening": {
+                "time": 30,
+                "type": "Verification"
+              }
+            }
+          }
+        }
+      },
+      "Device Financing / Offer Abuse": {
+        "children": {
+          "Eligibility Controls": {
+            "children": {
+              "Device Finance Checks": {
+                "time": 30,
+                "type": "Verification"
+              },
+              "Promo / Coupon Abuse": {
+                "time": 30,
+                "type": "Verification"
+              }
+            }
+          },
+          "Order Hygiene": {
+            "children": {
+              "Channel Integrity": {
+                "time": 30,
+                "type": "Exception Handling"
+              },
+              "Contactability": {
+                "time": 30,
+                "type": "Communication"
+              }
+            }
+          }
+        }
+      },
+      "SIM Swap / A2T (Account Takeover)": {
+        "children": {
+          "Request Authentication": {
+            "children": {
+              "Customer AuthN": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Risk Signals": {
+                "time": 30,
+                "type": "Escalation"
+              }
+            }
+          },
+          "Execution Controls": {
+            "children": {
+              "Change Validation": {
+                "time": 30,
+                "type": "Verification"
+              },
+              "Post-change Monitoring": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      },
+      "Port-out / Entitlement Fraud": {
+        "children": {
+          "Port-out Governance": {
+            "children": {
+              "NPSC/Donor Checks": {
+                "time": 30,
+                "type": "Reconciliation"
+              },
+              "Velocity & Pattern": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Entitlement Changes": {
+            "children": {
+              "Feature Enablement": {
+                "time": 30,
+                "type": "Approving"
+              },
+              "Device Binding": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      },
+      "IRSF / Premium Abuse": {
+        "children": {
+          "Real-time Detection": {
+            "children": {
+              "Destination Risk": {
+                "time": 30,
+                "type": "Communication"
+              },
+              "Value & Volume": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Response & Blocking": {
+            "children": {
+              "Actioning": {
+                "time": 30,
+                "type": "Communication"
+              },
+              "Aftercare": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      },
+      "Roaming & PBX Hacking": {
+        "children": {
+          "Roaming Controls": {
+            "children": {
+              "NRTRDE/TAP Analytics": {
+                "time": 30,
+                "type": "Analysis"
+              },
+              "Roamer Spend": {
+                "time": 30,
+                "type": "Verification"
+              }
+            }
+          },
+          "Enterprise PBX": {
+            "children": {
+              "SIP/Call Pattern": {
+                "time": 30,
+                "type": "Communication"
+              },
+              "Access Security": {
+                "time": 30,
+                "type": "Data Entry"
+              }
+            }
+          }
+        }
+      },
+      "Adjustments & Credits Abuse": {
+        "children": {
+          "Case Vetting": {
+            "children": {
+              "Requester Pattern": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Document Evidence": {
+                "time": 30,
+                "type": "Documentation"
+              }
+            }
+          },
+          "Posting Controls": {
+            "children": {
+              "Approval Workflow": {
+                "time": 30,
+                "type": "Approving"
+              },
+              "Audit Trail": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      },
+      "DCB / Content Fraud": {
+        "children": {
+          "Subscription Integrity": {
+            "children": {
+              "Opt-in Proof": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Renewal Hygiene": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Billing Assurance (Fraud Angle)": {
+            "children": {
+              "Charge Validation": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Partner Monitoring": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      },
+      "Card / Wallet Fraud": {
+        "children": {
+          "Pre-Auth Screening": {
+            "children": {
+              "Device Fingerprint": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Velocity & Geo": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Post-Auth Monitoring": {
+            "children": {
+              "Chargeback Analytics": {
+                "time": 30,
+                "type": "Analysis"
+              },
+              "Refund Abuse": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      },
+      "Voucher / Top-up Fraud": {
+        "children": {
+          "Issuance Controls": {
+            "children": {
+              "Batch Integrity": {
+                "time": 30,
+                "type": "Calculation"
+              },
+              "Channel Hygiene": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Redemption Analytics": {
+            "children": {
+              "Usage Pattern": {
+                "time": 30,
+                "type": "Analysis"
+              },
+              "Link Analysis": {
+                "time": 30,
+                "type": "Analysis"
+              }
+            }
+          }
+        }
+      },
+      "SIM Box / Bypass": {
+        "children": {
+          "Detection": {
+            "children": {
+              "Test Call Generation (TCG)": {
+                "time": 30,
+                "type": "Communication"
+              },
+              "Network Analytics": {
+                "time": 30,
+                "type": "Analysis"
+              }
+            }
+          },
+          "Mitigation": {
+            "children": {
+              "Blocking & Enforcement": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Partner Engagement": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      },
+      "CLI Spoofing / Arbitrage": {
+        "children": {
+          "Signalling Checks": {
+            "children": {
+              "SIP/ISUP Integrity": {
+                "time": 30,
+                "type": "Exception Handling"
+              },
+              "TDM/IP Gateway": {
+                "time": 30,
+                "type": "Verification"
+              }
+            }
+          },
+          "Forensics": {
+            "children": {
+              "CDR/Trace Correlation": {
+                "time": 30,
+                "type": "Data Collection"
+              },
+              "Partner Settlement Link": {
+                "time": 30,
+                "type": "Negotiation"
+              }
+            }
+          }
+        }
+      },
+      "Device Insurance / Warranty": {
+        "children": {
+          "Intake Verification": {
+            "children": {
+              "Document/Photo Forensics": {
+                "time": 30,
+                "type": "Documentation"
+              },
+              "Eligibility Review": {
+                "time": 30,
+                "type": "Verification"
+              }
+            }
+          },
+          "Payout Controls": {
+            "children": {
+              "Settlement Integrity": {
+                "time": 30,
+                "type": "Negotiation"
+              },
+              "Recovery & Salvage": {
+                "time": 30,
+                "type": "Verification"
+              }
+            }
+          }
+        }
+      },
+      "Rebate / Cashback Abuse": {
+        "children": {
+          "Submission Checks": {
+            "children": {
+              "Proof of Purchase": {
+                "time": 30,
+                "type": "Follow-up"
+              },
+              "Identity Linking": {
+                "time": 30,
+                "type": "Documentation"
+              }
+            }
+          },
+          "Disbursement Controls": {
+            "children": {
+              "Instrument Hygiene": {
+                "time": 30,
+                "type": "Verification"
+              },
+              "Post-payout Analytics": {
+                "time": 30,
+                "type": "Analysis"
+              }
+            }
+          }
+        }
+      },
+      "Call Centre Social Engineering": {
+        "children": {
+          "Authentication": {
+            "children": {
+              "Caller Verification": {
+                "time": 30,
+                "type": "Communication"
+              },
+              "Risk-Based Controls": {
+                "time": 30,
+                "type": "Communication"
+              }
+            }
+          },
+          "Change Controls": {
+            "children": {
+              "Sensitive Changes": {
+                "time": 30,
+                "type": "Communication"
+              },
+              "Monitoring": {
+                "time": 30,
+                "type": "Communication"
+              }
+            }
+          }
+        }
+      },
+      "Digital Care Takeover": {
+        "children": {
+          "Online Channel": {
+            "children": {
+              "Session Hygiene": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Profile Changes": {
+                "time": 30,
+                "type": "Approving"
+              }
+            }
+          },
+          "Chatbot/WhatsApp": {
+            "children": {
+              "Abuse Detection": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Containment": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      },
+      "Dealer / Distributor Fraud": {
+        "children": {
+          "Sales Integrity": {
+            "children": {
+              "Activation Hygiene": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Inventory Controls": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Commission Assurance (Fraud Angle)": {
+            "children": {
+              "Commission Validation": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Outlet Monitoring": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      },
+      "Field Ops / Home Delivery": {
+        "children": {
+          "KYC at Doorstep": {
+            "children": {
+              "Agent App Controls": {
+                "time": 30,
+                "type": "Verification"
+              },
+              "Visit Integrity": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Device / CPE Handover": {
+            "children": {
+              "Asset Linkage": {
+                "time": 30,
+                "type": "Data Entry"
+              },
+              "Post-install Check": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      },
+      "Fraud Containment & Recovery": {
+        "children": {
+          "Final Actions": {
+            "children": {
+              "Blocking": {
+                "time": 30,
+                "type": "Transaction"
+              },
+              "Collections Link": {
+                "time": 30,
+                "type": "Data Collection"
+              }
+            }
+          },
+          "Knowledge Feedback": {
+            "children": {
+              "Model & Rule Update": {
+                "time": 30,
+                "type": "Data Entry"
+              },
+              "Customer Hygiene": {
+                "time": 30,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+    const activityTypes = {
+            "Analysis": { color: "#9b59b6", complexity: "High", order: 1, aiImprovement: 0.30 },
+            "Investigation": { color: "#e74c3c", complexity: "High", order: 2, aiImprovement: 0.35 },
+            "Negotiation": { color: "#795548", complexity: "High", order: 3, aiImprovement: 0.10 },
+            "Exception Handling": { color: "#c0392b", complexity: "High", order: 4, aiImprovement: 0.25 },
+            "Decisioning": { color: "#673ab7", complexity: "High", order: 5, aiImprovement: 0.20 },
+            "Reconciliation": { color: "#f39c12", complexity: "High", order: 6, aiImprovement: 0.50 },
+            "Verification": { color: "#1abc9c", complexity: "Medium", order: 7, aiImprovement: 0.40 },
+            "Approving": { color: "#27ae60", complexity: "Medium", order: 8, aiImprovement: 0.15 },
+            "Report Preparation": { color: "#16a085", complexity: "Medium", order: 9, aiImprovement: 0.60 },
+            "Calculation": { color: "#2c3e50", complexity: "Medium", order: 10, aiImprovement: 0.70 },
+            "Follow-up": { color: "#ff9800", complexity: "Medium", order: 11, aiImprovement: 0.45 },
+            "Data Entry": { color: "#3498db", complexity: "Low", order: 12, aiImprovement: 0.65 },
+            "Data Collection": { color: "#00bcd4", complexity: "Low", order: 13, aiImprovement: 0.55 },
+            "Documentation": { color: "#607d8b", complexity: "Low", order: 14, aiImprovement: 0.60 },
+            "Communication": { color: "#e91e63", complexity: "Low", order: 15, aiImprovement: 0.40 },
+            "Transaction": { color: "#e67e22", complexity: "Low", order: 16, aiImprovement: 0.50 },
+            "Escalation": { color: "#ff5722", complexity: "Low", order: 17, aiImprovement: 0.35 }
+        };
+
+    let activeFilter = 'all';
+    const SVG_NS = 'http://www.w3.org/2000/svg';
+
+    // ── Helper: recursive time sum ──
+    function getNodeTime(node) {
+        if (node.time) return node.time;
+        if (!node.children) return 0;
+        let total = 0;
+        for (const child of Object.values(node.children)) {
+            total += getNodeTime(child);
+        }
+        return total;
+    }
 
     // ── Filter buttons ──
-    const ctrlDiv = document.getElementById("bpm-sankey-controls");
-    SANKEY_DATA.forEach(d => {
-        const btn = document.createElement("button");
-        btn.className = "bpm-sankey-btn";
-        btn.dataset.domain = d.num;
-        btn.textContent = d.short;
-        btn.style.cssText = "font-size:10px;padding:4px 10px;border-radius:9999px;border:1px solid " + d.color + ";background:transparent;color:" + d.color + ";cursor:pointer;font-weight:600;transition:all 0.2s;";
-        btn.addEventListener("mouseenter", () => { btn.style.background = d.color; btn.style.color = "#fff"; });
-        btn.addEventListener("mouseleave", () => {
-            if (!btn.classList.contains("active")) { btn.style.background = "transparent"; btn.style.color = d.color; }
+    const ctrlDiv = document.getElementById('bpm-sankey-controls');
+    const domainColors = {};
+    for (const [name, obj] of Object.entries(taxonomyData)) {
+        domainColors[name] = obj.color;
+        const btn = document.createElement('button');
+        btn.className = 'bpm-sankey-btn';
+        btn.dataset.domain = name;
+        btn.textContent = name;
+        btn.style.cssText = 'font-size:10px;padding:4px 10px;border-radius:9999px;border:1px solid ' + obj.color + ';background:transparent;color:' + obj.color + ';cursor:pointer;font-weight:600;transition:all 0.2s;';
+        btn.addEventListener('mouseenter', () => { btn.style.background = obj.color; btn.style.color = '#fff'; });
+        btn.addEventListener('mouseleave', () => {
+            if (!btn.classList.contains('active')) { btn.style.background = 'transparent'; btn.style.color = obj.color; }
         });
         ctrlDiv.appendChild(btn);
-    });
+    }
 
-    let activeFilter = "all";
-    ctrlDiv.addEventListener("click", e => {
-        const btn = e.target.closest(".bpm-sankey-btn");
+    ctrlDiv.addEventListener('click', e => {
+        const btn = e.target.closest('.bpm-sankey-btn');
         if (!btn) return;
-        ctrlDiv.querySelectorAll(".bpm-sankey-btn").forEach(b => {
-            b.classList.remove("active");
-            b.style.background = "transparent";
-            b.style.color = b.dataset.domain === "all" ? "var(--brand-20)" : (SANKEY_DATA.find(d => d.num == b.dataset.domain)||{}).color || "#666";
+        ctrlDiv.querySelectorAll('.bpm-sankey-btn').forEach(b => {
+            b.classList.remove('active');
+            b.style.background = 'transparent';
+            const dc = domainColors[b.dataset.domain];
+            b.style.color = b.dataset.domain === 'all' ? 'var(--brand-20)' : (dc || '#666');
         });
-        btn.classList.add("active");
+        btn.classList.add('active');
         activeFilter = btn.dataset.domain;
-        if (activeFilter === "all") {
-            btn.style.background = "var(--brand-20)"; btn.style.color = "#fff";
+        if (activeFilter === 'all') {
+            btn.style.background = 'var(--brand-20)'; btn.style.color = '#fff';
         } else {
-            const cd = SANKEY_DATA.find(d => d.num == activeFilter);
-            if (cd) { btn.style.background = cd.color; btn.style.color = "#fff"; }
+            const c = domainColors[activeFilter];
+            if (c) { btn.style.background = c; btn.style.color = '#fff'; }
         }
         drawSankey();
     });
 
-    const tooltip = document.getElementById("bpm-sankey-tooltip");
+    // ── Tooltip ──
+    const tooltip = document.getElementById('bpm-sankey-tooltip');
     function showTip(e, html) {
         tooltip.innerHTML = html;
-        tooltip.style.display = "block";
-        tooltip.style.left = Math.min(e.clientX + 14, window.innerWidth - 340) + "px";
-        tooltip.style.top = Math.min(e.clientY - 30, window.innerHeight - 100) + "px";
+        tooltip.style.display = 'block';
+        tooltip.style.left = Math.min(e.clientX + 14, window.innerWidth - 360) + 'px';
+        tooltip.style.top = Math.min(e.clientY - 30, window.innerHeight - 100) + 'px';
     }
-    function hideTip() { tooltip.style.display = "none"; }
+    function hideTip() { tooltip.style.display = 'none'; }
 
-    /* ═══════════════════════════════════════════════════════════
-       drawSankey() — Reference-style: thin nodes, labels outside,
-       proportional Y within fixed container, L1→L2→L3 always
-       ═══════════════════════════════════════════════════════════ */
+    // ════════════════════════════════════════════════════════════
+    //  drawSankey — Full 5-column + AL0-AL4
+    // ════════════════════════════════════════════════════════════
     function drawSankey() {
-        const container = document.getElementById("bpm-sankey-chart");
+        const container = document.getElementById('bpm-sankey-chart');
         const rect = container.getBoundingClientRect();
-        const W = Math.max(rect.width || 900, 900);
-        const H = Math.max(rect.height || 680, 500);
-        const pad = { top: 32, right: 20, bottom: 16, left: 20 };
-        const innerW = W - pad.left - pad.right;
-        const innerH = H - pad.top - pad.bottom;
-        const NODE_W = 18;
-        const NODE_GAP = 3;
-        const COL_COUNT = 3;
-        const colWidth = innerW / COL_COUNT;
+        const width = Math.max(rect.width || 900, 900);
+        const height = Math.max(rect.height || 700, 600);
+        const padding = { top: 35, right: 20, bottom: 20, left: 20 };
+        const innerWidth = width - padding.left - padding.right;
+        const innerHeight = height - padding.top - padding.bottom;
 
-        // Filter data
-        let data = activeFilter === "all" ? SANKEY_DATA : SANKEY_DATA.filter(d => d.num == activeFilter);
-        if (data.length === 0) return;
-
-        // Build nodes & links
-        const nodesByCol = { 0: [], 1: [], 2: [] };
+        const nodesByDepth = {};
+        const allNodes = [];
         const links = [];
-        const nodeMap = {};
+        const activityDetails = [];
+        const activityTypeAggregates = {};
 
-        data.forEach(d => {
-            const l1 = { id: "l1_" + d.num, label: d.short + " \u2014 " + d.name, value: Math.max(d.l5_count, 1), color: d.color, col: 0 };
-            nodesByCol[0].push(l1);
-            nodeMap[l1.id] = l1;
-
-            d.l2s.forEach(l2 => {
-                const l2id = "l2_" + l2.id;
-                if (!nodeMap[l2id]) {
-                    const n = { id: l2id, label: l2.name, value: Math.max(l2.activities, 1), color: d.color, col: 1 };
-                    nodesByCol[1].push(n);
-                    nodeMap[l2id] = n;
-                }
-                links.push({ source: l1.id, target: l2id, value: Math.max(l2.activities, 1), color: d.color });
-
-                l2.l3s.forEach(l3 => {
-                    const l3id = "l3_" + l3.id;
-                    if (!nodeMap[l3id]) {
-                        const n = { id: l3id, label: l3.name, value: Math.max(l3.activities, 1), color: d.color, col: 2 };
-                        nodesByCol[2].push(n);
-                        nodeMap[l3id] = n;
-                    }
-                    links.push({ source: l2id, target: l3id, value: Math.max(l3.activities, 1), color: d.color });
+        function collectActivities(l3Children, l1Name, l2Name, l3Name, domainColor) {
+            for (const [activityName, activityData] of Object.entries(l3Children)) {
+                const actType = activityData.type || 'Transaction';
+                const time = activityData.time || 20;
+                activityDetails.push({
+                    name: activityName, type: actType, time: time,
+                    l3Name: l3Name, domainColor: domainColor,
+                    path: l1Name + ' > ' + l2Name + ' > ' + l3Name + ' > ' + activityName
                 });
-            });
-        });
+                if (!activityTypeAggregates[actType]) activityTypeAggregates[actType] = 0;
+                activityTypeAggregates[actType] += time;
+            }
+        }
 
-        // Proportional Y layout — fit all nodes within innerH
-        for (let c = 0; c < COL_COUNT; c++) {
-            const nodes = nodesByCol[c];
-            const totalVal = nodes.reduce((s, n) => s + n.value, 0);
-            const totalGaps = (nodes.length - 1) * NODE_GAP;
-            const availH = innerH - totalGaps;
-            let y = pad.top;
-            nodes.forEach(n => {
-                n.x = pad.left + c * colWidth;
-                n.y = y;
-                n.h = Math.max((n.value / totalVal) * availH, 2);
-                n.w = NODE_W;
-                y += n.h + NODE_GAP;
+        function traverse(obj, parent, depth, domain, parentPath) {
+            if (depth > 3) return;
+            if (!nodesByDepth[depth]) nodesByDepth[depth] = [];
+            for (const [name, node] of Object.entries(obj)) {
+                if (depth === 1 && activeFilter !== 'all' && name !== activeFilter) continue;
+                const color = depth === 1 ? node.color : domain;
+                const time = getNodeTime(node);
+                const path = parentPath ? parentPath + ' > ' + name : name;
+                const n = { id: depth + '-' + name, name: name, depth: depth, color: color, time: time, path: path };
+                nodesByDepth[depth].push(n);
+                allNodes.push(n);
+                if (parent) {
+                    links.push({ source: (depth-1) + '-' + parent, target: n.id, value: time, color: color });
+                }
+                if (node.children && depth < 3) {
+                    traverse(node.children, name, depth + 1, color, path);
+                }
+                if (depth === 3 && node.children) {
+                    const pp = path.split(' > ');
+                    collectActivities(node.children, pp[0], pp[1], name, color);
+                }
+            }
+        }
+
+        traverse(taxonomyData, null, 1, null, '');
+
+        // Build L4 nodes (individual activities)
+        nodesByDepth[4] = [];
+        for (const activity of activityDetails) {
+            const nodeId = '4-' + activity.l3Name + '-' + activity.name;
+            const typeColor = (activityTypes[activity.type] || {}).color || activity.domainColor;
+            const n = {
+                id: nodeId, name: activity.name, depth: 4,
+                color: typeColor, time: activity.time, path: activity.path,
+                activityType: activity.type
+            };
+            nodesByDepth[4].push(n);
+            allNodes.push(n);
+            links.push({ source: '3-' + activity.l3Name, target: nodeId, value: activity.time, color: typeColor });
+        }
+
+        // Build L5 nodes (Agentification classification)
+        nodesByDepth[5] = [];
+        const sortedTypes = Object.entries(activityTypeAggregates)
+            .map(function(e) {
+                return {
+                    typeName: e[0], totalTime: e[1],
+                    order: (activityTypes[e[0]] || {}).order || 999,
+                    complexity: (activityTypes[e[0]] || {}).complexity || 'Unknown'
+                };
+            })
+            .sort(function(a, b) { return a.order - b.order; });
+
+        for (const st of sortedTypes) {
+            const typeColor = (activityTypes[st.typeName] || {}).color || '#888';
+            const n = {
+                id: '5-' + st.typeName, name: st.typeName, depth: 5,
+                color: typeColor, time: st.totalTime,
+                path: 'Activity Type: ' + st.typeName + ' (' + st.complexity + ' Complexity)'
+            };
+            nodesByDepth[5].push(n);
+            allNodes.push(n);
+        }
+
+        // Links L4 → L5
+        for (const activity of activityDetails) {
+            const typeColor = (activityTypes[activity.type] || {}).color || '#888';
+            links.push({
+                source: '4-' + activity.l3Name + '-' + activity.name,
+                target: '5-' + activity.type,
+                value: activity.time, color: typeColor
             });
+        }
+
+        const maxDepth = Math.max.apply(null, Object.keys(nodesByDepth).map(Number));
+        const colWidth = 65;
+        const colGap = 5;
+        const totalColumnsWidth = (colWidth * 3) + (colGap * 2) + 20;
+        const columnWidth = (innerWidth - totalColumnsWidth) / (maxDepth + 0.3);
+
+        // Y positions — proportional within fixed container
+        for (let d = 1; d <= maxDepth; d++) {
+            const nodes = nodesByDepth[d] || [];
+            const totalTime = nodes.reduce(function(s, n) { return s + n.time; }, 0);
+            const nodeGap = 4;
+            const totalGaps = (nodes.length - 1) * nodeGap;
+            const availableHeight = innerHeight - totalGaps - 10;
+            let y = padding.top;
+            for (const node of nodes) {
+                const h = (node.time / totalTime) * availableHeight;
+                node.x = padding.left + (d - 1) * columnWidth;
+                node.y = y;
+                node.height = Math.max(h, 2);
+                node.width = 20;
+                y += node.height + nodeGap;
+            }
         }
 
         // Create SVG
-        const svg = document.createElementNS(SVG_NS, "svg");
-        svg.setAttribute("width", W);
-        svg.setAttribute("height", H);
-        svg.setAttribute("viewBox", "0 0 " + W + " " + H);
-        svg.style.display = "block";
+        const svg = document.createElementNS(SVG_NS, 'svg');
+        svg.setAttribute('width', width);
+        svg.setAttribute('height', height);
+        svg.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
+        svg.style.display = 'block';
 
-        // Column headers
-        const headers = ["L1 \u2014 Domain", "L2 \u2014 Process", "L3 \u2014 Sub-Process"];
-        headers.forEach((h, i) => {
-            const txt = document.createElementNS(SVG_NS, "text");
-            txt.setAttribute("x", pad.left + i * colWidth + 10);
-            txt.setAttribute("y", 14);
-            txt.setAttribute("fill", "rgba(255,255,255,0.65)");
-            txt.setAttribute("font-size", "10");
-            txt.setAttribute("font-weight", "600");
-            txt.setAttribute("letter-spacing", "0.3");
-            txt.textContent = h;
-            svg.appendChild(txt);
-        });
+        const nodeMap = {};
+        for (const node of allNodes) nodeMap[node.id] = node;
 
-        // Draw links — smooth bezier S-curves
-        links.forEach(lk => {
-            const src = nodeMap[lk.source];
-            const tgt = nodeMap[lk.target];
-            if (!src || !tgt) return;
-            // Accumulate offsets for stacking
-            if (src._srcOff === undefined) src._srcOff = 0;
-            if (tgt._tgtOff === undefined) tgt._tgtOff = 0;
-            const srcH = Math.max((lk.value / src.value) * src.h, 1);
-            const tgtH = Math.max((lk.value / tgt.value) * tgt.h, 1);
-            const sy = src.y + src._srcOff + srcH / 2;
-            const ty = tgt.y + tgt._tgtOff + tgtH / 2;
-            src._srcOff += srcH;
-            tgt._tgtOff += tgtH;
-            const x0 = src.x + src.w;
-            const x1 = tgt.x;
-            const xi = (x1 - x0) * 0.5;
-            const strokeW = Math.max(2, Math.min(tgtH, 28));
-
-            const path = document.createElementNS(SVG_NS, "path");
-            path.setAttribute("d", "M " + x0 + " " + sy + " C " + (x0 + xi) + " " + sy + ", " + (x1 - xi) + " " + ty + ", " + x1 + " " + ty);
-            path.setAttribute("fill", "none");
-            path.setAttribute("stroke", lk.color);
-            path.setAttribute("stroke-opacity", "0.4");
-            path.setAttribute("stroke-width", strokeW);
-            path.style.cursor = "pointer";
-            path.style.transition = "stroke-opacity 0.15s";
-            path.addEventListener("mouseenter", ev => {
-                path.setAttribute("stroke-opacity", "0.75");
-                showTip(ev, '<div style="font-weight:700;margin-bottom:4px;">' + src.label + ' \u2192 ' + tgt.label + '</div><div style="color:rgba(255,255,255,0.6);">L5 Activities: <b style="color:#fff;">' + lk.value + '</b></div>');
+        // Draw links — smooth bezier
+        for (const link of links) {
+            const source = nodeMap[link.source];
+            const target = nodeMap[link.target];
+            if (!source || !target) continue;
+            const sourceX = source.x + source.width;
+            const sourceY = source.y + source.height / 2;
+            const targetX = target.x;
+            const targetY = target.y + target.height / 2;
+            const xi = (targetX - sourceX) * 0.5;
+            const path = document.createElementNS(SVG_NS, 'path');
+            path.setAttribute('d', 'M ' + sourceX + ' ' + sourceY + ' C ' + (sourceX + xi) + ' ' + sourceY + ', ' + (targetX - xi) + ' ' + targetY + ', ' + targetX + ' ' + targetY);
+            path.setAttribute('fill', 'none');
+            path.setAttribute('stroke', link.color);
+            path.setAttribute('stroke-opacity', '0.4');
+            path.setAttribute('stroke-width', Math.max(2, Math.min(target.height, 30)));
+            path.style.cursor = 'pointer';
+            path.style.transition = 'stroke-opacity 0.15s';
+            path.addEventListener('mouseenter', (function(s, t, v) {
+                return function(ev) {
+                    this.setAttribute('stroke-opacity', '0.75');
+                    showTip(ev, '<div style="font-weight:700;margin-bottom:4px;">' + s.name + ' \u2192 ' + t.name + '</div><div style="color:rgba(255,255,255,0.6);">' + t.path + '</div><div style="margin-top:4px;">Hours/mo: <b style="color:#fff;">' + v.toLocaleString() + '</b></div>');
+                };
+            })(source, target, link.value));
+            path.addEventListener('mousemove', function(ev) {
+                tooltip.style.left = Math.min(ev.clientX + 14, window.innerWidth - 360) + 'px';
+                tooltip.style.top = (ev.clientY - 30) + 'px';
             });
-            path.addEventListener("mousemove", ev => { tooltip.style.left = Math.min(ev.clientX + 14, window.innerWidth - 340) + "px"; tooltip.style.top = (ev.clientY - 30) + "px"; });
-            path.addEventListener("mouseleave", () => { path.setAttribute("stroke-opacity", "0.4"); hideTip(); });
+            path.addEventListener('mouseleave', function() {
+                this.setAttribute('stroke-opacity', '0.4');
+                hideTip();
+            });
             svg.appendChild(path);
-        });
-
-        // Draw nodes — thin bars with labels outside
-        for (let c = 0; c < COL_COUNT; c++) {
-            const labelSpace = colWidth - NODE_W - 10;
-            nodesByCol[c].forEach(n => {
-                // Thin node bar
-                const r = document.createElementNS(SVG_NS, "rect");
-                r.setAttribute("x", n.x);
-                r.setAttribute("y", n.y);
-                r.setAttribute("width", n.w);
-                r.setAttribute("height", n.h);
-                r.setAttribute("rx", "3");
-                r.setAttribute("fill", n.color);
-                r.setAttribute("stroke", "rgba(255,255,255,0.3)");
-                r.setAttribute("stroke-width", "0.5");
-                r.style.cursor = "pointer";
-                r.addEventListener("mouseenter", ev => {
-                    r.setAttribute("stroke-width", "1.5");
-                    r.setAttribute("stroke", "rgba(255,255,255,0.7)");
-                    showTip(ev, '<div style="color:' + n.color + ';font-weight:700;margin-bottom:3px;">' + n.label + '</div><div style="color:rgba(255,255,255,0.6);">L5 Activities: <b style="color:#fff;">' + n.value + '</b></div><div style="color:rgba(255,255,255,0.4);font-size:10px;">Level: L' + (n.col + 1) + '</div>');
-                });
-                r.addEventListener("mousemove", ev => { tooltip.style.left = Math.min(ev.clientX + 14, window.innerWidth - 340) + "px"; tooltip.style.top = (ev.clientY - 30) + "px"; });
-                r.addEventListener("mouseleave", () => { r.setAttribute("stroke-width", "0.5"); r.setAttribute("stroke", "rgba(255,255,255,0.3)"); hideTip(); });
-                svg.appendChild(r);
-
-                // Label OUTSIDE the node (to the right)
-                if (n.h > 8) {
-                    const maxChars = Math.floor(labelSpace / 6);
-                    let label = n.label;
-                    if (label.length > maxChars) label = label.substring(0, maxChars - 1) + "\u2026";
-                    const txt = document.createElementNS(SVG_NS, "text");
-                    txt.setAttribute("x", n.x + n.w + 5);
-                    txt.setAttribute("y", n.y + n.h / 2);
-                    txt.setAttribute("dominant-baseline", "middle");
-                    txt.setAttribute("fill", "#fff");
-                    txt.setAttribute("font-size", n.h > 14 ? "10" : "8");
-                    txt.setAttribute("pointer-events", "none");
-                    txt.textContent = label;
-                    svg.appendChild(txt);
-                }
-
-                // Activity count — smaller, right-aligned in the label column
-                if (n.h > 12 && n.value > 1) {
-                    const badge = document.createElementNS(SVG_NS, "text");
-                    badge.setAttribute("x", n.x + n.w + labelSpace - 2);
-                    badge.setAttribute("y", n.y + n.h / 2);
-                    badge.setAttribute("dominant-baseline", "middle");
-                    badge.setAttribute("text-anchor", "end");
-                    badge.setAttribute("fill", "rgba(255,255,255,0.35)");
-                    badge.setAttribute("font-size", "9");
-                    badge.setAttribute("pointer-events", "none");
-                    badge.textContent = n.value;
-                    svg.appendChild(badge);
-                }
-            });
         }
 
-        // Clear old SVG & append new
-        container.innerHTML = "";
+        // Draw nodes
+        for (const node of allNodes) {
+            const g = document.createElementNS(SVG_NS, 'g');
+            const r = document.createElementNS(SVG_NS, 'rect');
+            r.setAttribute('x', node.x);
+            r.setAttribute('y', node.y);
+            r.setAttribute('width', node.width);
+            r.setAttribute('height', node.height);
+            r.setAttribute('fill', node.color);
+            r.setAttribute('stroke', 'rgba(255,255,255,0.3)');
+            r.setAttribute('rx', '3');
+            r.style.cursor = 'pointer';
+            r.addEventListener('mouseenter', (function(n) {
+                return function(ev) {
+                    this.setAttribute('stroke', 'rgba(255,255,255,0.7)');
+                    this.setAttribute('stroke-width', '1.5');
+                    showTip(ev, '<div style="color:' + n.color + ';font-weight:700;margin-bottom:3px;">' + n.name + '</div><div style="color:rgba(255,255,255,0.6);font-size:10px;">' + n.path + '</div><div style="margin-top:4px;">Hours/mo: <b style="color:#fff;">' + n.time.toLocaleString() + '</b></div>');
+                };
+            })(node));
+            r.addEventListener('mousemove', function(ev) {
+                tooltip.style.left = Math.min(ev.clientX + 14, window.innerWidth - 360) + 'px';
+                tooltip.style.top = (ev.clientY - 30) + 'px';
+            });
+            r.addEventListener('mouseleave', function() {
+                this.setAttribute('stroke', 'rgba(255,255,255,0.3)');
+                this.setAttribute('stroke-width', '1');
+                hideTip();
+            });
+            g.appendChild(r);
+
+            // Label OUTSIDE node
+            const showLabel = node.depth === 5 ? node.height > 4 : node.height > 10;
+            if (showLabel) {
+                const text = document.createElementNS(SVG_NS, 'text');
+                text.setAttribute('x', node.x + node.width + 5);
+                text.setAttribute('y', node.y + node.height / 2);
+                text.setAttribute('dominant-baseline', 'middle');
+                text.setAttribute('fill', '#fff');
+                text.setAttribute('font-size', node.depth === 5 ? '9' : '10');
+                text.setAttribute('pointer-events', 'none');
+                const maxChars = node.depth === 5 ? 25 : Math.floor((columnWidth - 30) / 6);
+                text.textContent = node.name.length > maxChars ? node.name.substring(0, maxChars - 2) + '..' : node.name;
+                g.appendChild(text);
+            }
+            svg.appendChild(g);
+        }
+
+        // Column headers
+        const depthLabels = ['Value Chain', 'Process Area', 'Category', 'Activity', 'Agentification'];
+        for (let d = 1; d <= maxDepth; d++) {
+            const text = document.createElementNS(SVG_NS, 'text');
+            text.setAttribute('x', padding.left + (d - 1) * columnWidth + 10);
+            text.setAttribute('y', 12);
+            text.setAttribute('fill', 'rgba(255,255,255,0.7)');
+            text.setAttribute('font-size', '10');
+            text.setAttribute('font-weight', '500');
+            text.textContent = depthLabels[d - 1] || ('L' + d);
+            svg.appendChild(text);
+        }
+
+        // ═══════════════════════════════════════════════════
+        //  AL0–AL4 COLUMNS (FTE Reduction Visualization)
+        // ═══════════════════════════════════════════════════
+        const complexityTotals = { High: 0, Medium: 0, Low: 0 };
+        const complexityPositions = {
+            High: { minY: Infinity, maxY: 0 },
+            Medium: { minY: Infinity, maxY: 0 },
+            Low: { minY: Infinity, maxY: 0 }
+        };
+
+        if (nodesByDepth[5]) {
+            for (const node of nodesByDepth[5]) {
+                const complexity = (activityTypes[node.name] || {}).complexity || 'Low';
+                complexityTotals[complexity] += node.time;
+                complexityPositions[complexity].minY = Math.min(complexityPositions[complexity].minY, node.y);
+                complexityPositions[complexity].maxY = Math.max(complexityPositions[complexity].maxY, node.y + node.height);
+            }
+        }
+
+        const complexityColors = { High: '#e74c3c', Medium: '#f39c12', Low: '#27ae60' };
+        const summaryWidth = colWidth * 0.8;
+        const colSpacing = summaryWidth + 8;
+        const al4X = width - padding.right - summaryWidth;
+        const al3X = al4X - colSpacing;
+        const al2X = al3X - colSpacing;
+        const al1X = al2X - colSpacing;
+        const al0X = al1X - colSpacing;
+        const legendX = al0X - 35;
+        const hoursPerFTE = 160;
+
+        // Complexity legend bars
+        for (const [complexity, color] of Object.entries(complexityColors)) {
+            const pos = complexityPositions[complexity];
+            if (pos.minY === Infinity) continue;
+            const boxY = pos.minY;
+            const boxHeight = Math.max(pos.maxY - pos.minY, 30);
+
+            const legendLine = document.createElementNS(SVG_NS, 'line');
+            legendLine.setAttribute('x1', legendX);
+            legendLine.setAttribute('y1', boxY);
+            legendLine.setAttribute('x2', legendX);
+            legendLine.setAttribute('y2', boxY + boxHeight);
+            legendLine.setAttribute('stroke', color);
+            legendLine.setAttribute('stroke-width', '3');
+            legendLine.setAttribute('stroke-opacity', '0.9');
+            svg.appendChild(legendLine);
+
+            if (boxHeight > 25) {
+                const lbl = document.createElementNS(SVG_NS, 'text');
+                lbl.setAttribute('x', legendX - 8);
+                lbl.setAttribute('y', boxY + boxHeight / 2);
+                lbl.setAttribute('text-anchor', 'middle');
+                lbl.setAttribute('dominant-baseline', 'middle');
+                lbl.setAttribute('fill', color);
+                lbl.setAttribute('font-size', '9');
+                lbl.setAttribute('font-weight', '600');
+                lbl.setAttribute('transform', 'rotate(-90, ' + (legendX - 8) + ', ' + (boxY + boxHeight / 2) + ')');
+                lbl.textContent = complexity;
+                svg.appendChild(lbl);
+            }
+        }
+
+        // AL column headers
+        const alLabels = ['AL0', 'AL1', 'AL2', 'AL3', 'AL4'];
+        const alSubLabels = ['Human Only', 'AI Assisted', 'AI Exec/Approve', 'AI Exec/Exception', 'AI Autonomous'];
+        const alXPositions = [al0X, al1X, al2X, al3X, al4X];
+
+        alLabels.forEach(function(label, i) {
+            const x = alXPositions[i];
+            const h1 = document.createElementNS(SVG_NS, 'text');
+            h1.setAttribute('x', x + summaryWidth / 2);
+            h1.setAttribute('y', 12);
+            h1.setAttribute('text-anchor', 'middle');
+            h1.setAttribute('fill', 'rgba(255,255,255,0.9)');
+            h1.setAttribute('font-size', '9');
+            h1.setAttribute('font-weight', '600');
+            h1.textContent = label;
+            svg.appendChild(h1);
+
+            const h2 = document.createElementNS(SVG_NS, 'text');
+            h2.setAttribute('x', x + summaryWidth / 2);
+            h2.setAttribute('y', 23);
+            h2.setAttribute('text-anchor', 'middle');
+            h2.setAttribute('fill', 'rgba(255,255,255,0.5)');
+            h2.setAttribute('font-size', '7');
+            h2.textContent = alSubLabels[i];
+            svg.appendChild(h2);
+        });
+
+        // Helper: draw AL box
+        function drawAlBox(alX, boxY, boxHeight, fillColor, fillOpacity, hours, showFTE) {
+            const g = document.createElementNS(SVG_NS, 'g');
+            g.style.cursor = 'pointer';
+            const box = document.createElementNS(SVG_NS, 'rect');
+            box.setAttribute('x', alX);
+            box.setAttribute('y', boxY);
+            box.setAttribute('width', summaryWidth);
+            box.setAttribute('height', boxHeight);
+            box.setAttribute('fill', fillColor);
+            box.setAttribute('fill-opacity', fillOpacity);
+            box.setAttribute('stroke', 'rgba(255,255,255,0.5)');
+            box.setAttribute('rx', '4');
+            g.appendChild(box);
+            if (boxHeight >= 20) {
+                const t1 = document.createElementNS(SVG_NS, 'text');
+                t1.setAttribute('x', alX + summaryWidth / 2);
+                t1.setAttribute('y', boxY + boxHeight / 2 - (showFTE ? 4 : 0));
+                t1.setAttribute('text-anchor', 'middle');
+                t1.setAttribute('fill', '#fff');
+                t1.setAttribute('font-size', '8');
+                t1.setAttribute('pointer-events', 'none');
+                t1.textContent = Math.round(hours).toLocaleString();
+                g.appendChild(t1);
+            }
+            if (showFTE && boxHeight >= 28) {
+                const t2 = document.createElementNS(SVG_NS, 'text');
+                t2.setAttribute('x', alX + summaryWidth / 2);
+                t2.setAttribute('y', boxY + boxHeight / 2 + 8);
+                t2.setAttribute('text-anchor', 'middle');
+                t2.setAttribute('fill', 'rgba(255,255,255,0.7)');
+                t2.setAttribute('font-size', '7');
+                t2.setAttribute('pointer-events', 'none');
+                t2.textContent = (hours / hoursPerFTE).toFixed(1) + ' FTE';
+                g.appendChild(t2);
+            }
+            return g;
+        }
+
+        // ── AL0: Human Only (100% baseline) ──
+        for (const [complexity, total] of Object.entries(complexityTotals)) {
+            if (total === 0) continue;
+            const pos = complexityPositions[complexity];
+            if (pos.minY === Infinity) continue;
+            const boxY = pos.minY;
+            const boxHeight = Math.max(pos.maxY - pos.minY, 40);
+            const g = drawAlBox(al0X, boxY, boxHeight, complexityColors[complexity], '0.15', total, true);
+            g.addEventListener('mouseenter', function(ev) {
+                showTip(ev, '<div style="font-weight:700;margin-bottom:4px;">AL0 — Human Only</div><div style="color:' + complexityColors[complexity] + ';margin-bottom:4px;">' + complexity + ' Complexity</div><div>Hours/mo: <b style="color:#fff;">' + total.toLocaleString() + '</b></div><div>FTE: <b style="color:#fff;">' + (total / hoursPerFTE).toFixed(1) + '</b></div>');
+            });
+            g.addEventListener('mouseleave', hideTip);
+            svg.appendChild(g);
+        }
+
+        // ── AL1: AI Assisted (productivity improvement) ──
+        const al1Totals = { High: 0, Medium: 0, Low: 0 };
+        if (nodesByDepth[5]) {
+            for (const node of nodesByDepth[5]) {
+                const at = activityTypes[node.name] || {};
+                const complexity = at.complexity || 'Low';
+                const aiImp = at.aiImprovement || 0;
+                al1Totals[complexity] += node.time * (1 - aiImp);
+            }
+        }
+        for (const [complexity, al1Total] of Object.entries(al1Totals)) {
+            const al0Total = complexityTotals[complexity];
+            if (al0Total === 0) continue;
+            const pos = complexityPositions[complexity];
+            if (pos.minY === Infinity) continue;
+            const boxY = pos.minY;
+            const al0H = Math.max(pos.maxY - pos.minY, 40);
+            const boxHeight = al0H * (al1Total / al0Total);
+            const g = drawAlBox(al1X, boxY, boxHeight, complexityColors[complexity], '0.3', al1Total, true);
+            g.addEventListener('mouseenter', function(ev) {
+                showTip(ev, '<div style="font-weight:700;margin-bottom:4px;">AL1 — AI Assisted</div><div style="color:' + complexityColors[complexity] + ';">' + complexity + ' Complexity</div><div>Human Hours: <b>' + Math.round(al1Total).toLocaleString() + '</b> | AI Saved: <b>' + Math.round(al0Total - al1Total).toLocaleString() + '</b></div><div>FTE: <b>' + (al1Total / hoursPerFTE).toFixed(1) + '</b></div>');
+            });
+            g.addEventListener('mouseleave', hideTip);
+            svg.appendChild(g);
+        }
+
+        // AL2-AL4 human-effort percentages by complexity
+        const alHumanPct = {
+            AL2: { High: 50, Medium: 30, Low: 20 },
+            AL3: { High: 25, Medium: 12, Low: 6 },
+            AL4: { High: 10, Medium: 5, Low: 2 }
+        };
+
+        // ── AL2: AI Exec, Human Approves ──
+        for (const [complexity, total] of Object.entries(complexityTotals)) {
+            if (total === 0) continue;
+            const pos = complexityPositions[complexity];
+            if (pos.minY === Infinity) continue;
+            const humanTime = total * (alHumanPct.AL2[complexity] / 100);
+            const boxY = pos.minY;
+            const al0H = Math.max(pos.maxY - pos.minY, 40);
+            const boxHeight = al0H * Math.max(humanTime / total, 0.12);
+            const g = drawAlBox(al2X, boxY, boxHeight, '#3498db', '0.4', humanTime, true);
+            g.addEventListener('mouseenter', function(ev) {
+                showTip(ev, '<div style="font-weight:700;margin-bottom:4px;">AL2 — AI Exec, Human Approves</div><div style="color:' + complexityColors[complexity] + ';">' + complexity + ' Complexity</div><div>Human Hours: <b>' + Math.round(humanTime).toLocaleString() + '</b> (' + alHumanPct.AL2[complexity] + '%)</div><div>FTE: <b>' + (humanTime / hoursPerFTE).toFixed(1) + '</b></div>');
+            });
+            g.addEventListener('mouseleave', hideTip);
+            svg.appendChild(g);
+        }
+
+        // ── AL3: AI Exec, Human on Exception ──
+        for (const [complexity, total] of Object.entries(complexityTotals)) {
+            if (total === 0) continue;
+            const pos = complexityPositions[complexity];
+            if (pos.minY === Infinity) continue;
+            const humanTime = total * (alHumanPct.AL3[complexity] / 100);
+            const boxY = pos.minY;
+            const al0H = Math.max(pos.maxY - pos.minY, 40);
+            const boxHeight = al0H * Math.max(humanTime / total, 0.08);
+            const g = drawAlBox(al3X, boxY, boxHeight, '#2ecc71', '0.4', humanTime, boxHeight >= 28);
+            g.addEventListener('mouseenter', function(ev) {
+                showTip(ev, '<div style="font-weight:700;margin-bottom:4px;">AL3 — AI Exec, Human on Exception</div><div style="color:' + complexityColors[complexity] + ';">' + complexity + '</div><div>Human Hours: <b>' + Math.round(humanTime).toLocaleString() + '</b> (' + alHumanPct.AL3[complexity] + '%)</div><div>FTE: <b>' + (humanTime / hoursPerFTE).toFixed(1) + '</b></div>');
+            });
+            g.addEventListener('mouseleave', hideTip);
+            svg.appendChild(g);
+        }
+
+        // ── AL4: AI Autonomous ──
+        for (const [complexity, total] of Object.entries(complexityTotals)) {
+            if (total === 0) continue;
+            const pos = complexityPositions[complexity];
+            if (pos.minY === Infinity) continue;
+            const humanTime = total * (alHumanPct.AL4[complexity] / 100);
+            const boxY = pos.minY;
+            const al0H = Math.max(pos.maxY - pos.minY, 40);
+            const boxHeight = al0H * Math.max(humanTime / total, 0.05);
+            const g = drawAlBox(al4X, boxY, boxHeight, '#9b59b6', '0.5', humanTime, boxHeight >= 25);
+            g.addEventListener('mouseenter', function(ev) {
+                showTip(ev, '<div style="font-weight:700;margin-bottom:4px;">AL4 — AI Autonomous</div><div style="color:' + complexityColors[complexity] + ';">' + complexity + '</div><div>Human Hours: <b>' + Math.round(humanTime).toLocaleString() + '</b> (' + alHumanPct.AL4[complexity] + '%)</div><div>FTE: <b>' + (humanTime / hoursPerFTE).toFixed(1) + '</b></div>');
+            });
+            g.addEventListener('mouseleave', hideTip);
+            svg.appendChild(g);
+        }
+
+        // Render
+        container.innerHTML = '';
         container.appendChild(svg);
     }
 
@@ -8366,7 +10705,7 @@ sup.ref {
 
     // Redraw on resize
     let resizeTimer;
-    window.addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(drawSankey, 200); });
+    window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(drawSankey, 200); });
 })();
 </script>
 
