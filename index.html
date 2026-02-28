@@ -9592,9 +9592,32 @@ sup.ref {
     }
   }
 };
-    const TOTAL_FTE = 2877;
+    const TOTAL_FTE = 2279;
     const TOTAL_ACTIVITIES = 1572;
-    const FTE_PER_ACTIVITY = 1.8302;
+    const FTE_PER_ACTIVITY = 1.4497;
+
+    /* ── Domain-level FTE allocation (RFP baseline, non-IT functions scaled to 2,279) ──
+       Total RFP = 2,877 FTE. IT = 598 (excluded). Process Taxonomy = 2,279.
+       Non-IT baseline (1,919 from 8 functions) scaled by 1.1876× to 2,279:
+       Finance+Legal(329→391): PTP/OtC/RtR/CMF/AWSC  |  Sales+Marketing(829→985): Demand/Order
+       Service(465→552): PO Recon/Stock Rotation  |  Supply Chain(80→95): 7 SC domains
+       BizOps+HR(216→257): MDM/Risk  — distributed proportionally by activity count */
+    const domainFTE = {
+        'PTP': 75, 'OtC': 49, 'RtR': 178, 'CMF': 26, 'AWSC Intercompany': 63,
+        'MDM': 250, 'Demand Creation': 786, 'Order Booking': 198,
+        'Supply Chain Planning': 26, 'Material Planning': 8,
+        'Sourcing & Procurement': 15, 'PO Management': 32,
+        'Pull-In / Push-Out': 4, 'Inventory Management': 5, 'Logistics & Fulfillment': 5,
+        'PO Recon': 146, 'Stock Rotation': 406, 'Risk & Resiliency': 7
+    };
+    const domainFunction = {
+        'PTP': 'Finance', 'OtC': 'Finance', 'RtR': 'Finance', 'CMF': 'Finance', 'AWSC Intercompany': 'Finance',
+        'MDM': 'Business Ops', 'Demand Creation': 'Sales', 'Order Booking': 'Sales',
+        'Supply Chain Planning': 'Supply Chain', 'Material Planning': 'Supply Chain',
+        'Sourcing & Procurement': 'Supply Chain', 'PO Management': 'Supply Chain',
+        'Pull-In / Push-Out': 'Supply Chain', 'Inventory Management': 'Supply Chain', 'Logistics & Fulfillment': 'Supply Chain',
+        'PO Recon': 'Service', 'Stock Rotation': 'Service', 'Risk & Resiliency': 'Business Ops'
+    };
 
     /* ── Activity types → grouped into Agentification tiers ──
        Agent-Ready:    AI can execute autonomously (46.8% of activities)
@@ -9746,7 +9769,7 @@ sup.ref {
         var activityTypeAgg = {};
 
         /* collect L4 leaf activities */
-        function collectActivities(l3Children, l3NodeId, l3Name, domainColor, l3Path) {
+        function collectActivities(l3Children, l3NodeId, l3Name, domainColor, l3Path, domName) {
             for (var actName in l3Children) {
                 var ad = l3Children[actName];
                 var actType = ad.type || 'Transaction';
@@ -9755,15 +9778,15 @@ sup.ref {
                 activityDetails.push({
                     id: actId, name: actName, type: actType, time: time,
                     l3NodeId: l3NodeId, l3Name: l3Name, domainColor: domainColor,
-                    path: l3Path + ' \u203a ' + actName
+                    path: l3Path + ' \u203a ' + actName, domainName: domName
                 });
                 if (!activityTypeAgg[actType]) activityTypeAgg[actType] = 0;
                 activityTypeAgg[actType] += time;
             }
         }
 
-        /* traverse L1 → L2 → L3 */
-        function traverse(obj, parentId, depth, domain, parentPath) {
+        /* traverse L1 → L2 → L3 — propagate domainName for FTE mapping */
+        function traverse(obj, parentId, depth, domain, parentPath, domName) {
             if (depth > 3) return;
             if (!nodesByDepth[depth]) nodesByDepth[depth] = [];
             for (var name in obj) {
@@ -9772,24 +9795,32 @@ sup.ref {
                 var color = depth === 1 ? node.color : domain;
                 var time  = getNodeTime(node);
                 if (time === 0) continue;
+                var curDomain = depth === 1 ? name : domName;
                 var path  = parentPath ? parentPath + ' \u203a ' + name : name;
                 var nodeId = nid();
-                var n = { id: nodeId, name: name, depth: depth, color: color, time: time, path: path };
+                var dfte = domainFTE[curDomain] || 0;
+                var fteRatio = time > 0 && dfte > 0 ? dfte / (depth === 1 ? time : (domainFTE[curDomain] ? getNodeTime(taxonomyData[curDomain]) : time)) : FTE_PER_ACTIVITY;
+                var nodeFTE = Math.round(time * fteRatio);
+                var n = { id: nodeId, name: name, depth: depth, color: color, time: time, path: path,
+                           domainName: curDomain, fte: nodeFTE };
                 nodesByDepth[depth].push(n);
                 allNodes.push(n);
                 if (parentId) links.push({ source: parentId, target: nodeId, value: time, color: color });
-                if (node.children && depth < 3) traverse(node.children, nodeId, depth + 1, color, path);
-                if (depth === 3 && node.children) collectActivities(node.children, nodeId, name, color, path);
+                if (node.children && depth < 3) traverse(node.children, nodeId, depth + 1, color, path, curDomain);
+                if (depth === 3 && node.children) collectActivities(node.children, nodeId, name, color, path, curDomain);
             }
         }
-        traverse(taxonomyData, null, 1, null, '');
+        traverse(taxonomyData, null, 1, null, '', null);
 
         /* Build L4 (activity) nodes */
         nodesByDepth[4] = [];
         for (var i = 0; i < activityDetails.length; i++) {
             var a = activityDetails[i];
             var tColor = (activityTypes[a.type] || {}).color || a.domainColor;
-            var n4 = { id: a.id, name: a.name, depth: 4, color: tColor, time: a.time, path: a.path, activityType: a.type };
+            var dfte4 = domainFTE[a.domainName] || 0;
+            var domTime4 = a.domainName && taxonomyData[a.domainName] ? getNodeTime(taxonomyData[a.domainName]) : 1;
+            var fteR4 = dfte4 > 0 && domTime4 > 0 ? dfte4 / domTime4 : FTE_PER_ACTIVITY;
+            var n4 = { id: a.id, name: a.name, depth: 4, color: tColor, time: a.time, path: a.path, activityType: a.type, domainName: a.domainName, fte: Math.round(a.time * fteR4) };
             nodesByDepth[4].push(n4);
             allNodes.push(n4);
             links.push({ source: a.l3NodeId, target: a.id, value: a.time, color: tColor });
@@ -9928,7 +9959,8 @@ sup.ref {
             p.addEventListener('mouseenter', (function(s, t, v, lt) {
                 return function(ev) {
                     this.setAttribute('stroke-opacity', '0.75');
-                    var fte = (v * FTE_PER_ACTIVITY).toFixed(0);
+                    var fteR = (s.fte && s.time > 0) ? s.fte / s.time : FTE_PER_ACTIVITY;
+                    var fte = Math.round(v * fteR);
                     var tierTag = lt ? '<span style="color:'+TIER_COLORS[lt]+';font-size:9px;"> \u25CF '+lt+'</span>' : '';
                     showTip(ev, '<div style="font-weight:700;margin-bottom:4px;">' + s.name + ' \u2192 ' + t.name + tierTag + '</div>' +
                         '<div style="color:rgba(255,255,255,0.55);font-size:10px;">' + t.path + '</div>' +
@@ -9976,9 +10008,10 @@ sup.ref {
                 return function(ev) {
                     this.setAttribute('stroke', 'rgba(255,255,255,0.7)');
                     this.setAttribute('stroke-width', '1.5');
-                    var fte = (n.time * FTE_PER_ACTIVITY).toFixed(0);
+                    var fte = n.fte ? n.fte : Math.round(n.time * FTE_PER_ACTIVITY);
                     var tierLabel = nt ? '<div style="color:'+TIER_COLORS[nt]+';font-size:9px;font-weight:600;margin-top:3px;">\u25CF '+nt+'</div>' : '';
-                    showTip(ev, '<div style="color:' + n.color + ';font-weight:700;margin-bottom:3px;">' + n.name + '</div>' +
+                    var fnTag = n.domainName && domainFunction[n.domainName] ? ' <span style="color:rgba(255,255,255,0.45);font-size:9px;">(' + domainFunction[n.domainName] + ')</span>' : '';
+                    showTip(ev, '<div style="color:' + n.color + ';font-weight:700;margin-bottom:3px;">' + n.name + fnTag + '</div>' +
                         '<div style="color:rgba(255,255,255,0.55);font-size:10px;">' + n.path + '</div>' +
                         '<div style="margin-top:4px;">Activities: <b style="color:#fff;">' + n.time + '</b> &nbsp;|&nbsp; FTE: <b style="color:#fff;">' + fte + '</b></div>' + tierLabel);
                 };
@@ -10094,7 +10127,7 @@ sup.ref {
         /* AL column headers */
         var alLabels   = ['AL0', 'AL1', 'AL2', 'AL3', 'AL4'];
         var alSubs     = ['Current State', 'AI Augmented', 'AI Co-Pilot', 'AI Autonomous', 'Fully Transformed'];
-        var alFTELabels = ['2,877 FTE', '~2,300 FTE', '~1,500 FTE', '~860 FTE', '~575 FTE'];
+        var alFTELabels = ['2,279 FTE', '~1,800 FTE', '~1,175 FTE', '~680 FTE', '~450 FTE'];
         var alXPos     = [al0X, al1X, al2X, al3X, al4X];
         for (var ai = 0; ai < 5; ai++) {
             var x = alXPos[ai];
@@ -10154,11 +10187,11 @@ sup.ref {
         /*
          * AL0–AL4 human-effort percentages by agentification tier
          *
-         * AL0: Current State — 100% human (2,877 FTE)
-         * AL1: AI Augmented — AI assists, human still does work (~80% of current = ~2,300 FTE)
-         * AL2: AI Co-Pilot — AI executes, human approves (~52% = ~1,500 FTE)
-         * AL3: AI Autonomous — AI handles most, human on exception (~30% = ~860 FTE)
-         * AL4: Fully Transformed — near-autonomous (~20% = ~575 FTE → 80% reduction)
+         * AL0: Current State — 100% human (2,279 FTE excl. 598 IT)
+         * AL1: AI Augmented — AI assists, human still does work (~79% = ~1,800 FTE)
+         * AL2: AI Co-Pilot — AI executes, human approves (~52% = ~1,175 FTE)
+         * AL3: AI Autonomous — AI handles most, human on exception (~30% = ~680 FTE)
+         * AL4: Fully Transformed — near-autonomous (~20% = ~450 FTE → 80% reduction)
          */
         var alPct = {
             AL0: { 'Agent-Ready': 100, 'Agent-Assisted': 100, 'Human-Centric': 100 },
