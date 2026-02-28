@@ -7765,12 +7765,12 @@ sup.ref {
          SECTION 3 — SANKEY FLOW DIAGRAM
          ════════════════════════════════════════════════════════════ -->
     <div class="section-heading">
-        <i class="bi bi-diagram-3"></i> 3. Process Taxonomy Flow &mdash; Value Chain &rarr; Activity &rarr; Agentification
+        <i class="bi bi-diagram-3"></i> 3. Process Taxonomy Flow &mdash; Domain &rarr; Process &rarr; Sub-Process &rarr; Activity &rarr; Classification
     </div>
 
     <div style="font-size:var(--size-caption);color:var(--text-secondary);margin-bottom:var(--gap-lg);line-height:1.6;">
         The Sankey diagram below visualizes the complete process taxonomy from Value Chain through Activity to Agentification classification.
-        Flow width is proportional to monthly hours (FTE effort) in each process branch. AL0&ndash;AL4 columns on the right show progressive FTE reduction through AI agent deployment.
+        Flow width is proportional to the number of process activities in each branch. AL0&ndash;AL4 columns on the right show progressive FTE reduction through AI agent deployment.
         <b>Hover</b> over nodes and links for detailed breakdowns. Use the <b>filter buttons</b> to focus on specific value chains.
     </div>
 
@@ -7780,7 +7780,7 @@ sup.ref {
     </div>
 
     <!-- Sankey container — fixed height, reference-style -->
-    <div id="bpm-sankey-container" style="background:var(--bg-surface);border-radius:var(--radius-md);border:1px solid var(--border-subtle);padding:16px;margin-bottom:var(--gap-2xl);position:relative;overflow:hidden;height:780px;">
+    <div id="bpm-sankey-container" style="background:var(--bg-surface);border-radius:var(--radius-md);border:1px solid var(--border-subtle);padding:16px;margin-bottom:var(--gap-2xl);position:relative;overflow-x:auto;overflow-y:hidden;height:1400px;">
         <div id="bpm-sankey-chart" style="width:100%;height:100%;"></div>
         <div id="bpm-sankey-tooltip" style="position:fixed;display:none;background:rgba(0,0,0,0.92);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:10px 14px;font-size:11px;color:#fff;pointer-events:none;z-index:9999;max-width:320px;box-shadow:0 6px 20px rgba(0,0,0,0.6);line-height:1.5;"></div>
     </div>
@@ -8125,11 +8125,11 @@ sup.ref {
 
 </div>
 
-<!-- ═══ BPM 4.0 Sankey Diagram — Full Taxonomy with AL0-AL4 ═══ -->
+<!-- ═══ Arrow Process Taxonomy Sankey — 18 Domains with AL0-AL4 ═══ -->
 <script>
 (function() {
     const taxonomyData = {
-  "Procure-to-Pay": {
+  "PTP": {
     "color": "#2E86AB",
     "children": {
       "Accounts Payable": {
@@ -8137,155 +8137,179 @@ sup.ref {
           "Master Data Management": {
             "children": {
               "AP Master Data": {
-                "time": 105,
-                "type": "Analysis"
-              }
-            }
-          },
-          "Purchase Requisition Management": {
-            "children": {
-              "Catalog Management": {
-                "time": 90,
-                "type": "Approving"
-              },
-              "Purchase Requisition Processing": {
-                "time": 15,
-                "type": "Follow-up"
-              },
-              "Spot/Tactical Sourcing": {
-                "time": 30,
-                "type": "Approving"
-              }
-            }
-          },
-          "Purchase Order Management": {
-            "children": {
-              "Purchase Order Processing": {
-                "time": 45,
-                "type": "Approving"
-              },
-              "PO Acknowledgement & Supplier Expediting": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "PO Change Management": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          },
-          "AP Regular Activities": {
-            "children": {
-              "AP Regular Activities": {
-                "time": 60,
-                "type": "Analysis"
+                "time": 10,
+                "type": "Verification"
               }
             }
           },
           "Invoice Receipt": {
             "children": {
-              "Document Handling / Mailroom": {
-                "time": 60,
-                "type": "Communication"
-              },
               "Invoice Scanning": {
-                "time": 90,
-                "type": "Documentation"
+                "time": 4,
+                "type": "Verification"
               }
             }
           },
           "Invoice Processing": {
             "children": {
-              "Invoice Processing": {
-                "time": 165,
-                "type": "Transaction"
+              "Data Entry": {
+                "time": 11,
+                "type": "Verification"
               }
             }
           },
           "Electronic Invoice Processing & Verification": {
             "children": {
-              "Electronic Invoice Processing (semi-automated)": {
-                "time": 75,
-                "type": "Exception Handling"
-              },
-              "Check system for errors": {
-                "time": 20,
-                "type": "Exception Handling"
-              },
-              "Investigate root cause of error and make correction if appeared": {
-                "time": 20,
-                "type": "Exception Handling"
-              }
-            }
-          },
-          "Invoice Authorization": {
-            "children": {
-              "Invoice Approval": {
-                "time": 45,
-                "type": "Approving"
-              },
-              "Generate and analyse weekly / monthly report": {
-                "time": 20,
-                "type": "Analysis"
-              },
-              "Define approver(s) to be chased": {
-                "time": 20,
-                "type": "Approving"
-              },
-              "Contact approvers wrt missing invoice approval": {
-                "time": 20,
-                "type": "Approving"
-              },
-              "Provide explanation": {
-                "time": 20,
-                "type": "Transaction"
-              },
-              "Register reason of unapproved invoice": {
-                "time": 20,
-                "type": "Approving"
-              }
-            }
-          },
-          "Invoice Payment": {
-            "children": {
-              "Invoice Payment / Disbursement": {
-                "time": 180,
-                "type": "Transaction"
-              },
-              "Prepayment / Advanced / Rush Payment": {
-                "time": 105,
-                "type": "Transaction"
-              }
-            }
-          },
-          "AP Self Billing": {
-            "children": {
-              "Self-Billing": {
-                "time": 75,
-                "type": "Transaction"
-              }
-            }
-          },
-          "Corporate / Purchasing card": {
-            "children": {
-              "Corporate / Purchasing card": {
-                "time": 105,
-                "type": "Report Preparation"
-              }
-            }
-          },
-          "T&E Processing": {
-            "children": {
-              "Travel & Expenses": {
-                "time": 105,
-                "type": "Documentation"
+              "Electronic Invoice Processing": {
+                "time": 5,
+                "type": "Verification"
               }
             }
           },
           "Vendor / Employee Queries": {
             "children": {
               "Vendor / Employee Queries": {
-                "time": 60,
+                "time": 3,
+                "type": "Transaction"
+              }
+            }
+          },
+          "AP General": {
+            "children": {
+              "Statement of Account reconciliation": {
+                "time": 2,
+                "type": "Reconciliation"
+              },
+              "Accounts Payable Report": {
+                "time": 6,
+                "type": "Verification"
+              },
+              "RMA requests": {
+                "time": 3,
+                "type": "Approving"
+              }
+            }
+          },
+          "Intercompany": {
+            "children": {
+              "Reconciliation": {
+                "time": 2,
+                "type": "Reconciliation"
+              },
+              "Data Entry": {
+                "time": 2,
+                "type": "Verification"
+              },
+              "Validation report": {
+                "time": 2,
+                "type": "Verification"
+              },
+              "Remittance": {
+                "time": 1,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Invoice Payment": {
+            "children": {
+              "Invoice Payment / Disbursement": {
+                "time": 11,
+                "type": "Data Entry"
+              }
+            }
+          },
+          "T&E Processing": {
+            "children": {
+              "Travel & Expenses": {
+                "time": 4,
+                "type": "Verification"
+              }
+            }
+          }
+        }
+      },
+      "Supplier Accounting": {
+        "children": {
+          "Price Protection": {
+            "children": {
+              "Price Protection Execution": {
+                "time": 1,
+                "type": "Transaction"
+              },
+              "Price Protection Submission": {
+                "time": 3,
+                "type": "Documentation"
+              },
+              "Price Protection Settlement": {
+                "time": 6,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Ship and debit": {
+            "children": {
+              "Ship and debit Submission": {
+                "time": 3,
+                "type": "Follow-up"
+              },
+              "Ship and debit Rejections": {
+                "time": 6,
+                "type": "Data Entry"
+              },
+              "Ship and debit Reconcilation": {
+                "time": 6,
+                "type": "Investigation"
+              },
+              "Ship and debit Settlement": {
+                "time": 9,
+                "type": "Data Entry"
+              },
+              "Ship and debit Pay backs": {
+                "time": 2,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Business Cost Adjustment": {
+            "children": {
+              "Business Cost Adjustment Creation": {
+                "time": 2,
+                "type": "Transaction"
+              },
+              "Business Cost Adjustment Settlement": {
+                "time": 1,
+                "type": "Data Entry"
+              }
+            }
+          },
+          "Average Unit Cost": {
+            "children": {
+              "Average Unit Cost": {
+                "time": 5,
+                "type": "Data Entry"
+              }
+            }
+          },
+          "Credit and rebill": {
+            "children": {
+              "Credit and rebill": {
+                "time": 2,
+                "type": "Data Entry"
+              }
+            }
+          },
+          "Supplier Trade Profile": {
+            "children": {
+              "Supplier Trade Profile": {
+                "time": 2,
+                "type": "Verification"
+              }
+            }
+          },
+          "Supplier Accounting reports": {
+            "children": {
+              "Supplier Accounting reports": {
+                "time": 3,
                 "type": "Transaction"
               }
             }
@@ -8294,47 +8318,47 @@ sup.ref {
       }
     }
   },
-  "Order-to-Cash": {
-    "color": "#A23B72",
+  "OtC": {
+    "color": "#E67E22",
     "children": {
       "Accounts Receivable": {
         "children": {
           "Sales Policy": {
             "children": {
               "Sales Policy": {
-                "time": 45,
-                "type": "Data Entry"
+                "time": 3,
+                "type": "Verification"
               }
             }
           },
           "Master Data Management": {
             "children": {
               "Customer Master Data": {
-                "time": 105,
-                "type": "Analysis"
+                "time": 7,
+                "type": "Data Entry"
               }
             }
           },
           "AR Regular Activities": {
             "children": {
               "AR Regular Activities": {
-                "time": 60,
-                "type": "Analysis"
+                "time": 4,
+                "type": "Verification"
               }
             }
           },
           "Credit Risk": {
             "children": {
               "Credit Management": {
-                "time": 180,
-                "type": "Approving"
+                "time": 12,
+                "type": "Data Entry"
               }
             }
           },
           "Sales Order Management": {
             "children": {
               "Sales Order Processing": {
-                "time": 120,
+                "time": 8,
                 "type": "Transaction"
               }
             }
@@ -8342,23 +8366,23 @@ sup.ref {
           "Customer Billing": {
             "children": {
               "Invoicing": {
-                "time": 90,
-                "type": "Communication"
+                "time": 6,
+                "type": "Transaction"
               },
               "Intercompany Invoicing": {
-                "time": 90,
-                "type": "Communication"
+                "time": 6,
+                "type": "Transaction"
               },
               "Returns & Credits": {
-                "time": 105,
-                "type": "Transaction"
+                "time": 7,
+                "type": "Data Entry"
               }
             }
           },
           "Collection": {
             "children": {
               "Collection": {
-                "time": 150,
+                "time": 10,
                 "type": "Data Collection"
               }
             }
@@ -8366,15 +8390,15 @@ sup.ref {
           "Cash Application": {
             "children": {
               "Cash Application": {
-                "time": 135,
-                "type": "Transaction"
+                "time": 9,
+                "type": "Data Entry"
               }
             }
           },
           "Deductions Accounting": {
             "children": {
               "Deductions Accounting": {
-                "time": 60,
+                "time": 4,
                 "type": "Transaction"
               }
             }
@@ -8383,95 +8407,99 @@ sup.ref {
       }
     }
   },
-  "Record-to-Report": {
-    "color": "#F18F01",
+  "RtR": {
+    "color": "#27AE60",
     "children": {
       "General Ledger": {
         "children": {
           "Master Data Management": {
             "children": {
-              "GL Master Data (account, internal order, cost center, profit center, fixed asset etc.)": {
-                "time": 105,
-                "type": "Analysis"
+              "GL Master Data (account, internal order, cost center...": {
+                "time": 7,
+                "type": "Data Entry"
               }
             }
           },
           "General Ledger Accounting": {
             "children": {
               "GL Regular Activities": {
-                "time": 75,
-                "type": "Transaction"
+                "time": 5,
+                "type": "Follow-up"
               },
               "Journal Entry Processing": {
-                "time": 255,
-                "type": "Transaction"
+                "time": 17,
+                "type": "Data Entry"
               },
               "Fixed Assets Processing": {
-                "time": 135,
-                "type": "Transaction"
+                "time": 9,
+                "type": "Data Entry"
               },
               "Stock Accouting": {
-                "time": 60,
-                "type": "Reconciliation"
+                "time": 4,
+                "type": "Calculation"
               },
               "Payroll Accounting": {
-                "time": 120,
-                "type": "Reconciliation"
+                "time": 8,
+                "type": "Documentation"
               },
               "Hedging Accounting": {
-                "time": 165,
+                "time": 11,
                 "type": "Verification"
               },
               "Equity Accounting": {
-                "time": 60,
-                "type": "Report Preparation"
+                "time": 4,
+                "type": "Transaction"
               },
               "Warranty provisions": {
-                "time": 75,
-                "type": "Reconciliation"
+                "time": 5,
+                "type": "Report Preparation"
+              },
+              "Bank Statement Processing": {
+                "time": 5,
+                "type": "Data Entry"
               },
               "Intercompany Processing": {
-                "time": 105,
-                "type": "Transaction"
+                "time": 7,
+                "type": "Data Entry"
               },
               "GR/IR Clearing and Reconciliation": {
-                "time": 60,
-                "type": "Transaction"
+                "time": 4,
+                "type": "Analysis"
               },
               "Balance Sheet Accounts Reconciliation": {
-                "time": 105,
-                "type": "Documentation"
+                "time": 7,
+                "type": "Reconciliation"
               }
             }
           },
           "Cost Accounting": {
             "children": {
               "Profit Center Accounting": {
-                "time": 90,
-                "type": "Reconciliation"
+                "time": 6,
+                "type": "Data Entry"
               }
             }
           },
           "Revenue Recognition (Products)": {
             "children": {
               "Customer Service": {
-                "time": 60,
-                "type": "Reconciliation"
+                "time": 4,
+                "type": "Verification"
               },
               "Software Customer Service": {
-                "time": 60,
+                "time": 4,
                 "type": "Transaction"
               },
               "Project Accounting": {
-                "time": 75,
+                "time": 5,
                 "type": "Verification"
               },
               "Monitoring reports": {
-                "time": 60,
+                "time": 4,
                 "type": "Report Preparation"
               },
               "VSOE & FV calculation": {
-                "time": 60,
+                "time": 4,
                 "type": "Transaction"
               }
             }
@@ -8479,27 +8507,27 @@ sup.ref {
           "Revenue Recognition (Services)": {
             "children": {
               "Tendering Process": {
-                "time": 45,
-                "type": "Approving"
+                "time": 3,
+                "type": "Transaction"
               },
               "Project Opening": {
-                "time": 75,
-                "type": "Documentation"
+                "time": 5,
+                "type": "Transaction"
               },
               "Change Order": {
-                "time": 60,
-                "type": "Documentation"
+                "time": 4,
+                "type": "Data Entry"
               },
               "Invoicing": {
-                "time": 60,
+                "time": 4,
                 "type": "Transaction"
               },
               "Collection": {
-                "time": 60,
-                "type": "Approving"
+                "time": 4,
+                "type": "Follow-up"
               },
               "Project Closing": {
-                "time": 90,
+                "time": 6,
                 "type": "Transaction"
               }
             }
@@ -8507,23 +8535,23 @@ sup.ref {
           "Treasury & Cash Transactions": {
             "children": {
               "Managing treasury policies and procedures": {
-                "time": 120,
+                "time": 8,
                 "type": "Transaction"
               },
               "Managing cash": {
-                "time": 120,
-                "type": "Analysis"
+                "time": 8,
+                "type": "Transaction"
               },
               "Managing in-house bank account": {
-                "time": 105,
+                "time": 7,
                 "type": "Transaction"
               },
               "Managing debt and investment": {
-                "time": 105,
-                "type": "Report Preparation"
+                "time": 7,
+                "type": "Transaction"
               },
               "Managing financial risks": {
-                "time": 105,
+                "time": 7,
                 "type": "Transaction"
               }
             }
@@ -8531,83 +8559,83 @@ sup.ref {
           "Closing & Consolidation": {
             "children": {
               "Month / Quarter End Closing Activities": {
-                "time": 105,
-                "type": "Report Preparation"
+                "time": 7,
+                "type": "Analysis"
               },
               "Year End Closing Activities": {
-                "time": 150,
+                "time": 10,
                 "type": "Transaction"
               },
               "Period End Reporting": {
-                "time": 75,
-                "type": "Transaction"
+                "time": 5,
+                "type": "Report Preparation"
               },
               "Consolidation Reporting": {
-                "time": 120,
-                "type": "Transaction"
+                "time": 8,
+                "type": "Data Entry"
               }
             }
           },
           "Tax & Statutory Accounting": {
             "children": {
               "Domestic VAT Return": {
-                "time": 90,
-                "type": "Transaction"
+                "time": 6,
+                "type": "Data Entry"
               },
               "Foreign VAT Return": {
-                "time": 75,
-                "type": "Transaction"
+                "time": 5,
+                "type": "Verification"
               },
               "Intrastat & Extrastat Reporting": {
-                "time": 60,
-                "type": "Report Preparation"
+                "time": 4,
+                "type": "Data Collection"
               },
               "CIT Return": {
-                "time": 120,
-                "type": "Transaction"
+                "time": 8,
+                "type": "Data Entry"
               },
               "Deferred Tax Calculation": {
-                "time": 60,
-                "type": "Transaction"
+                "time": 4,
+                "type": "Data Collection"
               },
               "Local Taxes": {
-                "time": 60,
+                "time": 4,
                 "type": "Report Preparation"
               },
               "Withholding Tax": {
-                "time": 75,
-                "type": "Transaction"
+                "time": 5,
+                "type": "Data Entry"
               },
               "Excise Duty": {
-                "time": 30,
-                "type": "Calculation"
+                "time": 2,
+                "type": "Report Preparation"
               },
               "Statistical Reporting": {
-                "time": 45,
-                "type": "Calculation"
+                "time": 3,
+                "type": "Report Preparation"
               },
               "National Bank Reporting": {
-                "time": 75,
+                "time": 5,
                 "type": "Report Preparation"
               },
               "Other Local Reporting": {
-                "time": 45,
+                "time": 3,
                 "type": "Report Preparation"
               },
               "Preparation for Statutory Closing": {
-                "time": 75,
+                "time": 5,
                 "type": "Reconciliation"
               },
               "Statutory Financial Statement Reporting": {
-                "time": 45,
+                "time": 3,
                 "type": "Report Preparation"
               },
               "Financial Statement Reporting": {
-                "time": 75,
+                "time": 5,
                 "type": "Report Preparation"
               },
               "Handling external audits (interim & final)": {
-                "time": 60,
+                "time": 4,
                 "type": "Verification"
               }
             }
@@ -8616,995 +8644,299 @@ sup.ref {
       }
     }
   },
-  "ERAP": {
-    "color": "#C73E1D",
+  "CMF": {
+    "color": "#9B59B6",
     "children": {
-      "Strategy Planning": {
+      "Customer Master File": {
         "children": {
-          "Strategic Plan": {
+          "Onboarding new customers": {
             "children": {
-              "Initiate strategic plan process": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Prepare strategic plan": {
-                "time": 165,
-                "type": "Calculation"
-              },
-              "Consolidate strategic plan": {
-                "time": 60,
-                "type": "Calculation"
-              }
-            }
-          },
-          "External Developments": {
-            "children": {
-              "Determine financial impact": {
-                "time": 135,
-                "type": "Calculation"
-              },
-              "Perform benchmarking": {
-                "time": 120,
-                "type": "Follow-up"
-              }
-            }
-          }
-        }
-      },
-      "Operational Planning": {
-        "children": {
-          "Budgeting": {
-            "children": {
-              "Initiate budgeting process": {
-                "time": 45,
-                "type": "Report Preparation"
-              },
-              "Prepare budget": {
-                "time": 75,
-                "type": "Transaction"
-              },
-              "Consolidate budget": {
-                "time": 45,
-                "type": "Verification"
-              }
-            }
-          },
-          "Forecasting": {
-            "children": {
-              "Initiate forecasting process": {
-                "time": 15,
-                "type": "Transaction"
-              },
-              "Prepare forecast": {
-                "time": 75,
-                "type": "Transaction"
-              },
-              "Consolidate forecast": {
-                "time": 45,
-                "type": "Verification"
-              }
-            }
-          }
-        }
-      },
-      "Business Performance Analysis & Reporting": {
-        "children": {
-          "Business Performance Analysis": {
-            "children": {
-              "Peform industry trend analysis": {
-                "time": 75,
-                "type": "Analysis"
-              },
-              "Perform competitor analysis": {
-                "time": 90,
-                "type": "Analysis"
-              },
-              "Perform sales analysis": {
-                "time": 105,
-                "type": "Analysis"
-              },
-              "Perform profitability analysis": {
-                "time": 60,
-                "type": "Analysis"
-              },
-              "Perform operational performance analysis": {
-                "time": 150,
-                "type": "Transaction"
-              },
-              "Perform contract performance analysis": {
-                "time": 15,
-                "type": "Analysis"
-              },
-              "Perform project evaluation analysis": {
-                "time": 15,
-                "type": "Analysis"
-              },
-              "Perform capital expenditure request analysis": {
-                "time": 30,
-                "type": "Approving"
-              },
-              "Perform other performance variance analysis": {
-                "time": 45,
-                "type": "Transaction"
-              }
-            }
-          },
-          "Business Performance Reporting": {
-            "children": {
-              "Perform profit & loss reporting": {
-                "time": 135,
-                "type": "Report Preparation"
-              },
-              "Perform balance sheet reporting": {
-                "time": 165,
-                "type": "Report Preparation"
-              },
-              "Perform cash flow reporting": {
-                "time": 15,
-                "type": "Report Preparation"
-              },
-              "Perform other financial reporting": {
-                "time": 165,
-                "type": "Report Preparation"
-              },
-              "Perform non-financial reporting": {
-                "time": 45,
-                "type": "Report Preparation"
-              },
-              "Perform monthly business review reporting": {
-                "time": 15,
-                "type": "Report Preparation"
-              },
-              "Perform external performance reporting": {
-                "time": 45,
-                "type": "Report Preparation"
-              }
-            }
-          }
-        }
-      },
-      "Decision Support": {
-        "children": {
-          "Cost Analysis": {
-            "children": {
-              "Perform cost and cost variance analysis": {
-                "time": 45,
-                "type": "Analysis"
-              },
-              "Perform cost reporting": {
-                "time": 45,
-                "type": "Analysis"
-              }
-            }
-          },
-          "Project Analysis": {
-            "children": {
-              "Marketing": {
-                "time": 105,
-                "type": "Analysis"
-              },
-              "Research & Development": {
-                "time": 195,
-                "type": "Calculation"
-              },
-              "Capital Expenditure": {
-                "time": 135,
-                "type": "Calculation"
-              },
-              "Restructuring": {
-                "time": 135,
-                "type": "Calculation"
-              }
-            }
-          },
-          "Cost Pricing": {
-            "children": {
-              "Cost price modelling": {
-                "time": 15,
-                "type": "Data Entry"
-              },
-              "Cost price calculation": {
-                "time": 15,
-                "type": "Calculation"
-              }
-            }
-          },
-          "New Business & Pricing": {
-            "children": {
-              "Sales price modelling and calculation": {
-                "time": 120,
-                "type": "Transaction"
-              },
-              "Deal structuring": {
-                "time": 75,
-                "type": "Report Preparation"
-              }
-            }
-          },
-          "Mergers & Acquisitions": {
-            "children": {
-              "M&A strategy and design": {
-                "time": 75,
-                "type": "Transaction"
-              }
-            }
-          },
-          "Customer Rebates": {
-            "children": {
-              "Define Rebate Agreement": {
-                "time": 30,
-                "type": "Data Entry"
-              },
-              "Prepare Rebate payout": {
-                "time": 60,
-                "type": "Data Entry"
-              },
-              "Monitor Rebate provisions": {
-                "time": 15,
-                "type": "Data Entry"
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "Controls & Compliance": {
-    "color": "#3B1F2B",
-    "children": {
-      "Establish internal controls, policies, and procedures": {
-        "children": {
-          "Define control objectives and financial reporting risks": {
-            "children": {}
-          },
-          "Define Internal controls to mitigate financial reporting risks identified": {
-            "children": {
-              "Assess the need to change existing controls due to internal and external developments (e.g. outcome of assessment of financial reporting risks, new directives, audit issues).": {
-                "time": 20,
-                "type": "Analysis"
-              },
-              "Propose changed controls (incl. detailed guidelines) and validate": {
-                "time": 20,
-                "type": "Verification"
-              },
-              "Document and communicate (changes to) internal control standard.": {
-                "time": 20,
-                "type": "Communication"
-              }
-            }
-          }
-        }
-      },
-      "Operate controls and monitor compliance with internal controls policies and procedures": {
-        "children": {
-          "Design and implement control activities": {
-            "children": {}
-          },
-          "Allocate controls to organization within sector/function": {
-            "children": {
-              "Calculate and maintain risk based control allocation sheets": {
-                "time": 20,
-                "type": "Calculation"
-              },
-              "Allocate relevant controls to organizations in the compliance tool (for their subsequent execution and self assessment process)": {
-                "time": 20,
-                "type": "Analysis"
-              }
-            }
-          },
-          "Inclusion and Exclusion procedure of controls": {
-            "children": {
-              "Review of requests  for control inclusion/exclusion in the compliance tool": {
-                "time": 20,
-                "type": "Verification"
-              },
-              "Process inclusion or exclusion in the ICS tool": {
-                "time": 20,
-                "type": "Transaction"
-              },
-              "Communicate to requestors and controllers in case exclusions are not granted": {
-                "time": 20,
-                "type": "ERP Automated"
-              }
-            }
-          },
-          "Allocate controls to process executors and process owners": {
-            "children": {
-              "Reconcile the controls in scope based on generated controls vs previous quarter controls and RBCA allocation file. Anomalies are timely esclated and followed upon": {
-                "time": 20,
-                "type": "Calculation"
-              },
-              "Assign controls and assess if there are any changes in personnel and control scope.": {
-                "time": 20,
-                "type": "Analysis"
-              },
-              "Update site administration template in the ICS tool in case of changes": {
-                "time": 20,
-                "type": "Data Entry"
-              }
-            }
-          },
-          "Map actual process steps to detailed guidelines for ICS/SOx controls": {
-            "children": {
-              "Perform mapping of the processes and procedures to the ICS guidelines": {
-                "time": 20,
-                "type": "Transaction"
-              },
-              "Gaps identified are analysed, remediated and control procedure adjusted.": {
-                "time": 20,
-                "type": "Analysis"
-              },
-              "Update and maintain unit mapping template.": {
-                "time": 20,
-                "type": "Data Entry"
-              }
-            }
-          },
-          "Maintain detailed control description for Sox controls": {
-            "children": {
-              "Customize subset of SOx controls within entities": {
-                "time": 20,
-                "type": "Verification"
-              },
-              "Review changes in SOx controls based on changes in control allocations and mapping process": {
-                "time": 20,
-                "type": "Transaction"
-              },
-              "Align with SOx process responsible on any  changes": {
-                "time": 20,
-                "type": "Transaction"
-              },
-              "Adjust detailed control description in Sox control in ICS tool": {
-                "time": 20,
-                "type": "Verification"
-              }
-            }
-          },
-          "Quality review following significant changes in unit's control environment and/or processes": {
-            "children": {
-              "Download and track changes in DCD compared to previous quarter": {
-                "time": 20,
-                "type": "Follow-up"
-              },
-              "Define quality assurance scope and notify relevant units": {
-                "time": 20,
-                "type": "Communication"
-              },
-              "Perform QA review and agree with unit on design, documentation issues": {
-                "time": 20,
-                "type": "Documentation"
-              },
-              "Upload issues raised in ICS tool manually": {
-                "time": 20,
-                "type": "Escalation"
-              }
-            }
-          },
-          "Monitor control effectiveness": {
-            "children": {
-              "Self assessment and reporting (scoring) on controls executed": {
-                "time": 60,
-                "type": "Verification"
-              },
-              "Quarterly review by Unit Management": {
-                "time": 90,
-                "type": "Verification"
-              }
-            }
-          },
-          "Remediate control deficiencies": {
-            "children": {
-              "Support in defining and implementation of corrective actions on ineffective self assessment scores": {
-                "time": 30,
-                "type": "Documentation"
-              },
-              "Implement and document corrective actions for control issues (audits, independent testing)": {
-                "time": 15,
-                "type": "Documentation"
-              },
-              "Monitor progress and timeliness of remediation of issues": {
-                "time": 60,
-                "type": "Verification"
-              }
-            }
-          },
-          "Operate compliance function": {
-            "children": {
-              "Re-perform self assessments": {
-                "time": 30,
-                "type": "Communication"
-              },
-              "Support and/or coordinate  (external) audits": {
-                "time": 45,
-                "type": "Analysis"
-              },
-              "Define and maintain test procedures for IAS": {
-                "time": 45,
-                "type": "Communication"
-              },
-              "Prepare test plan for IAS": {
-                "time": 45,
-                "type": "Communication"
-              },
-              "Test design and operating effectiveness of Sox controls by IAS": {
-                "time": 135,
-                "type": "Documentation"
-              },
-              "Review quality ICS self assessment and review process by IAS": {
-                "time": 90,
-                "type": "Documentation"
-              },
-              "Provide support and training on SOx / ICS framework": {
-                "time": 45,
-                "type": "Transaction"
-              },
-              "Implement compliance improvement initiatives, projects and activities.": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          },
-          "Implement and maintain controls-related enabling technologies and tools": {
-            "children": {
-              "Maintain ICS tool": {
-                "time": 105,
-                "type": "Transaction"
-              },
-              "Maintain Document Management System / Knowledge Base (e.g. WIKI, SharePoint)": {
-                "time": 105,
-                "type": "Transaction"
-              },
-              "Maintain Audit Control tool": {
-                "time": 20,
-                "type": ""
-              },
-              "Maintain data analytics tool": {
-                "time": 60,
-                "type": "Transaction"
-              }
-            }
-          },
-          "Operate multi-process controls": {
-            "children": {
-              "Operate SOD and access management": {
-                "time": 165,
-                "type": "Transaction"
-              },
-              "SOD outside ERP": {
-                "time": 45,
-                "type": "Transaction"
-              },
-              "Monitor issues over internal controls escalated by service providers": {
-                "time": 30,
-                "type": "Escalation"
-              }
-            }
-          }
-        }
-      },
-      "Operate internal audit function": {
-        "children": {
-          "Operate internal audit fuction": {
-            "children": {
-              "Define and maintain test procedures for IAS": {
-                "time": 45,
-                "type": "Communication"
-              },
-              "Prepare audit plan": {
-                "time": 45,
-                "type": "Communication"
-              },
-              "Test design and operating effectiveness of Sox controls by IAS": {
-                "time": 120,
-                "type": "Documentation"
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "Business Assurance": {
-    "color": "#4A7C59",
-    "children": {
-      "Product Design": {
-        "children": {
-          "Offer & Price Governance": {
-            "children": {
-              "Catalogue Governance": {
-                "time": 30,
-                "type": "Documentation"
-              },
-              "Pricing Governance": {
-                "time": 30,
-                "type": "Approving"
-              }
-            }
-          },
-          "Contract & Policy Controls": {
-            "children": {
-              "Terms & Conditions": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "RA Design Reviews": {
-                "time": 30,
-                "type": "Escalation"
-              }
-            }
-          }
-        }
-      },
-      "Order Capture": {
-        "children": {
-          "Lead-to-Order Intake": {
-            "children": {
-              "Channel Capture": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "KYC & Credit Vetting": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          },
-          "Order Validation": {
-            "children": {
-              "Eligibility & Feasibility": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Duplication & Fraud": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          }
-        }
-      },
-      "Order Management": {
-        "children": {
-          "Orchestration": {
-            "children": {
-              "Decomposition": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "State Management": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          },
-          "Integrity Controls": {
-            "children": {
-              "Data Quality": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "SLA Monitoring": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          }
-        }
-      },
-      "Provisioning": {
-        "children": {
-          "Resource Assignment": {
-            "children": {
-              "Logical Provisioning": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Physical Provisioning": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          },
-          "Activation Readiness": {
-            "children": {
-              "Config Consistency": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Audit Trails": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          }
-        }
-      },
-      "Service Activation": {
-        "children": {
-          "Network Activation": {
-            "children": {
-              "Core Activation": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Access Activation": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          },
-          "Commercial Activation": {
-            "children": {
-              "Billing Account": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Offer Realization": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          }
-        }
-      },
-      "Usage Capture": {
-        "children": {
-          "Network Event Generation": {
-            "children": {
-              "CDR/UDR Generation": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Event Time Integrity": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          },
-          "Collection & Storage": {
-            "children": {
-              "Batch & Streaming": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Completeness Controls": {
-                "time": 30,
+              "Welcome packet kit-Onboarding": {
+                "time": 5,
                 "type": "Data Collection"
+              },
+              "Account Creation": {
+                "time": 25,
+                "type": "Data Entry"
+              },
+              "Bill To": {
+                "time": 6,
+                "type": "Decisioning"
+              },
+              "Linking Invoice to Bill to site": {
+                "time": 2,
+                "type": "Data Entry"
+              },
+              "Bill To Activation": {
+                "time": 2,
+                "type": "Communication"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "MDM": {
+    "color": "#E74C3C",
+    "children": {
+      "Part Master": {
+        "children": {
+          "Part Master": {
+            "children": {
+              "Service Item": {
+                "time": 8,
+                "type": "Verification"
+              },
+              "Item Activation": {
+                "time": 6,
+                "type": "Data Entry"
+              },
+              "5C1": {
+                "time": 6,
+                "type": "Verification"
+              },
+              "SPC - Manual": {
+                "time": 11,
+                "type": "Verification"
+              },
+              "Part Master Emails": {
+                "time": 7,
+                "type": "Verification"
+              },
+              "Part Creation": {
+                "time": 9,
+                "type": "Verification"
+              },
+              "Part Attributes": {
+                "time": 10,
+                "type": "Verification"
+              },
+              "IAQ": {
+                "time": 8,
+                "type": "Verification"
+              },
+              "Purchasing Category": {
+                "time": 9,
+                "type": "Verification"
+              },
+              "Part Rename": {
+                "time": 10,
+                "type": "Verification"
+              }
+            }
+          },
+          "Sorcing Rule": {
+            "children": {
+              "Sourcing creation": {
+                "time": 5,
+                "type": "Verification"
+              },
+              "Sourcing assignment": {
+                "time": 5,
+                "type": "Verification"
               }
             }
           }
         }
       },
-      "Mediation": {
+      "Lead Time": {
         "children": {
-          "Normalization & Enrichment": {
+          "Lead Time": {
             "children": {
-              "Parsing & Mapping": {
-                "time": 30,
-                "type": "Transaction"
+              "Lead Time Manual": {
+                "time": 10,
+                "type": "Data Entry"
               },
-              "Reference Enrichment": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          },
-          "Aggregation & Delivery": {
-            "children": {
-              "De-dup & Correlation": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Downstream Feeds": {
-                "time": 30,
-                "type": "Transaction"
+              "Lead Time Asset Refresh": {
+                "time": 6,
+                "type": "Data Entry"
               }
             }
           }
         }
       },
-      "Rating": {
+      "Price Master": {
         "children": {
-          "Charging & Discounting": {
+          "Price Master": {
             "children": {
-              "Real-time Charging": {
-                "time": 30,
-                "type": "Transaction"
+              "DBP Price Files Load": {
+                "time": 10,
+                "type": "Data Entry"
               },
-              "Offline Rating": {
-                "time": 30,
+              "SSP Price Files Load": {
+                "time": 11,
+                "type": "Data Entry"
+              },
+              "Other Price Files Loaded": {
+                "time": 10,
+                "type": "Data Entry"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Demand Creation": {
+    "color": "#3498DB",
+    "children": {
+      "Design Registrations": {
+        "children": {
+          "Registration Process": {
+            "children": {
+              "Initial Registration Review in Oracle": {
+                "time": 33,
+                "type": "Verification"
+              },
+              "Downloading and Preparing the Registration Document": {
+                "time": 29,
+                "type": "Verification"
+              },
+              "Saving to Shared Folder": {
+                "time": 12,
+                "type": "Verification"
+              },
+              "Email Submission to Supplier": {
+                "time": 23,
+                "type": "Verification"
+              },
+              "Website Submission": {
+                "time": 32,
+                "type": "Data Entry"
+              }
+            }
+          },
+          "Submitted Not Approved": {
+            "children": {
+              "SLA Monitoring and Follow-Up": {
+                "time": 28,
                 "type": "Transaction"
               }
             }
           },
-          "Integrity Controls": {
+          "Updates Management": {
             "children": {
-              "Tariff Parity": {
-                "time": 30,
+              "Critical Updates": {
+                "time": 11,
+                "type": "Data Entry"
+              },
+              "Non-Critical Updates": {
+                "time": 8,
+                "type": "Data Entry"
+              },
+              "Spreadsheet Updates": {
+                "time": 10,
                 "type": "Documentation"
-              },
-              "Reload & Rerate": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          }
-        }
-      },
-      "Billing": {
-        "children": {
-          "Bill Build": {
-            "children": {
-              "Bill Calculation": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Proration & Adjustments": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          },
-          "Bill Integrity": {
-            "children": {
-              "Bill Presentment": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "QA & Sampling": {
-                "time": 30,
-                "type": "Analysis"
-              }
-            }
-          }
-        }
-      },
-      "Invoicing": {
-        "children": {
-          "Invoice Generation": {
-            "children": {
-              "Account Invoices": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Enterprise Invoices": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          },
-          "Dispatch & Acknowledgment": {
-            "children": {
-              "Delivery": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Acknowledgment": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          }
-        }
-      },
-      "Collections": {
-        "children": {
-          "Dunning & Recovery": {
-            "children": {
-              "Strategy": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Treatment": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          },
-          "Payment Assurance": {
-            "children": {
-              "Cash Application": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Leakage Controls": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          }
-        }
-      },
-      "Credit Management": {
-        "children": {
-          "Risk Controls": {
-            "children": {
-              "Limit Management": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Usage Controls": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          },
-          "Collections Interface": {
-            "children": {
-              "Scorecards": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Dispute Link": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          }
-        }
-      },
-      "Interconnect": {
-        "children": {
-          "Partner Rating & Billing": {
-            "children": {
-              "TAP/NRTRDE/BCDRs": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Interconnect Billing": {
-                "time": 30,
-                "type": "Transaction"
               }
             }
           },
           "Reconciliation": {
             "children": {
-              "Traffic Reconcile": {
-                "time": 30,
-                "type": "Escalation"
+              "Pending for Design Win": {
+                "time": 12,
+                "type": "Communication"
               },
-              "Rate Disputes": {
-                "time": 30,
-                "type": "Calculation"
-              }
-            }
-          }
-        }
-      },
-      "Roaming": {
-        "children": {
-          "Wholesale & Retail": {
-            "children": {
-              "Wholesale Settlement": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Retail Controls": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          },
-          "Fraud & Assurance": {
-            "children": {
-              "NRTRDE Controls": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Roaming Specific RA": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          }
-        }
-      },
-      "Partner Settlement": {
-        "children": {
-          "Commission & Dealer": {
-            "children": {
-              "Commission Calc": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Dealer Reconcile": {
-                "time": 30,
-                "type": "Escalation"
-              }
-            }
-          },
-          "Content & OTT": {
-            "children": {
-              "Revenue Share": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Data Exchange": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          }
-        }
-      },
-      "Adjustments & Credits": {
-        "children": {
-          "Disputes & Waivers": {
-            "children": {
-              "Case Handling": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Approval Workflow": {
-                "time": 30,
-                "type": "Approving"
-              }
-            }
-          },
-          "Journal Processing": {
-            "children": {
-              "Credit/Debit Notes": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Rerate & Rebills": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          }
-        }
-      },
-      "Revenue Recognition": {
-        "children": {
-          "IFRS/GAAP Rules": {
-            "children": {
-              "Contract Identification": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Timing & Performance": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          },
-          "Subledger Controls": {
-            "children": {
-              "Deferred Revenue": {
-                "time": 15,
-                "type": "Transaction"
-              },
-              "Cut-over & Close": {
-                "time": 30,
-                "type": "Escalation"
-              }
-            }
-          }
-        }
-      },
-      "GL & Reporting": {
-        "children": {
-          "Accounting Interface": {
-            "children": {
-              "Subledger to GL": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Tax & Statutory": {
+              "Expiry Process": {
                 "time": 15,
                 "type": "Transaction"
               }
             }
           },
-          "RA Analytics & MI": {
+          "Quality Checks": {
             "children": {
-              "KPI & Dashboards": {
-                "time": 30,
+              "Governance & Quality Assurance": {
+                "time": 17,
+                "type": "Verification"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Order Booking": {
+    "color": "#F39C12",
+    "children": {
+      "Quotes": {
+        "children": {
+          "Creating Quotes": {
+            "children": {
+              "Quote Creation": {
+                "time": 20,
+                "type": "Decisioning"
+              }
+            }
+          }
+        }
+      },
+      "Sales Order": {
+        "children": {
+          "Creating Order": {
+            "children": {
+              "Book the Order": {
+                "time": 34,
+                "type": "Data Entry"
+              }
+            }
+          },
+          "Order Booking": {
+            "children": {
+              "Customer Backlog Management": {
+                "time": 4,
+                "type": "Report Preparation"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Supply Chain Planning": {
+    "color": "#1ABC9C",
+    "children": {
+      "Planning & Forecasting": {
+        "children": {
+          "Forecast Intake": {
+            "children": {
+              "Execution": {
+                "time": 4,
+                "type": "Data Entry"
+              }
+            }
+          },
+          "Demand Consensus": {
+            "children": {
+              "Execution": {
+                "time": 4,
+                "type": "Data Entry"
+              }
+            }
+          },
+          "Supply Planning": {
+            "children": {
+              "Execution": {
+                "time": 4,
                 "type": "Transaction"
-              },
-              "Controls Monitoring": {
-                "time": 30,
+              }
+            }
+          }
+        }
+      },
+      "Risk-Adjusted Planning": {
+        "children": {
+          "Risk Overlay": {
+            "children": {
+              "Execution": {
+                "time": 4,
+                "type": "Transaction"
+              }
+            }
+          },
+          "S&OP/IBP": {
+            "children": {
+              "Execution": {
+                "time": 4,
                 "type": "Transaction"
               }
             }
@@ -9613,535 +8945,644 @@ sup.ref {
       }
     }
   },
-  "Fraud Management": {
-    "color": "#6B4C9A",
+  "Material Planning": {
+    "color": "#795548",
     "children": {
-      "Subscription & Identity Fraud": {
+      "MRP upload": {
         "children": {
-          "KYC & Identity Verification": {
+          "MRP upload": {
             "children": {
-              "Document Authenticity": {
-                "time": 30,
-                "type": "Documentation"
-              },
-              "Biometric & Liveness": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          },
-          "Application Scoring": {
-            "children": {
-              "Fraud & Credit Score": {
-                "time": 30,
-                "type": "Calculation"
-              },
-              "Watchlist Screening": {
-                "time": 30,
-                "type": "Verification"
-              }
-            }
-          }
-        }
-      },
-      "Device Financing / Offer Abuse": {
-        "children": {
-          "Eligibility Controls": {
-            "children": {
-              "Device Finance Checks": {
-                "time": 30,
-                "type": "Verification"
-              },
-              "Promo / Coupon Abuse": {
-                "time": 30,
-                "type": "Verification"
-              }
-            }
-          },
-          "Order Hygiene": {
-            "children": {
-              "Channel Integrity": {
-                "time": 30,
-                "type": "Exception Handling"
-              },
-              "Contactability": {
-                "time": 30,
-                "type": "Communication"
-              }
-            }
-          }
-        }
-      },
-      "SIM Swap / A2T (Account Takeover)": {
-        "children": {
-          "Request Authentication": {
-            "children": {
-              "Customer AuthN": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Risk Signals": {
-                "time": 30,
-                "type": "Escalation"
-              }
-            }
-          },
-          "Execution Controls": {
-            "children": {
-              "Change Validation": {
-                "time": 30,
-                "type": "Verification"
-              },
-              "Post-change Monitoring": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          }
-        }
-      },
-      "Port-out / Entitlement Fraud": {
-        "children": {
-          "Port-out Governance": {
-            "children": {
-              "NPSC/Donor Checks": {
-                "time": 30,
-                "type": "Reconciliation"
-              },
-              "Velocity & Pattern": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          },
-          "Entitlement Changes": {
-            "children": {
-              "Feature Enablement": {
-                "time": 30,
-                "type": "Approving"
-              },
-              "Device Binding": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          }
-        }
-      },
-      "IRSF / Premium Abuse": {
-        "children": {
-          "Real-time Detection": {
-            "children": {
-              "Destination Risk": {
-                "time": 30,
-                "type": "Communication"
-              },
-              "Value & Volume": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          },
-          "Response & Blocking": {
-            "children": {
-              "Actioning": {
-                "time": 30,
-                "type": "Communication"
-              },
-              "Aftercare": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          }
-        }
-      },
-      "Roaming & PBX Hacking": {
-        "children": {
-          "Roaming Controls": {
-            "children": {
-              "NRTRDE/TAP Analytics": {
-                "time": 30,
-                "type": "Analysis"
-              },
-              "Roamer Spend": {
-                "time": 30,
-                "type": "Verification"
-              }
-            }
-          },
-          "Enterprise PBX": {
-            "children": {
-              "SIP/Call Pattern": {
-                "time": 30,
-                "type": "Communication"
-              },
-              "Access Security": {
-                "time": 30,
-                "type": "Data Entry"
-              }
-            }
-          }
-        }
-      },
-      "Adjustments & Credits Abuse": {
-        "children": {
-          "Case Vetting": {
-            "children": {
-              "Requester Pattern": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Document Evidence": {
-                "time": 30,
-                "type": "Documentation"
-              }
-            }
-          },
-          "Posting Controls": {
-            "children": {
-              "Approval Workflow": {
-                "time": 30,
-                "type": "Approving"
-              },
-              "Audit Trail": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          }
-        }
-      },
-      "DCB / Content Fraud": {
-        "children": {
-          "Subscription Integrity": {
-            "children": {
-              "Opt-in Proof": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Renewal Hygiene": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          },
-          "Billing Assurance (Fraud Angle)": {
-            "children": {
-              "Charge Validation": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Partner Monitoring": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          }
-        }
-      },
-      "Card / Wallet Fraud": {
-        "children": {
-          "Pre-Auth Screening": {
-            "children": {
-              "Device Fingerprint": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Velocity & Geo": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          },
-          "Post-Auth Monitoring": {
-            "children": {
-              "Chargeback Analytics": {
-                "time": 30,
-                "type": "Analysis"
-              },
-              "Refund Abuse": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          }
-        }
-      },
-      "Voucher / Top-up Fraud": {
-        "children": {
-          "Issuance Controls": {
-            "children": {
-              "Batch Integrity": {
-                "time": 30,
-                "type": "Calculation"
-              },
-              "Channel Hygiene": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          },
-          "Redemption Analytics": {
-            "children": {
-              "Usage Pattern": {
-                "time": 30,
-                "type": "Analysis"
-              },
-              "Link Analysis": {
-                "time": 30,
-                "type": "Analysis"
-              }
-            }
-          }
-        }
-      },
-      "SIM Box / Bypass": {
-        "children": {
-          "Detection": {
-            "children": {
-              "Test Call Generation (TCG)": {
-                "time": 30,
-                "type": "Communication"
-              },
-              "Network Analytics": {
-                "time": 30,
-                "type": "Analysis"
-              }
-            }
-          },
-          "Mitigation": {
-            "children": {
-              "Blocking & Enforcement": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Partner Engagement": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          }
-        }
-      },
-      "CLI Spoofing / Arbitrage": {
-        "children": {
-          "Signalling Checks": {
-            "children": {
-              "SIP/ISUP Integrity": {
-                "time": 30,
-                "type": "Exception Handling"
-              },
-              "TDM/IP Gateway": {
-                "time": 30,
-                "type": "Verification"
-              }
-            }
-          },
-          "Forensics": {
-            "children": {
-              "CDR/Trace Correlation": {
-                "time": 30,
+              "Forecast Receipt": {
+                "time": 1,
                 "type": "Data Collection"
               },
-              "Partner Settlement Link": {
-                "time": 30,
-                "type": "Negotiation"
+              "Forecast file preparation": {
+                "time": 1,
+                "type": "Transaction"
+              },
+              "Forecast validation": {
+                "time": 1,
+                "type": "Transaction"
+              },
+              "Customer selection": {
+                "time": 1,
+                "type": "Decisioning"
+              },
+              "Exception files validation": {
+                "time": 1,
+                "type": "Data Entry"
+              },
+              "Upload confirmation": {
+                "time": 1,
+                "type": "Verification"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Sourcing & Procurement": {
+    "color": "#607D8B",
+    "children": {
+      "Supplier Strategy": {
+        "children": {
+          "Preferred Source Setup": {
+            "children": {
+              "Execution": {
+                "time": 4,
+                "type": "Transaction"
               }
             }
           }
         }
       },
-      "Device Insurance / Warranty": {
+      "PO Management": {
         "children": {
-          "Intake Verification": {
+          "PO Creation": {
             "children": {
-              "Document/Photo Forensics": {
-                "time": 30,
-                "type": "Documentation"
-              },
-              "Eligibility Review": {
-                "time": 30,
+              "Execution": {
+                "time": 4,
+                "type": "Transaction"
+              }
+            }
+          },
+          "PO Acknowledgment": {
+            "children": {
+              "Execution": {
+                "time": 4,
+                "type": "Data Collection"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "PO Management": {
+    "color": "#00BCD4",
+    "children": {
+      "Purchase Planning": {
+        "children": {
+          "Demand Review": {
+            "children": {
+              "Buy Requirement Identification": {
+                "time": 5,
                 "type": "Verification"
               }
             }
           },
-          "Payout Controls": {
+          "Buy Strategy Finalization": {
             "children": {
-              "Settlement Integrity": {
-                "time": 30,
-                "type": "Negotiation"
-              },
-              "Recovery & Salvage": {
-                "time": 30,
+              "Procurement Planning": {
+                "time": 5,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      },
+      "Purchase Order Management": {
+        "children": {
+          "PO Creation": {
+            "children": {
+              "Purchase Order Processing": {
+                "time": 5,
+                "type": "Verification"
+              }
+            }
+          },
+          "PO Acknowledgment": {
+            "children": {
+              "Supplier Confirmation": {
+                "time": 5,
                 "type": "Verification"
               }
             }
           }
         }
       },
-      "Rebate / Cashback Abuse": {
+      "Expediting": {
         "children": {
-          "Submission Checks": {
+          "Order Tracking": {
             "children": {
-              "Proof of Purchase": {
-                "time": 30,
+              "Delivery Monitoring": {
+                "time": 5,
                 "type": "Follow-up"
-              },
-              "Identity Linking": {
-                "time": 30,
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Pull-In / Push-Out": {
+    "color": "#FF5722",
+    "children": {
+      "Request Initiation": {
+        "children": {
+          "Request Earlier Delivery": {
+            "children": {
+              "Check Availability & Supply": {
+                "time": 1,
+                "type": "Transaction"
+              }
+            }
+          },
+          "Request Later Delivery": {
+            "children": {
+              "Check Stock & Warehouse": {
+                "time": 1,
+                "type": "Transaction"
+              }
+            }
+          }
+        }
+      },
+      "Confirmation": {
+        "children": {
+          "Confirm Acceptance": {
+            "children": {
+              "ERP Updated": {
+                "time": 1,
+                "type": "Communication"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Inventory Management": {
+    "color": "#673AB7",
+    "children": {
+      "Inventory Optimization": {
+        "children": {
+          "Replenishment": {
+            "children": {
+              "Order Release": {
+                "time": 4,
+                "type": "Verification"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Logistics & Fulfillment": {
+    "color": "#009688",
+    "children": {
+      "Outbound Logistics": {
+        "children": {
+          "International Shipping": {
+            "children": {
+              "Customs Clearance": {
+                "time": 4,
+                "type": "Verification"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "PO Recon": {
+    "color": "#2196F3",
+    "children": {
+      "Backlog": {
+        "children": {
+          "Request backlog": {
+            "children": {
+              "Request backlog data from supplier": {
+                "time": 12,
                 "type": "Documentation"
               }
             }
           },
-          "Disbursement Controls": {
+          "Formatting of backlog": {
             "children": {
-              "Instrument Hygiene": {
-                "time": 30,
-                "type": "Verification"
-              },
-              "Post-payout Analytics": {
-                "time": 30,
-                "type": "Analysis"
-              }
-            }
-          }
-        }
-      },
-      "Call Centre Social Engineering": {
-        "children": {
-          "Authentication": {
-            "children": {
-              "Caller Verification": {
-                "time": 30,
-                "type": "Communication"
-              },
-              "Risk-Based Controls": {
-                "time": 30,
-                "type": "Communication"
+              "Format backlog file as per template": {
+                "time": 12,
+                "type": "Transaction"
               }
             }
           },
-          "Change Controls": {
+          "Uploading backlog": {
             "children": {
-              "Sensitive Changes": {
-                "time": 30,
-                "type": "Communication"
-              },
-              "Monitoring": {
-                "time": 30,
-                "type": "Communication"
+              "Upload formatted backlog  into Oracle": {
+                "time": 8,
+                "type": "Exception Handling"
               }
             }
           }
         }
       },
-      "Digital Care Takeover": {
+      "Exception Management": {
         "children": {
-          "Online Channel": {
+          "Export exception from oracle": {
             "children": {
-              "Session Hygiene": {
-                "time": 30,
-                "type": "Transaction"
+              "Extract the exception from Oracle": {
+                "time": 1,
+                "type": "Exception Handling"
               },
-              "Profile Changes": {
-                "time": 30,
+              "Review the exception count": {
+                "time": 1,
+                "type": "Exception Handling"
+              }
+            }
+          },
+          "Price Exception": {
+            "children": {
+              "Identify price mismatch": {
+                "time": 7,
+                "type": "Exception Handling"
+              }
+            }
+          },
+          "Part Exception": {
+            "children": {
+              "Identify invalid part numbers": {
+                "time": 4,
+                "type": "Verification"
+              }
+            }
+          },
+          "Quantity Exception": {
+            "children": {
+              "Identify quantity mismatch": {
+                "time": 5,
+                "type": "Transaction"
+              }
+            }
+          },
+          "NBD Exception": {
+            "children": {
+              "Identify NBD issues": {
+                "time": 4,
+                "type": "Data Entry"
+              }
+            }
+          },
+          "Arrow Only Exception": {
+            "children": {
+              "Identify Arrow-only discrepancies": {
+                "time": 4,
+                "type": "Verification"
+              }
+            }
+          },
+          "Supplier Only Exception": {
+            "children": {
+              "Identify supplier-specific mismatches": {
+                "time": 3,
+                "type": "Data Collection"
+              }
+            }
+          }
+        }
+      },
+      "Exception Communication": {
+        "children": {
+          "Sending exception to Buyer": {
+            "children": {
+              "Share exception file with buyer": {
+                "time": 1,
+                "type": "Exception Handling"
+              }
+            }
+          },
+          "Buyer feedback": {
+            "children": {
+              "Review buyer response": {
+                "time": 5,
+                "type": "Approving"
+              }
+            }
+          }
+        }
+      },
+      "Corrections": {
+        "children": {
+          "System changes": {
+            "children": {
+              "Correct data in system": {
+                "time": 8,
+                "type": "Verification"
+              }
+            }
+          }
+        }
+      },
+      "Shiplog": {
+        "children": {
+          "Request Shiplog": {
+            "children": {
+              "Request Shiplog": {
+                "time": 11,
+                "type": "Verification"
+              }
+            }
+          },
+          "Uploading Shiplog": {
+            "children": {
+              "Upload formatted Shiplog  into Oracle": {
+                "time": 1,
+                "type": "Verification"
+              },
+              "Upload formatted backlog  into Oracle": {
+                "time": 7,
+                "type": "Exception Handling"
+              }
+            }
+          }
+        }
+      },
+      "Manual PO confirmation": {
+        "children": {
+          "Receive manual confirmation to shared email Box": {
+            "children": {
+              "Receive manual confirmation to shared email Box": {
+                "time": 1,
+                "type": "Verification"
+              },
+              "Review whether confirmation is received for open ord...": {
+                "time": 1,
+                "type": "Verification"
+              },
+              "Manual confirmation received for Open order": {
+                "time": 5,
+                "type": "Verification"
+              },
+              "Manual confirmation received for ASN": {
+                "time": 7,
+                "type": "Data Entry"
+              }
+            }
+          }
+        }
+      },
+      "Overdue PO": {
+        "children": {
+          "Extract the overdue POs from oracle": {
+            "children": {
+              "Extract the overdue POs from oracle": {
+                "time": 2,
+                "type": "Follow-up"
+              }
+            }
+          },
+          "Compare the overdue POs with supplier backlog and shiplog": {
+            "children": {
+              "Compare the overdue POs with supplier backlog and sh...": {
+                "time": 1,
+                "type": "Verification"
+              },
+              "PO confirmation date is available in backlog": {
+                "time": 5,
+                "type": "Verification"
+              },
+              "PO confirmation date is available in Shiplog": {
+                "time": 4,
+                "type": "Data Entry"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Stock Rotation": {
+    "color": "#FF9800",
+    "children": {
+      "Returns/Scrap Rotations": {
+        "children": {
+          "Allowance": {
+            "children": {
+              "Request allowance with supplier": {
+                "time": 36,
+                "type": "Verification"
+              },
+              "Allowance Amount Received from Supplier": {
+                "time": 21,
                 "type": "Approving"
               }
             }
           },
-          "Chatbot/WhatsApp": {
+          "Asset Report": {
             "children": {
-              "Abuse Detection": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Containment": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          }
-        }
-      },
-      "Dealer / Distributor Fraud": {
-        "children": {
-          "Sales Integrity": {
-            "children": {
-              "Activation Hygiene": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Inventory Controls": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          },
-          "Commission Assurance (Fraud Angle)": {
-            "children": {
-              "Commission Validation": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Outlet Monitoring": {
-                "time": 30,
-                "type": "Transaction"
-              }
-            }
-          }
-        }
-      },
-      "Field Ops / Home Delivery": {
-        "children": {
-          "KYC at Doorstep": {
-            "children": {
-              "Agent App Controls": {
-                "time": 30,
+              "Part Selection": {
+                "time": 20,
                 "type": "Verification"
               },
-              "Visit Integrity": {
-                "time": 30,
+              "Review Template and Make Corrections": {
+                "time": 23,
+                "type": "Verification"
+              }
+            }
+          },
+          "Supplier Report": {
+            "children": {
+              "Create RMA List Based on Supplier T&C": {
+                "time": 19,
+                "type": "Verification"
+              },
+              "Monitor Supplier Review and Feedback": {
+                "time": 14,
+                "type": "Approving"
+              },
+              "RMA Received from Supplier": {
+                "time": 10,
+                "type": "Verification"
+              }
+            }
+          },
+          "Shipment": {
+            "children": {
+              "Create MO in the system": {
+                "time": 15,
+                "type": "Data Entry"
+              },
+              "Verify MO Data": {
+                "time": 12,
+                "type": "Verification"
+              },
+              "DSA Program": {
+                "time": 4,
+                "type": "Data Entry"
+              },
+              "Submit MO for Processing": {
+                "time": 8,
+                "type": "Approving"
+              },
+              "Provide Shipping Instructions to Warehouse": {
+                "time": 14,
                 "type": "Transaction"
               }
             }
           },
-          "Device / CPE Handover": {
+          "Reporting": {
             "children": {
-              "Asset Linkage": {
-                "time": 30,
-                "type": "Data Entry"
-              },
-              "Post-install Check": {
-                "time": 30,
-                "type": "Transaction"
+              "Send Shipment Summary to Asset Team and Supplier": {
+                "time": 25,
+                "type": "Verification"
               }
             }
           }
         }
       },
-      "Fraud Containment & Recovery": {
+      "Adhoc Returns/Scraps": {
         "children": {
-          "Final Actions": {
+          "Request Received": {
             "children": {
-              "Blocking": {
-                "time": 30,
-                "type": "Transaction"
-              },
-              "Collections Link": {
-                "time": 30,
-                "type": "Data Collection"
+              "Request Receipt from Asset Team": {
+                "time": 10,
+                "type": "Verification"
               }
             }
           },
-          "Knowledge Feedback": {
+          "Report Validation": {
             "children": {
-              "Model & Rule Update": {
-                "time": 30,
+              "Initial Review of Excel File": {
+                "time": 15,
+                "type": "Verification"
+              },
+              "Data Validation in System (ERP Check)": {
+                "time": 15,
+                "type": "Verification"
+              },
+              "Clarification Loop (If Details Missing)": {
+                "time": 13,
+                "type": "Verification"
+              }
+            }
+          },
+          "Shipment": {
+            "children": {
+              "Move Order (MO) Creation": {
+                "time": 17,
                 "type": "Data Entry"
               },
-              "Customer Hygiene": {
-                "time": 30,
+              "MO Verification & Submission": {
+                "time": 10,
+                "type": "Approving"
+              },
+              "Warehouse Coordination": {
+                "time": 9,
+                "type": "Transaction"
+              },
+              "Return shipment or Scrap Execution": {
+                "time": 10,
+                "type": "Verification"
+              }
+            }
+          },
+          "Reporting": {
+            "children": {
+              "Financial Follow-Up": {
+                "time": 6,
+                "type": "Verification"
+              },
+              "Case Closure": {
+                "time": 8,
+                "type": "Verification"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "Risk & Resiliency": {
+    "color": "#C0392B",
+    "children": {
+      "Risk Management": {
+        "children": {
+          "BOM Risk Mapping": {
+            "children": {
+              "Mitigation Plan": {
+                "time": 4,
+                "type": "Verification"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "AWSC Intercompany": {
+    "color": "#16A085",
+    "children": {
+      "Quote": {
+        "children": {
+          "Quote request": {
+            "children": {
+              "Receive the quote request from the receiving region": {
+                "time": 13,
+                "type": "Verification"
+              }
+            }
+          }
+        }
+      },
+      "Purchasing": {
+        "children": {
+          "Purchase order creation": {
+            "children": {
+              "Receive quote request and create PO": {
+                "time": 18,
+                "type": "Approving"
+              }
+            }
+          }
+        }
+      },
+      "Sales": {
+        "children": {
+          "Order Booking": {
+            "children": {
+              "Receive the purchase order from the region​": {
+                "time": 22,
+                "type": "Verification"
+              }
+            }
+          }
+        }
+      },
+      "Order Queries": {
+        "children": {
+          "SO and PO Queries": {
+            "children": {
+              "Receive Sale order  Queries request": {
+                "time": 12,
+                "type": "Transaction"
+              },
+              "Response to SO Queries request": {
+                "time": 1,
+                "type": "Data Entry"
+              },
+              "Receive PO Queries Request": {
+                "time": 12,
+                "type": "Transaction"
+              },
+              "Response to PO Queries": {
+                "time": 1,
+                "type": "Data Entry"
+              }
+            }
+          }
+        }
+      },
+      "Quality issue": {
+        "children": {
+          "Quality issue": {
+            "children": {
+              "Quality issue received from other region": {
+                "time": 10,
+                "type": "Data Collection"
+              },
+              "Raise a QI in ETQ": {
+                "time": 10,
                 "type": "Transaction"
               }
             }
@@ -10153,270 +9594,279 @@ sup.ref {
 };
 
     const activityTypes = {
-            "Analysis": { color: "#9b59b6", complexity: "High", order: 1, aiImprovement: 0.30 },
-            "Investigation": { color: "#e74c3c", complexity: "High", order: 2, aiImprovement: 0.35 },
-            "Negotiation": { color: "#795548", complexity: "High", order: 3, aiImprovement: 0.10 },
-            "Exception Handling": { color: "#c0392b", complexity: "High", order: 4, aiImprovement: 0.25 },
-            "Decisioning": { color: "#673ab7", complexity: "High", order: 5, aiImprovement: 0.20 },
-            "Reconciliation": { color: "#f39c12", complexity: "High", order: 6, aiImprovement: 0.50 },
-            "Verification": { color: "#1abc9c", complexity: "Medium", order: 7, aiImprovement: 0.40 },
-            "Approving": { color: "#27ae60", complexity: "Medium", order: 8, aiImprovement: 0.15 },
-            "Report Preparation": { color: "#16a085", complexity: "Medium", order: 9, aiImprovement: 0.60 },
-            "Calculation": { color: "#2c3e50", complexity: "Medium", order: 10, aiImprovement: 0.70 },
-            "Follow-up": { color: "#ff9800", complexity: "Medium", order: 11, aiImprovement: 0.45 },
-            "Data Entry": { color: "#3498db", complexity: "Low", order: 12, aiImprovement: 0.65 },
-            "Data Collection": { color: "#00bcd4", complexity: "Low", order: 13, aiImprovement: 0.55 },
-            "Documentation": { color: "#607d8b", complexity: "Low", order: 14, aiImprovement: 0.60 },
-            "Communication": { color: "#e91e63", complexity: "Low", order: 15, aiImprovement: 0.40 },
-            "Transaction": { color: "#e67e22", complexity: "Low", order: 16, aiImprovement: 0.50 },
-            "Escalation": { color: "#ff5722", complexity: "Low", order: 17, aiImprovement: 0.35 }
-        };
+        "Analysis":           { color: "#9b59b6", complexity: "High",   order: 1,  aiImprovement: 0.30 },
+        "Investigation":      { color: "#e74c3c", complexity: "High",   order: 2,  aiImprovement: 0.35 },
+        "Negotiation":        { color: "#795548", complexity: "High",   order: 3,  aiImprovement: 0.10 },
+        "Exception Handling": { color: "#c0392b", complexity: "High",   order: 4,  aiImprovement: 0.25 },
+        "Decisioning":        { color: "#673ab7", complexity: "High",   order: 5,  aiImprovement: 0.20 },
+        "Reconciliation":     { color: "#f39c12", complexity: "High",   order: 6,  aiImprovement: 0.50 },
+        "Verification":       { color: "#1abc9c", complexity: "Medium", order: 7,  aiImprovement: 0.40 },
+        "Approving":          { color: "#27ae60", complexity: "Medium", order: 8,  aiImprovement: 0.15 },
+        "Report Preparation": { color: "#16a085", complexity: "Medium", order: 9,  aiImprovement: 0.60 },
+        "Calculation":        { color: "#2c3e50", complexity: "Medium", order: 10, aiImprovement: 0.70 },
+        "Follow-up":          { color: "#ff9800", complexity: "Medium", order: 11, aiImprovement: 0.45 },
+        "Data Entry":         { color: "#3498db", complexity: "Low",    order: 12, aiImprovement: 0.65 },
+        "Data Collection":    { color: "#00bcd4", complexity: "Low",    order: 13, aiImprovement: 0.55 },
+        "Documentation":      { color: "#607d8b", complexity: "Low",    order: 14, aiImprovement: 0.60 },
+        "Communication":      { color: "#e91e63", complexity: "Low",    order: 15, aiImprovement: 0.40 },
+        "Transaction":        { color: "#e67e22", complexity: "Low",    order: 16, aiImprovement: 0.50 },
+        "Escalation":         { color: "#ff5722", complexity: "Low",    order: 17, aiImprovement: 0.35 }
+    };
 
+    const hoursPerFTE = 0.5464;
     let activeFilter = 'all';
     const SVG_NS = 'http://www.w3.org/2000/svg';
 
-    // ── Helper: recursive time sum ──
+    /* ── recursive time sum ── */
     function getNodeTime(node) {
-        if (node.time) return node.time;
+        if (node.time != null) return node.time;
         if (!node.children) return 0;
-        let total = 0;
-        for (const child of Object.values(node.children)) {
-            total += getNodeTime(child);
-        }
-        return total;
+        var t = 0;
+        for (var k in node.children) t += getNodeTime(node.children[k]);
+        return t;
     }
 
-    // ── Filter buttons ──
-    const ctrlDiv = document.getElementById('bpm-sankey-controls');
-    const domainColors = {};
-    for (const [name, obj] of Object.entries(taxonomyData)) {
-        domainColors[name] = obj.color;
-        const btn = document.createElement('button');
+    /* ── Filter buttons ── */
+    var ctrlDiv = document.getElementById('bpm-sankey-controls');
+    var domainColors = {};
+    for (var nm in taxonomyData) {
+        var obj = taxonomyData[nm];
+        domainColors[nm] = obj.color;
+        var btn = document.createElement('button');
         btn.className = 'bpm-sankey-btn';
-        btn.dataset.domain = name;
-        btn.textContent = name;
-        btn.style.cssText = 'font-size:10px;padding:4px 10px;border-radius:9999px;border:1px solid ' + obj.color + ';background:transparent;color:' + obj.color + ';cursor:pointer;font-weight:600;transition:all 0.2s;';
-        btn.addEventListener('mouseenter', () => { btn.style.background = obj.color; btn.style.color = '#fff'; });
-        btn.addEventListener('mouseleave', () => {
-            if (!btn.classList.contains('active')) { btn.style.background = 'transparent'; btn.style.color = obj.color; }
-        });
+        btn.dataset.domain = nm;
+        btn.textContent = nm;
+        btn.style.cssText = 'font-size:9px;padding:3px 8px;border-radius:9999px;border:1px solid ' + obj.color + ';background:transparent;color:' + obj.color + ';cursor:pointer;font-weight:600;transition:all 0.2s;';
+        btn.addEventListener('mouseenter', (function(c){ return function(){ this.style.background=c; this.style.color='#fff'; }; })(obj.color));
+        btn.addEventListener('mouseleave', (function(c){ return function(){
+            if (!this.classList.contains('active')) { this.style.background='transparent'; this.style.color=c; }
+        }; })(obj.color));
         ctrlDiv.appendChild(btn);
     }
-
-    ctrlDiv.addEventListener('click', e => {
-        const btn = e.target.closest('.bpm-sankey-btn');
+    ctrlDiv.addEventListener('click', function(e) {
+        var btn = e.target.closest('.bpm-sankey-btn');
         if (!btn) return;
-        ctrlDiv.querySelectorAll('.bpm-sankey-btn').forEach(b => {
+        ctrlDiv.querySelectorAll('.bpm-sankey-btn').forEach(function(b) {
             b.classList.remove('active');
             b.style.background = 'transparent';
-            const dc = domainColors[b.dataset.domain];
+            var dc = domainColors[b.dataset.domain];
             b.style.color = b.dataset.domain === 'all' ? 'var(--brand-20)' : (dc || '#666');
         });
         btn.classList.add('active');
         activeFilter = btn.dataset.domain;
-        if (activeFilter === 'all') {
-            btn.style.background = 'var(--brand-20)'; btn.style.color = '#fff';
-        } else {
-            const c = domainColors[activeFilter];
-            if (c) { btn.style.background = c; btn.style.color = '#fff'; }
-        }
+        if (activeFilter === 'all') { btn.style.background='var(--brand-20)'; btn.style.color='#fff'; }
+        else { var c=domainColors[activeFilter]; if(c){ btn.style.background=c; btn.style.color='#fff'; } }
         drawSankey();
     });
 
-    // ── Tooltip ──
-    const tooltip = document.getElementById('bpm-sankey-tooltip');
+    /* ── Tooltip ── */
+    var tooltip = document.getElementById('bpm-sankey-tooltip');
     function showTip(e, html) {
         tooltip.innerHTML = html;
         tooltip.style.display = 'block';
         tooltip.style.left = Math.min(e.clientX + 14, window.innerWidth - 360) + 'px';
-        tooltip.style.top = Math.min(e.clientY - 30, window.innerHeight - 100) + 'px';
+        tooltip.style.top  = Math.min(e.clientY - 30, window.innerHeight - 100) + 'px';
     }
     function hideTip() { tooltip.style.display = 'none'; }
 
-    // ════════════════════════════════════════════════════════════
-    //  drawSankey — Full 5-column + AL0-AL4
-    // ════════════════════════════════════════════════════════════
+    /* ════════════════════════════════════════════════════════════
+       drawSankey — 5-column + AL0-AL4
+       ════════════════════════════════════════════════════════════ */
     function drawSankey() {
-        const container = document.getElementById('bpm-sankey-chart');
-        const rect = container.getBoundingClientRect();
-        const width = Math.max(rect.width || 900, 900);
-        const height = Math.max(rect.height || 700, 600);
-        const padding = { top: 35, right: 20, bottom: 20, left: 20 };
-        const innerWidth = width - padding.left - padding.right;
-        const innerHeight = height - padding.top - padding.bottom;
+        var _nid = 0;
+        function nid() { return 'n' + (_nid++); }
 
-        const nodesByDepth = {};
-        const allNodes = [];
-        const links = [];
-        const activityDetails = [];
-        const activityTypeAggregates = {};
+        var container = document.getElementById('bpm-sankey-chart');
+        var rect = container.getBoundingClientRect();
+        var width  = Math.max(rect.width  || 1100, 1100);
+        var height = Math.max(rect.height || 1200, 900);
+        var padding = { top: 35, right: 20, bottom: 20, left: 20 };
+        var innerWidth  = width  - padding.left - padding.right;
+        var innerHeight = height - padding.top  - padding.bottom;
 
-        function collectActivities(l3Children, l1Name, l2Name, l3Name, domainColor) {
-            for (const [activityName, activityData] of Object.entries(l3Children)) {
-                const actType = activityData.type || 'Transaction';
-                const time = activityData.time || 20;
+        var nodesByDepth = {};
+        var allNodes = [];
+        var links    = [];
+        var activityDetails = [];
+        var activityTypeAgg = {};
+
+        /* collect L4 leaf activities */
+        function collectActivities(l3Children, l3NodeId, l3Name, domainColor, l3Path) {
+            for (var actName in l3Children) {
+                var ad = l3Children[actName];
+                var actType = ad.type || 'Transaction';
+                var time    = ad.time || 1;
+                var actId   = nid();
                 activityDetails.push({
-                    name: activityName, type: actType, time: time,
-                    l3Name: l3Name, domainColor: domainColor,
-                    path: l1Name + ' > ' + l2Name + ' > ' + l3Name + ' > ' + activityName
+                    id: actId, name: actName, type: actType, time: time,
+                    l3NodeId: l3NodeId, l3Name: l3Name, domainColor: domainColor,
+                    path: l3Path + ' \u203a ' + actName
                 });
-                if (!activityTypeAggregates[actType]) activityTypeAggregates[actType] = 0;
-                activityTypeAggregates[actType] += time;
+                if (!activityTypeAgg[actType]) activityTypeAgg[actType] = 0;
+                activityTypeAgg[actType] += time;
             }
         }
 
-        function traverse(obj, parent, depth, domain, parentPath) {
+        /* traverse L1 → L2 → L3 */
+        function traverse(obj, parentId, depth, domain, parentPath) {
             if (depth > 3) return;
             if (!nodesByDepth[depth]) nodesByDepth[depth] = [];
-            for (const [name, node] of Object.entries(obj)) {
+            for (var name in obj) {
+                var node = obj[name];
                 if (depth === 1 && activeFilter !== 'all' && name !== activeFilter) continue;
-                const color = depth === 1 ? node.color : domain;
-                const time = getNodeTime(node);
-                const path = parentPath ? parentPath + ' > ' + name : name;
-                const n = { id: depth + '-' + name, name: name, depth: depth, color: color, time: time, path: path };
+                var color = depth === 1 ? node.color : domain;
+                var time  = getNodeTime(node);
+                if (time === 0) continue;
+                var path  = parentPath ? parentPath + ' \u203a ' + name : name;
+                var nodeId = nid();
+                var n = { id: nodeId, name: name, depth: depth, color: color, time: time, path: path };
                 nodesByDepth[depth].push(n);
                 allNodes.push(n);
-                if (parent) {
-                    links.push({ source: (depth-1) + '-' + parent, target: n.id, value: time, color: color });
-                }
-                if (node.children && depth < 3) {
-                    traverse(node.children, name, depth + 1, color, path);
-                }
-                if (depth === 3 && node.children) {
-                    const pp = path.split(' > ');
-                    collectActivities(node.children, pp[0], pp[1], name, color);
-                }
+                if (parentId) links.push({ source: parentId, target: nodeId, value: time, color: color });
+                if (node.children && depth < 3) traverse(node.children, nodeId, depth + 1, color, path);
+                if (depth === 3 && node.children) collectActivities(node.children, nodeId, name, color, path);
             }
         }
-
         traverse(taxonomyData, null, 1, null, '');
 
-        // Build L4 nodes (individual activities)
+        /* Build L4 (activity) nodes */
         nodesByDepth[4] = [];
-        for (const activity of activityDetails) {
-            const nodeId = '4-' + activity.l3Name + '-' + activity.name;
-            const typeColor = (activityTypes[activity.type] || {}).color || activity.domainColor;
-            const n = {
-                id: nodeId, name: activity.name, depth: 4,
-                color: typeColor, time: activity.time, path: activity.path,
-                activityType: activity.type
-            };
-            nodesByDepth[4].push(n);
-            allNodes.push(n);
-            links.push({ source: '3-' + activity.l3Name, target: nodeId, value: activity.time, color: typeColor });
+        for (var i = 0; i < activityDetails.length; i++) {
+            var a = activityDetails[i];
+            var tColor = (activityTypes[a.type] || {}).color || a.domainColor;
+            var n4 = { id: a.id, name: a.name, depth: 4, color: tColor, time: a.time, path: a.path, activityType: a.type };
+            nodesByDepth[4].push(n4);
+            allNodes.push(n4);
+            links.push({ source: a.l3NodeId, target: a.id, value: a.time, color: tColor });
         }
 
-        // Build L5 nodes (Agentification classification)
+        /* Build L5 (human activity type classification) nodes */
         nodesByDepth[5] = [];
-        const sortedTypes = Object.entries(activityTypeAggregates)
-            .map(function(e) {
-                return {
-                    typeName: e[0], totalTime: e[1],
-                    order: (activityTypes[e[0]] || {}).order || 999,
-                    complexity: (activityTypes[e[0]] || {}).complexity || 'Unknown'
-                };
-            })
-            .sort(function(a, b) { return a.order - b.order; });
-
-        for (const st of sortedTypes) {
-            const typeColor = (activityTypes[st.typeName] || {}).color || '#888';
-            const n = {
-                id: '5-' + st.typeName, name: st.typeName, depth: 5,
-                color: typeColor, time: st.totalTime,
-                path: 'Activity Type: ' + st.typeName + ' (' + st.complexity + ' Complexity)'
-            };
-            nodesByDepth[5].push(n);
-            allNodes.push(n);
-        }
-
-        // Links L4 → L5
-        for (const activity of activityDetails) {
-            const typeColor = (activityTypes[activity.type] || {}).color || '#888';
-            links.push({
-                source: '4-' + activity.l3Name + '-' + activity.name,
-                target: '5-' + activity.type,
-                value: activity.time, color: typeColor
+        var sortedTypes = [];
+        for (var tName in activityTypeAgg) {
+            sortedTypes.push({
+                typeName: tName, totalTime: activityTypeAgg[tName],
+                order: (activityTypes[tName] || {}).order || 999,
+                complexity: (activityTypes[tName] || {}).complexity || 'Unknown'
             });
         }
+        sortedTypes.sort(function(a, b) { return a.order - b.order; });
+        for (var si = 0; si < sortedTypes.length; si++) {
+            var st = sortedTypes[si];
+            var tc = (activityTypes[st.typeName] || {}).color || '#888';
+            var n5 = { id: '5-' + st.typeName, name: st.typeName, depth: 5, color: tc, time: st.totalTime,
+                        path: 'Activity Type: ' + st.typeName + ' (' + st.complexity + ' Complexity)' };
+            nodesByDepth[5].push(n5);
+            allNodes.push(n5);
+        }
 
-        const maxDepth = Math.max.apply(null, Object.keys(nodesByDepth).map(Number));
-        const colWidth = 65;
-        const colGap = 5;
-        const totalColumnsWidth = (colWidth * 3) + (colGap * 2) + 20;
-        const columnWidth = (innerWidth - totalColumnsWidth) / (maxDepth + 0.3);
+        /* Links L4 → L5 */
+        for (var ai = 0; ai < activityDetails.length; ai++) {
+            var act = activityDetails[ai];
+            var tc2 = (activityTypes[act.type] || {}).color || '#888';
+            links.push({ source: act.id, target: '5-' + act.type, value: act.time, color: tc2 });
+        }
 
-        // Y positions — proportional within fixed container
-        for (let d = 1; d <= maxDepth; d++) {
-            const nodes = nodesByDepth[d] || [];
-            const totalTime = nodes.reduce(function(s, n) { return s + n.time; }, 0);
-            const nodeGap = 4;
-            const totalGaps = (nodes.length - 1) * nodeGap;
-            const availableHeight = innerHeight - totalGaps - 10;
-            let y = padding.top;
-            for (const node of nodes) {
-                const h = (node.time / totalTime) * availableHeight;
-                node.x = padding.left + (d - 1) * columnWidth;
-                node.y = y;
-                node.height = Math.max(h, 2);
-                node.width = 20;
-                y += node.height + nodeGap;
+        var maxDepth = 5;
+
+        /* ── Column X positions ── */
+        var colWidth = 60;
+        var colGap   = 5;
+        var totalALWidth = (colWidth * 0.8 * 5) + (8 * 4) + 40;  /* 5 AL cols + gaps + legend */
+        var sankeyWidth  = innerWidth - totalALWidth;
+        var columnWidth  = sankeyWidth / (maxDepth + 0.3);
+
+        /* ── Y positions — proportional, adaptive gap ── */
+        for (var d = 1; d <= maxDepth; d++) {
+            var nodes = nodesByDepth[d] || [];
+            if (nodes.length === 0) continue;
+            var totalTime = 0;
+            for (var ni = 0; ni < nodes.length; ni++) totalTime += nodes[ni].time;
+            var nodeGap = nodes.length > 100 ? 1 : nodes.length > 50 ? 2 : nodes.length > 30 ? 3 : 4;
+            var totalGaps = (nodes.length - 1) * nodeGap;
+            var availH = innerHeight - totalGaps - 10;
+            var y = padding.top;
+            for (var ni = 0; ni < nodes.length; ni++) {
+                var nd = nodes[ni];
+                var h = totalTime > 0 ? (nd.time / totalTime) * availH : 10;
+                nd.x = padding.left + (d - 1) * columnWidth;
+                nd.y = y;
+                nd.height = Math.max(h, 2);
+                nd.width  = 20;
+                y += nd.height + nodeGap;
             }
         }
 
-        // Create SVG
-        const svg = document.createElementNS(SVG_NS, 'svg');
+        /* ── Label de-overlap per column ── */
+        for (var d = 1; d <= maxDepth; d++) {
+            var nodes = nodesByDepth[d] || [];
+            var minH = d <= 2 ? 8 : d === 3 ? 14 : d === 4 ? 20 : 6;
+            var lbls = [];
+            for (var ni = 0; ni < nodes.length; ni++) {
+                if (nodes[ni].height >= minH) lbls.push(nodes[ni]);
+            }
+            lbls.sort(function(a, b) { return a.y - b.y; });
+            var lineH = 11;
+            for (var li = 0; li < lbls.length; li++) {
+                var idealY = lbls[li].y + lbls[li].height / 2;
+                if (li > 0) {
+                    var prevY = lbls[li - 1]._labelY || (lbls[li - 1].y + lbls[li - 1].height / 2);
+                    if (idealY - prevY < lineH) idealY = prevY + lineH;
+                }
+                lbls[li]._labelY = idealY;
+            }
+        }
+
+        /* ── Create SVG ── */
+        var svg = document.createElementNS(SVG_NS, 'svg');
         svg.setAttribute('width', width);
         svg.setAttribute('height', height);
         svg.setAttribute('viewBox', '0 0 ' + width + ' ' + height);
         svg.style.display = 'block';
 
-        const nodeMap = {};
-        for (const node of allNodes) nodeMap[node.id] = node;
+        var nodeMap = {};
+        for (var ni = 0; ni < allNodes.length; ni++) nodeMap[allNodes[ni].id] = allNodes[ni];
 
-        // Draw links — smooth bezier
-        for (const link of links) {
-            const source = nodeMap[link.source];
-            const target = nodeMap[link.target];
-            if (!source || !target) continue;
-            const sourceX = source.x + source.width;
-            const sourceY = source.y + source.height / 2;
-            const targetX = target.x;
-            const targetY = target.y + target.height / 2;
-            const xi = (targetX - sourceX) * 0.5;
-            const path = document.createElementNS(SVG_NS, 'path');
-            path.setAttribute('d', 'M ' + sourceX + ' ' + sourceY + ' C ' + (sourceX + xi) + ' ' + sourceY + ', ' + (targetX - xi) + ' ' + targetY + ', ' + targetX + ' ' + targetY);
-            path.setAttribute('fill', 'none');
-            path.setAttribute('stroke', link.color);
-            path.setAttribute('stroke-opacity', '0.4');
-            path.setAttribute('stroke-width', Math.max(2, Math.min(target.height, 30)));
-            path.style.cursor = 'pointer';
-            path.style.transition = 'stroke-opacity 0.15s';
-            path.addEventListener('mouseenter', (function(s, t, v) {
+        /* ── Draw links — smooth bézier ── */
+        for (var li = 0; li < links.length; li++) {
+            var lk = links[li];
+            var src = nodeMap[lk.source], tgt = nodeMap[lk.target];
+            if (!src || !tgt) continue;
+            var sx = src.x + src.width, sy = src.y + src.height / 2;
+            var tx = tgt.x,             ty = tgt.y + tgt.height / 2;
+            var xi = (tx - sx) * 0.5;
+            var p = document.createElementNS(SVG_NS, 'path');
+            p.setAttribute('d', 'M ' + sx + ' ' + sy + ' C ' + (sx+xi) + ' ' + sy + ', ' + (tx-xi) + ' ' + ty + ', ' + tx + ' ' + ty);
+            p.setAttribute('fill', 'none');
+            p.setAttribute('stroke', lk.color);
+            p.setAttribute('stroke-opacity', '0.35');
+            p.setAttribute('stroke-width', Math.max(1, Math.min(tgt.height, 28)));
+            p.style.cursor = 'pointer';
+            p.style.transition = 'stroke-opacity 0.15s';
+            p.addEventListener('mouseenter', (function(s, t, v) {
                 return function(ev) {
                     this.setAttribute('stroke-opacity', '0.75');
-                    showTip(ev, '<div style="font-weight:700;margin-bottom:4px;">' + s.name + ' \u2192 ' + t.name + '</div><div style="color:rgba(255,255,255,0.6);">' + t.path + '</div><div style="margin-top:4px;">Hours/mo: <b style="color:#fff;">' + v.toLocaleString() + '</b></div>');
+                    var fte = (v / hoursPerFTE).toFixed(1);
+                    showTip(ev, '<div style="font-weight:700;margin-bottom:4px;">' + s.name + ' \u2192 ' + t.name + '</div>' +
+                        '<div style="color:rgba(255,255,255,0.55);font-size:10px;">' + t.path + '</div>' +
+                        '<div style="margin-top:4px;">Activities: <b style="color:#fff;">' + v + '</b> &nbsp;|&nbsp; FTE: <b style="color:#fff;">' + fte + '</b></div>');
                 };
-            })(source, target, link.value));
-            path.addEventListener('mousemove', function(ev) {
-                tooltip.style.left = Math.min(ev.clientX + 14, window.innerWidth - 360) + 'px';
-                tooltip.style.top = (ev.clientY - 30) + 'px';
-            });
-            path.addEventListener('mouseleave', function() {
-                this.setAttribute('stroke-opacity', '0.4');
-                hideTip();
-            });
-            svg.appendChild(path);
+            })(src, tgt, lk.value));
+            p.addEventListener('mousemove', function(ev) { tooltip.style.left = Math.min(ev.clientX+14, window.innerWidth-360)+'px'; tooltip.style.top=(ev.clientY-30)+'px'; });
+            p.addEventListener('mouseleave', function() { this.setAttribute('stroke-opacity','0.35'); hideTip(); });
+            svg.appendChild(p);
         }
 
-        // Draw nodes
-        for (const node of allNodes) {
-            const g = document.createElementNS(SVG_NS, 'g');
-            const r = document.createElementNS(SVG_NS, 'rect');
-            r.setAttribute('x', node.x);
-            r.setAttribute('y', node.y);
-            r.setAttribute('width', node.width);
-            r.setAttribute('height', node.height);
-            r.setAttribute('fill', node.color);
+        /* ── Draw nodes ── */
+        for (var ni = 0; ni < allNodes.length; ni++) {
+            var nd = allNodes[ni];
+            var g  = document.createElementNS(SVG_NS, 'g');
+            var r  = document.createElementNS(SVG_NS, 'rect');
+            r.setAttribute('x', nd.x);
+            r.setAttribute('y', nd.y);
+            r.setAttribute('width', nd.width);
+            r.setAttribute('height', nd.height);
+            r.setAttribute('fill', nd.color);
             r.setAttribute('stroke', 'rgba(255,255,255,0.3)');
             r.setAttribute('rx', '3');
             r.style.cursor = 'pointer';
@@ -10424,288 +9874,235 @@ sup.ref {
                 return function(ev) {
                     this.setAttribute('stroke', 'rgba(255,255,255,0.7)');
                     this.setAttribute('stroke-width', '1.5');
-                    showTip(ev, '<div style="color:' + n.color + ';font-weight:700;margin-bottom:3px;">' + n.name + '</div><div style="color:rgba(255,255,255,0.6);font-size:10px;">' + n.path + '</div><div style="margin-top:4px;">Hours/mo: <b style="color:#fff;">' + n.time.toLocaleString() + '</b></div>');
+                    var fte = (n.time / hoursPerFTE).toFixed(1);
+                    showTip(ev, '<div style="color:' + n.color + ';font-weight:700;margin-bottom:3px;">' + n.name + '</div>' +
+                        '<div style="color:rgba(255,255,255,0.55);font-size:10px;">' + n.path + '</div>' +
+                        '<div style="margin-top:4px;">Activities: <b style="color:#fff;">' + n.time + '</b> &nbsp;|&nbsp; FTE: <b style="color:#fff;">' + fte + '</b></div>');
                 };
-            })(node));
-            r.addEventListener('mousemove', function(ev) {
-                tooltip.style.left = Math.min(ev.clientX + 14, window.innerWidth - 360) + 'px';
-                tooltip.style.top = (ev.clientY - 30) + 'px';
-            });
-            r.addEventListener('mouseleave', function() {
-                this.setAttribute('stroke', 'rgba(255,255,255,0.3)');
-                this.setAttribute('stroke-width', '1');
-                hideTip();
-            });
+            })(nd));
+            r.addEventListener('mousemove', function(ev) { tooltip.style.left=Math.min(ev.clientX+14,window.innerWidth-360)+'px'; tooltip.style.top=(ev.clientY-30)+'px'; });
+            r.addEventListener('mouseleave', function() { this.setAttribute('stroke','rgba(255,255,255,0.3)'); this.setAttribute('stroke-width','1'); hideTip(); });
             g.appendChild(r);
 
-            // Label OUTSIDE node
-            const showLabel = node.depth === 5 ? node.height > 4 : node.height > 10;
-            if (showLabel) {
-                const text = document.createElementNS(SVG_NS, 'text');
-                text.setAttribute('x', node.x + node.width + 5);
-                text.setAttribute('y', node.y + node.height / 2);
-                text.setAttribute('dominant-baseline', 'middle');
-                text.setAttribute('fill', '#fff');
-                text.setAttribute('font-size', node.depth === 5 ? '9' : '10');
-                text.setAttribute('pointer-events', 'none');
-                const maxChars = node.depth === 5 ? 25 : Math.floor((columnWidth - 30) / 6);
-                text.textContent = node.name.length > maxChars ? node.name.substring(0, maxChars - 2) + '..' : node.name;
-                g.appendChild(text);
+            /* Label outside node — with de-overlap */
+            var minH = nd.depth <= 2 ? 8 : nd.depth === 3 ? 14 : nd.depth === 4 ? 20 : 6;
+            if (nd.height >= minH) {
+                var txt = document.createElementNS(SVG_NS, 'text');
+                txt.setAttribute('x', nd.x + nd.width + 5);
+                txt.setAttribute('y', nd._labelY || (nd.y + nd.height / 2));
+                txt.setAttribute('dominant-baseline', 'middle');
+                txt.setAttribute('fill', '#fff');
+                txt.setAttribute('font-size', nd.depth >= 4 ? '8' : nd.depth === 3 ? '9' : '10');
+                txt.setAttribute('pointer-events', 'none');
+                var maxC = nd.depth >= 4 ? 22 : nd.depth === 3 ? 26 : Math.floor((columnWidth - 30) / 6);
+                txt.textContent = nd.name.length > maxC ? nd.name.substring(0, maxC - 2) + '..' : nd.name;
+                g.appendChild(txt);
             }
             svg.appendChild(g);
         }
 
-        // Column headers
-        const depthLabels = ['Value Chain', 'Process Area', 'Category', 'Activity', 'Agentification'];
-        for (let d = 1; d <= maxDepth; d++) {
-            const text = document.createElementNS(SVG_NS, 'text');
-            text.setAttribute('x', padding.left + (d - 1) * columnWidth + 10);
-            text.setAttribute('y', 12);
-            text.setAttribute('fill', 'rgba(255,255,255,0.7)');
-            text.setAttribute('font-size', '10');
-            text.setAttribute('font-weight', '500');
-            text.textContent = depthLabels[d - 1] || ('L' + d);
-            svg.appendChild(text);
+        /* ── Column headers ── */
+        var depthLabels = ['Domain', 'Process', 'Sub-Process', 'Activity', 'Human Activity Type'];
+        for (var d = 1; d <= maxDepth; d++) {
+            var ht = document.createElementNS(SVG_NS, 'text');
+            ht.setAttribute('x', padding.left + (d - 1) * columnWidth + 10);
+            ht.setAttribute('y', 12);
+            ht.setAttribute('fill', 'rgba(255,255,255,0.7)');
+            ht.setAttribute('font-size', '10');
+            ht.setAttribute('font-weight', '500');
+            ht.textContent = depthLabels[d - 1] || ('L' + d);
+            svg.appendChild(ht);
         }
 
-        // ═══════════════════════════════════════════════════
-        //  AL0–AL4 COLUMNS (FTE Reduction Visualization)
-        // ═══════════════════════════════════════════════════
-        const complexityTotals = { High: 0, Medium: 0, Low: 0 };
-        const complexityPositions = {
-            High: { minY: Infinity, maxY: 0 },
+        /* ═════════════════════════════════════════════════
+           AL0–AL4 COLUMNS  (FTE Reduction)
+           ═════════════════════════════════════════════════ */
+        var complexityTotals = { High: 0, Medium: 0, Low: 0 };
+        var complexityPos    = {
+            High:   { minY: Infinity, maxY: 0 },
             Medium: { minY: Infinity, maxY: 0 },
-            Low: { minY: Infinity, maxY: 0 }
+            Low:    { minY: Infinity, maxY: 0 }
         };
-
         if (nodesByDepth[5]) {
-            for (const node of nodesByDepth[5]) {
-                const complexity = (activityTypes[node.name] || {}).complexity || 'Low';
-                complexityTotals[complexity] += node.time;
-                complexityPositions[complexity].minY = Math.min(complexityPositions[complexity].minY, node.y);
-                complexityPositions[complexity].maxY = Math.max(complexityPositions[complexity].maxY, node.y + node.height);
+            for (var i = 0; i < nodesByDepth[5].length; i++) {
+                var nd5 = nodesByDepth[5][i];
+                var cx  = (activityTypes[nd5.name] || {}).complexity || 'Low';
+                complexityTotals[cx] += nd5.time;
+                complexityPos[cx].minY = Math.min(complexityPos[cx].minY, nd5.y);
+                complexityPos[cx].maxY = Math.max(complexityPos[cx].maxY, nd5.y + nd5.height);
             }
         }
 
-        const complexityColors = { High: '#e74c3c', Medium: '#f39c12', Low: '#27ae60' };
-        const summaryWidth = colWidth * 0.8;
-        const colSpacing = summaryWidth + 8;
-        const al4X = width - padding.right - summaryWidth;
-        const al3X = al4X - colSpacing;
-        const al2X = al3X - colSpacing;
-        const al1X = al2X - colSpacing;
-        const al0X = al1X - colSpacing;
-        const legendX = al0X - 35;
-        const hoursPerFTE = 160;
+        var cxColors = { High: '#e74c3c', Medium: '#f39c12', Low: '#27ae60' };
+        var summaryW  = colWidth * 0.8;
+        var colSpc    = summaryW + 8;
+        var al4X = width - padding.right - summaryW;
+        var al3X = al4X - colSpc;
+        var al2X = al3X - colSpc;
+        var al1X = al2X - colSpc;
+        var al0X = al1X - colSpc;
+        var legendX = al0X - 35;
 
-        // Complexity legend bars
-        for (const [complexity, color] of Object.entries(complexityColors)) {
-            const pos = complexityPositions[complexity];
+        /* Complexity legend bars */
+        for (var cx in cxColors) {
+            var pos = complexityPos[cx];
             if (pos.minY === Infinity) continue;
-            const boxY = pos.minY;
-            const boxHeight = Math.max(pos.maxY - pos.minY, 30);
-
-            const legendLine = document.createElementNS(SVG_NS, 'line');
-            legendLine.setAttribute('x1', legendX);
-            legendLine.setAttribute('y1', boxY);
-            legendLine.setAttribute('x2', legendX);
-            legendLine.setAttribute('y2', boxY + boxHeight);
-            legendLine.setAttribute('stroke', color);
-            legendLine.setAttribute('stroke-width', '3');
-            legendLine.setAttribute('stroke-opacity', '0.9');
-            svg.appendChild(legendLine);
-
-            if (boxHeight > 25) {
-                const lbl = document.createElementNS(SVG_NS, 'text');
-                lbl.setAttribute('x', legendX - 8);
-                lbl.setAttribute('y', boxY + boxHeight / 2);
-                lbl.setAttribute('text-anchor', 'middle');
-                lbl.setAttribute('dominant-baseline', 'middle');
-                lbl.setAttribute('fill', color);
-                lbl.setAttribute('font-size', '9');
-                lbl.setAttribute('font-weight', '600');
-                lbl.setAttribute('transform', 'rotate(-90, ' + (legendX - 8) + ', ' + (boxY + boxHeight / 2) + ')');
-                lbl.textContent = complexity;
-                svg.appendChild(lbl);
+            var boxY = pos.minY, boxH = Math.max(pos.maxY - pos.minY, 30);
+            var ll = document.createElementNS(SVG_NS, 'line');
+            ll.setAttribute('x1', legendX); ll.setAttribute('y1', boxY);
+            ll.setAttribute('x2', legendX); ll.setAttribute('y2', boxY + boxH);
+            ll.setAttribute('stroke', cxColors[cx]); ll.setAttribute('stroke-width', '3');
+            ll.setAttribute('stroke-opacity', '0.9');
+            svg.appendChild(ll);
+            if (boxH > 25) {
+                var lb = document.createElementNS(SVG_NS, 'text');
+                lb.setAttribute('x', legendX - 8);
+                lb.setAttribute('y', boxY + boxH / 2);
+                lb.setAttribute('text-anchor', 'middle');
+                lb.setAttribute('dominant-baseline', 'middle');
+                lb.setAttribute('fill', cxColors[cx]);
+                lb.setAttribute('font-size', '9');
+                lb.setAttribute('font-weight', '600');
+                lb.setAttribute('transform', 'rotate(-90, ' + (legendX - 8) + ', ' + (boxY + boxH / 2) + ')');
+                lb.textContent = cx;
+                svg.appendChild(lb);
             }
         }
 
-        // AL column headers
-        const alLabels = ['AL0', 'AL1', 'AL2', 'AL3', 'AL4'];
-        const alSubLabels = ['Human Only', 'AI Assisted', 'AI Exec/Approve', 'AI Exec/Exception', 'AI Autonomous'];
-        const alXPositions = [al0X, al1X, al2X, al3X, al4X];
-
-        alLabels.forEach(function(label, i) {
-            const x = alXPositions[i];
-            const h1 = document.createElementNS(SVG_NS, 'text');
-            h1.setAttribute('x', x + summaryWidth / 2);
-            h1.setAttribute('y', 12);
+        /* AL column headers */
+        var alLabels   = ['AL0', 'AL1', 'AL2', 'AL3', 'AL4'];
+        var alSubs     = ['Human Only', 'AI Assisted', 'AI Exec, Human Approves', 'Human on Exc.', 'AI Autonomous'];
+        var alXPos     = [al0X, al1X, al2X, al3X, al4X];
+        for (var ai = 0; ai < 5; ai++) {
+            var x = alXPos[ai];
+            var h1 = document.createElementNS(SVG_NS, 'text');
+            h1.setAttribute('x', x + summaryW / 2); h1.setAttribute('y', 12);
             h1.setAttribute('text-anchor', 'middle');
             h1.setAttribute('fill', 'rgba(255,255,255,0.9)');
-            h1.setAttribute('font-size', '9');
-            h1.setAttribute('font-weight', '600');
-            h1.textContent = label;
+            h1.setAttribute('font-size', '9'); h1.setAttribute('font-weight', '600');
+            h1.textContent = alLabels[ai];
             svg.appendChild(h1);
-
-            const h2 = document.createElementNS(SVG_NS, 'text');
-            h2.setAttribute('x', x + summaryWidth / 2);
-            h2.setAttribute('y', 23);
+            var h2 = document.createElementNS(SVG_NS, 'text');
+            h2.setAttribute('x', x + summaryW / 2); h2.setAttribute('y', 23);
             h2.setAttribute('text-anchor', 'middle');
             h2.setAttribute('fill', 'rgba(255,255,255,0.5)');
             h2.setAttribute('font-size', '7');
-            h2.textContent = alSubLabels[i];
+            h2.textContent = alSubs[ai];
             svg.appendChild(h2);
-        });
+        }
 
-        // Helper: draw AL box
-        function drawAlBox(alX, boxY, boxHeight, fillColor, fillOpacity, hours, showFTE) {
-            const g = document.createElementNS(SVG_NS, 'g');
+        /* Helper — draw one AL box */
+        function drawAlBox(alX, boxY, boxH, fillCol, fillOp, rawVal) {
+            var g = document.createElementNS(SVG_NS, 'g');
             g.style.cursor = 'pointer';
-            const box = document.createElementNS(SVG_NS, 'rect');
-            box.setAttribute('x', alX);
-            box.setAttribute('y', boxY);
-            box.setAttribute('width', summaryWidth);
-            box.setAttribute('height', boxHeight);
-            box.setAttribute('fill', fillColor);
-            box.setAttribute('fill-opacity', fillOpacity);
-            box.setAttribute('stroke', 'rgba(255,255,255,0.5)');
-            box.setAttribute('rx', '4');
-            g.appendChild(box);
-            if (boxHeight >= 20) {
-                const t1 = document.createElementNS(SVG_NS, 'text');
-                t1.setAttribute('x', alX + summaryWidth / 2);
-                t1.setAttribute('y', boxY + boxHeight / 2 - (showFTE ? 4 : 0));
+            var bx = document.createElementNS(SVG_NS, 'rect');
+            bx.setAttribute('x', alX); bx.setAttribute('y', boxY);
+            bx.setAttribute('width', summaryW); bx.setAttribute('height', boxH);
+            bx.setAttribute('fill', fillCol); bx.setAttribute('fill-opacity', fillOp);
+            bx.setAttribute('stroke', 'rgba(255,255,255,0.5)'); bx.setAttribute('rx', '4');
+            g.appendChild(bx);
+            var fte = rawVal / hoursPerFTE;
+            if (boxH >= 22) {
+                var t1 = document.createElementNS(SVG_NS, 'text');
+                t1.setAttribute('x', alX + summaryW / 2);
+                t1.setAttribute('y', boxY + boxH / 2 - 4);
                 t1.setAttribute('text-anchor', 'middle');
                 t1.setAttribute('fill', '#fff');
                 t1.setAttribute('font-size', '8');
                 t1.setAttribute('pointer-events', 'none');
-                t1.textContent = Math.round(hours).toLocaleString();
+                t1.textContent = Math.round(fte).toLocaleString();
                 g.appendChild(t1);
             }
-            if (showFTE && boxHeight >= 28) {
-                const t2 = document.createElementNS(SVG_NS, 'text');
-                t2.setAttribute('x', alX + summaryWidth / 2);
-                t2.setAttribute('y', boxY + boxHeight / 2 + 8);
+            if (boxH >= 30) {
+                var t2 = document.createElementNS(SVG_NS, 'text');
+                t2.setAttribute('x', alX + summaryW / 2);
+                t2.setAttribute('y', boxY + boxH / 2 + 8);
                 t2.setAttribute('text-anchor', 'middle');
-                t2.setAttribute('fill', 'rgba(255,255,255,0.7)');
+                t2.setAttribute('fill', 'rgba(255,255,255,0.65)');
                 t2.setAttribute('font-size', '7');
                 t2.setAttribute('pointer-events', 'none');
-                t2.textContent = (hours / hoursPerFTE).toFixed(1) + ' FTE';
+                t2.textContent = fte.toFixed(1) + ' FTE';
                 g.appendChild(t2);
             }
             return g;
         }
 
-        // ── AL0: Human Only (100% baseline) ──
-        for (const [complexity, total] of Object.entries(complexityTotals)) {
-            if (total === 0) continue;
-            const pos = complexityPositions[complexity];
+        /* ── AL0: Human Only (100%) ── */
+        for (var cx in complexityTotals) {
+            var tot = complexityTotals[cx];
+            if (tot === 0) continue;
+            var pos = complexityPos[cx];
             if (pos.minY === Infinity) continue;
-            const boxY = pos.minY;
-            const boxHeight = Math.max(pos.maxY - pos.minY, 40);
-            const g = drawAlBox(al0X, boxY, boxHeight, complexityColors[complexity], '0.15', total, true);
-            g.addEventListener('mouseenter', function(ev) {
-                showTip(ev, '<div style="font-weight:700;margin-bottom:4px;">AL0 — Human Only</div><div style="color:' + complexityColors[complexity] + ';margin-bottom:4px;">' + complexity + ' Complexity</div><div>Hours/mo: <b style="color:#fff;">' + total.toLocaleString() + '</b></div><div>FTE: <b style="color:#fff;">' + (total / hoursPerFTE).toFixed(1) + '</b></div>');
-            });
-            g.addEventListener('mouseleave', hideTip);
-            svg.appendChild(g);
+            var bY = pos.minY, bH = Math.max(pos.maxY - pos.minY, 40);
+            var g0 = drawAlBox(al0X, bY, bH, cxColors[cx], '0.15', tot);
+            g0.addEventListener('mouseenter', (function(cx2, t){ return function(ev){
+                showTip(ev, '<div style="font-weight:700;margin-bottom:4px;">AL0 — Human Only</div><div style="color:'+cxColors[cx2]+';margin-bottom:4px;">'+cx2+' Complexity</div><div>Activities: <b>'+t+'</b> | FTE: <b>'+(t/hoursPerFTE).toFixed(1)+'</b></div>');
+            }; })(cx, tot));
+            g0.addEventListener('mouseleave', hideTip);
+            svg.appendChild(g0);
         }
 
-        // ── AL1: AI Assisted (productivity improvement) ──
-        const al1Totals = { High: 0, Medium: 0, Low: 0 };
+        /* ── AL1: AI Assisted ── */
+        var al1Totals = { High: 0, Medium: 0, Low: 0 };
         if (nodesByDepth[5]) {
-            for (const node of nodesByDepth[5]) {
-                const at = activityTypes[node.name] || {};
-                const complexity = at.complexity || 'Low';
-                const aiImp = at.aiImprovement || 0;
-                al1Totals[complexity] += node.time * (1 - aiImp);
+            for (var i = 0; i < nodesByDepth[5].length; i++) {
+                var nd5 = nodesByDepth[5][i];
+                var at  = activityTypes[nd5.name] || {};
+                var cx  = at.complexity || 'Low';
+                al1Totals[cx] += nd5.time * (1 - (at.aiImprovement || 0));
             }
         }
-        for (const [complexity, al1Total] of Object.entries(al1Totals)) {
-            const al0Total = complexityTotals[complexity];
-            if (al0Total === 0) continue;
-            const pos = complexityPositions[complexity];
-            if (pos.minY === Infinity) continue;
-            const boxY = pos.minY;
-            const al0H = Math.max(pos.maxY - pos.minY, 40);
-            const boxHeight = al0H * (al1Total / al0Total);
-            const g = drawAlBox(al1X, boxY, boxHeight, complexityColors[complexity], '0.3', al1Total, true);
-            g.addEventListener('mouseenter', function(ev) {
-                showTip(ev, '<div style="font-weight:700;margin-bottom:4px;">AL1 — AI Assisted</div><div style="color:' + complexityColors[complexity] + ';">' + complexity + ' Complexity</div><div>Human Hours: <b>' + Math.round(al1Total).toLocaleString() + '</b> | AI Saved: <b>' + Math.round(al0Total - al1Total).toLocaleString() + '</b></div><div>FTE: <b>' + (al1Total / hoursPerFTE).toFixed(1) + '</b></div>');
-            });
-            g.addEventListener('mouseleave', hideTip);
-            svg.appendChild(g);
+        for (var cx in al1Totals) {
+            var a0 = complexityTotals[cx];
+            if (a0 === 0) continue;
+            var pos = complexityPos[cx]; if (pos.minY === Infinity) continue;
+            var bY = pos.minY, a0H = Math.max(pos.maxY - pos.minY, 40);
+            var bH = a0H * (al1Totals[cx] / a0);
+            var g1 = drawAlBox(al1X, bY, bH, cxColors[cx], '0.3', al1Totals[cx]);
+            g1.addEventListener('mouseenter', (function(cx2, a1, a0){ return function(ev){
+                showTip(ev, '<div style="font-weight:700;margin-bottom:4px;">AL1 — AI Assisted</div><div style="color:'+cxColors[cx2]+';">'+cx2+' Complexity</div><div>FTE: <b>'+(a1/hoursPerFTE).toFixed(1)+'</b> | Saved: <b>'+((a0-a1)/hoursPerFTE).toFixed(1)+'</b></div>');
+            }; })(cx, al1Totals[cx], a0));
+            g1.addEventListener('mouseleave', hideTip);
+            svg.appendChild(g1);
         }
 
-        // AL2-AL4 human-effort percentages by complexity
-        const alHumanPct = {
+        /* AL2-AL4 human-effort % by complexity */
+        var alPct = {
             AL2: { High: 50, Medium: 30, Low: 20 },
-            AL3: { High: 25, Medium: 12, Low: 6 },
-            AL4: { High: 10, Medium: 5, Low: 2 }
+            AL3: { High: 25, Medium: 12, Low: 6  },
+            AL4: { High: 10, Medium: 5,  Low: 2  }
         };
+        var alXMap   = { AL2: al2X, AL3: al3X, AL4: al4X };
+        var alColors = { AL2: '#3498db', AL3: '#2ecc71', AL4: '#9b59b6' };
+        var alOpac   = { AL2: '0.4',    AL3: '0.4',    AL4: '0.5' };
+        var alNames  = { AL2: 'AI Exec, Human Approves', AL3: 'AI Exec, Human on Exception', AL4: 'AI Autonomous' };
 
-        // ── AL2: AI Exec, Human Approves ──
-        for (const [complexity, total] of Object.entries(complexityTotals)) {
-            if (total === 0) continue;
-            const pos = complexityPositions[complexity];
-            if (pos.minY === Infinity) continue;
-            const humanTime = total * (alHumanPct.AL2[complexity] / 100);
-            const boxY = pos.minY;
-            const al0H = Math.max(pos.maxY - pos.minY, 40);
-            const boxHeight = al0H * Math.max(humanTime / total, 0.12);
-            const g = drawAlBox(al2X, boxY, boxHeight, '#3498db', '0.4', humanTime, true);
-            g.addEventListener('mouseenter', function(ev) {
-                showTip(ev, '<div style="font-weight:700;margin-bottom:4px;">AL2 — AI Exec, Human Approves</div><div style="color:' + complexityColors[complexity] + ';">' + complexity + ' Complexity</div><div>Human Hours: <b>' + Math.round(humanTime).toLocaleString() + '</b> (' + alHumanPct.AL2[complexity] + '%)</div><div>FTE: <b>' + (humanTime / hoursPerFTE).toFixed(1) + '</b></div>');
-            });
-            g.addEventListener('mouseleave', hideTip);
-            svg.appendChild(g);
+        for (var alKey in alPct) {
+            for (var cx in complexityTotals) {
+                var tot = complexityTotals[cx];
+                if (tot === 0) continue;
+                var pos = complexityPos[cx]; if (pos.minY === Infinity) continue;
+                var humanTime = tot * (alPct[alKey][cx] / 100);
+                var bY = pos.minY, a0H = Math.max(pos.maxY - pos.minY, 40);
+                var bH = a0H * Math.max(humanTime / tot, alKey === 'AL4' ? 0.05 : 0.08);
+                var gAl = drawAlBox(alXMap[alKey], bY, bH, alColors[alKey], alOpac[alKey], humanTime);
+                gAl.addEventListener('mouseenter', (function(alK, cx2, ht, pct){ return function(ev){
+                    showTip(ev, '<div style="font-weight:700;margin-bottom:4px;">'+alK+' — '+alNames[alK]+'</div><div style="color:'+cxColors[cx2]+';">'+cx2+' Complexity</div><div>FTE: <b>'+(ht/hoursPerFTE).toFixed(1)+'</b> ('+pct+'%)</div>');
+                }; })(alKey, cx, humanTime, alPct[alKey][cx]));
+                gAl.addEventListener('mouseleave', hideTip);
+                svg.appendChild(gAl);
+            }
         }
 
-        // ── AL3: AI Exec, Human on Exception ──
-        for (const [complexity, total] of Object.entries(complexityTotals)) {
-            if (total === 0) continue;
-            const pos = complexityPositions[complexity];
-            if (pos.minY === Infinity) continue;
-            const humanTime = total * (alHumanPct.AL3[complexity] / 100);
-            const boxY = pos.minY;
-            const al0H = Math.max(pos.maxY - pos.minY, 40);
-            const boxHeight = al0H * Math.max(humanTime / total, 0.08);
-            const g = drawAlBox(al3X, boxY, boxHeight, '#2ecc71', '0.4', humanTime, boxHeight >= 28);
-            g.addEventListener('mouseenter', function(ev) {
-                showTip(ev, '<div style="font-weight:700;margin-bottom:4px;">AL3 — AI Exec, Human on Exception</div><div style="color:' + complexityColors[complexity] + ';">' + complexity + '</div><div>Human Hours: <b>' + Math.round(humanTime).toLocaleString() + '</b> (' + alHumanPct.AL3[complexity] + '%)</div><div>FTE: <b>' + (humanTime / hoursPerFTE).toFixed(1) + '</b></div>');
-            });
-            g.addEventListener('mouseleave', hideTip);
-            svg.appendChild(g);
-        }
-
-        // ── AL4: AI Autonomous ──
-        for (const [complexity, total] of Object.entries(complexityTotals)) {
-            if (total === 0) continue;
-            const pos = complexityPositions[complexity];
-            if (pos.minY === Infinity) continue;
-            const humanTime = total * (alHumanPct.AL4[complexity] / 100);
-            const boxY = pos.minY;
-            const al0H = Math.max(pos.maxY - pos.minY, 40);
-            const boxHeight = al0H * Math.max(humanTime / total, 0.05);
-            const g = drawAlBox(al4X, boxY, boxHeight, '#9b59b6', '0.5', humanTime, boxHeight >= 25);
-            g.addEventListener('mouseenter', function(ev) {
-                showTip(ev, '<div style="font-weight:700;margin-bottom:4px;">AL4 — AI Autonomous</div><div style="color:' + complexityColors[complexity] + ';">' + complexity + '</div><div>Human Hours: <b>' + Math.round(humanTime).toLocaleString() + '</b> (' + alHumanPct.AL4[complexity] + '%)</div><div>FTE: <b>' + (humanTime / hoursPerFTE).toFixed(1) + '</b></div>');
-            });
-            g.addEventListener('mouseleave', hideTip);
-            svg.appendChild(g);
-        }
-
-        // Render
+        /* Render */
         container.innerHTML = '';
         container.appendChild(svg);
     }
 
-    // Initial draw
+    /* Initial draw */
     drawSankey();
-
-    // Redraw on resize
-    let resizeTimer;
-    window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(drawSankey, 200); });
+    var _rt;
+    window.addEventListener('resize', function() { clearTimeout(_rt); _rt = setTimeout(drawSankey, 200); });
 })();
 </script>
 
