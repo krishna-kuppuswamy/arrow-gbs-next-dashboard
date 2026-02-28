@@ -9592,30 +9592,41 @@ sup.ref {
     }
   }
 };
+    const TOTAL_FTE = 2877;
+    const TOTAL_ACTIVITIES = 1572;
+    const FTE_PER_ACTIVITY = 1.8302;
 
+    /* ── Activity types → grouped into Agentification tiers ──
+       Agent-Ready:    AI can execute autonomously (46.8% of activities)
+       Agent-Assisted: AI executes with human oversight (40.1%)
+       Human-Centric:  Requires human judgment & decision-making (13.1%)
+       Total Agentifiable (Agent-Ready + Agent-Assisted) = ~87%
+    */
     const activityTypes = {
-        "Analysis":           { color: "#9b59b6", complexity: "High",   order: 1,  aiImprovement: 0.30 },
-        "Investigation":      { color: "#e74c3c", complexity: "High",   order: 2,  aiImprovement: 0.35 },
-        "Negotiation":        { color: "#795548", complexity: "High",   order: 3,  aiImprovement: 0.10 },
-        "Exception Handling": { color: "#c0392b", complexity: "High",   order: 4,  aiImprovement: 0.25 },
-        "Decisioning":        { color: "#673ab7", complexity: "High",   order: 5,  aiImprovement: 0.20 },
-        "Reconciliation":     { color: "#f39c12", complexity: "High",   order: 6,  aiImprovement: 0.50 },
-        "Verification":       { color: "#1abc9c", complexity: "Medium", order: 7,  aiImprovement: 0.40 },
-        "Approving":          { color: "#27ae60", complexity: "Medium", order: 8,  aiImprovement: 0.15 },
-        "Report Preparation": { color: "#16a085", complexity: "Medium", order: 9,  aiImprovement: 0.60 },
-        "Calculation":        { color: "#2c3e50", complexity: "Medium", order: 10, aiImprovement: 0.70 },
-        "Follow-up":          { color: "#ff9800", complexity: "Medium", order: 11, aiImprovement: 0.45 },
-        "Data Entry":         { color: "#3498db", complexity: "Low",    order: 12, aiImprovement: 0.65 },
-        "Data Collection":    { color: "#00bcd4", complexity: "Low",    order: 13, aiImprovement: 0.55 },
-        "Documentation":      { color: "#607d8b", complexity: "Low",    order: 14, aiImprovement: 0.60 },
-        "Communication":      { color: "#e91e63", complexity: "Low",    order: 15, aiImprovement: 0.40 },
-        "Transaction":        { color: "#e67e22", complexity: "Low",    order: 16, aiImprovement: 0.50 },
-        "Escalation":         { color: "#ff5722", complexity: "Low",    order: 17, aiImprovement: 0.35 }
+        "Data Entry":         { color: "#3498db", agentClass: "Agent-Ready",    order: 1,  aiImprovement: 0.85 },
+        "Transaction":        { color: "#e67e22", agentClass: "Agent-Ready",    order: 2,  aiImprovement: 0.80 },
+        "Documentation":      { color: "#607d8b", agentClass: "Agent-Ready",    order: 3,  aiImprovement: 0.75 },
+        "Data Collection":    { color: "#00bcd4", agentClass: "Agent-Ready",    order: 4,  aiImprovement: 0.80 },
+        "Calculation":        { color: "#2c3e50", agentClass: "Agent-Ready",    order: 5,  aiImprovement: 0.90 },
+        "Verification":       { color: "#1abc9c", agentClass: "Agent-Assisted", order: 6,  aiImprovement: 0.55 },
+        "Reconciliation":     { color: "#f39c12", agentClass: "Agent-Assisted", order: 7,  aiImprovement: 0.60 },
+        "Report Preparation": { color: "#16a085", agentClass: "Agent-Assisted", order: 8,  aiImprovement: 0.65 },
+        "Follow-up":          { color: "#ff9800", agentClass: "Agent-Assisted", order: 9,  aiImprovement: 0.55 },
+        "Communication":      { color: "#e91e63", agentClass: "Agent-Assisted", order: 10, aiImprovement: 0.50 },
+        "Escalation":         { color: "#ff5722", agentClass: "Agent-Assisted", order: 11, aiImprovement: 0.45 },
+        "Analysis":           { color: "#9b59b6", agentClass: "Human-Centric",  order: 12, aiImprovement: 0.30 },
+        "Investigation":      { color: "#e74c3c", agentClass: "Human-Centric",  order: 13, aiImprovement: 0.25 },
+        "Negotiation":        { color: "#795548", agentClass: "Human-Centric",  order: 14, aiImprovement: 0.10 },
+        "Exception Handling": { color: "#c0392b", agentClass: "Human-Centric",  order: 15, aiImprovement: 0.25 },
+        "Decisioning":        { color: "#673ab7", agentClass: "Human-Centric",  order: 16, aiImprovement: 0.20 },
+        "Approving":          { color: "#27ae60", agentClass: "Human-Centric",  order: 17, aiImprovement: 0.15 }
     };
 
-    const hoursPerFTE = 0.5464;
     let activeFilter = 'all';
+    let activeTierFilter = 'all';
     const SVG_NS = 'http://www.w3.org/2000/svg';
+    const TIER_COLORS = { 'Agent-Ready': '#27ae60', 'Agent-Assisted': '#f39c12', 'Human-Centric': '#e74c3c' };
+    const TIER_ORDER  = ['Agent-Ready', 'Agent-Assisted', 'Human-Centric'];
 
     /* ── recursive time sum ── */
     function getNodeTime(node) {
@@ -9656,6 +9667,50 @@ sup.ref {
         activeFilter = btn.dataset.domain;
         if (activeFilter === 'all') { btn.style.background='var(--brand-20)'; btn.style.color='#fff'; }
         else { var c=domainColors[activeFilter]; if(c){ btn.style.background=c; btn.style.color='#fff'; } }
+        drawSankey();
+    });
+
+    /* ── Tier filter buttons (Agent-Ready / Agent-Assisted / Human-Centric) ── */
+    var tierDiv = document.createElement('div');
+    tierDiv.style.cssText = 'margin-top:6px;display:flex;gap:6px;align-items:center;flex-wrap:wrap;';
+    var tierLabel = document.createElement('span');
+    tierLabel.style.cssText = 'font-size:9px;color:rgba(255,255,255,0.5);font-weight:600;margin-right:4px;';
+    tierLabel.textContent = 'TIER:';
+    tierDiv.appendChild(tierLabel);
+    var tierBtnAll = document.createElement('button');
+    tierBtnAll.className = 'bpm-tier-btn active';
+    tierBtnAll.dataset.tier = 'all';
+    tierBtnAll.textContent = 'All Tiers';
+    tierBtnAll.style.cssText = 'font-size:9px;padding:3px 10px;border-radius:9999px;border:1px solid rgba(255,255,255,0.4);background:var(--brand-20);color:#fff;cursor:pointer;font-weight:600;transition:all 0.2s;';
+    tierDiv.appendChild(tierBtnAll);
+    for (var ti = 0; ti < TIER_ORDER.length; ti++) {
+        var tName = TIER_ORDER[ti];
+        var tColor = TIER_COLORS[tName];
+        var tBtn = document.createElement('button');
+        tBtn.className = 'bpm-tier-btn';
+        tBtn.dataset.tier = tName;
+        tBtn.textContent = tName;
+        tBtn.style.cssText = 'font-size:9px;padding:3px 10px;border-radius:9999px;border:1px solid ' + tColor + ';background:transparent;color:' + tColor + ';cursor:pointer;font-weight:600;transition:all 0.2s;';
+        tBtn.addEventListener('mouseenter', (function(c){ return function(){ this.style.background=c; this.style.color='#fff'; }; })(tColor));
+        tBtn.addEventListener('mouseleave', (function(c){ return function(){
+            if (!this.classList.contains('active')) { this.style.background='transparent'; this.style.color=c; }
+        }; })(tColor));
+        tierDiv.appendChild(tBtn);
+    }
+    ctrlDiv.parentNode.insertBefore(tierDiv, ctrlDiv.nextSibling);
+    tierDiv.addEventListener('click', function(e) {
+        var btn = e.target.closest('.bpm-tier-btn');
+        if (!btn) return;
+        tierDiv.querySelectorAll('.bpm-tier-btn').forEach(function(b) {
+            b.classList.remove('active');
+            b.style.background = 'transparent';
+            var tc = TIER_COLORS[b.dataset.tier];
+            b.style.color = b.dataset.tier === 'all' ? 'rgba(255,255,255,0.4)' : (tc || '#666');
+        });
+        btn.classList.add('active');
+        activeTierFilter = btn.dataset.tier;
+        if (activeTierFilter === 'all') { btn.style.background='var(--brand-20)'; btn.style.color='#fff'; }
+        else { var c=TIER_COLORS[activeTierFilter]; if(c){ btn.style.background=c; btn.style.color='#fff'; } }
         drawSankey();
     });
 
@@ -9740,14 +9795,14 @@ sup.ref {
             links.push({ source: a.l3NodeId, target: a.id, value: a.time, color: tColor });
         }
 
-        /* Build L5 (human activity type classification) nodes */
+        /* Build L5 (Agentification Classification) nodes */
         nodesByDepth[5] = [];
         var sortedTypes = [];
         for (var tName in activityTypeAgg) {
             sortedTypes.push({
                 typeName: tName, totalTime: activityTypeAgg[tName],
                 order: (activityTypes[tName] || {}).order || 999,
-                complexity: (activityTypes[tName] || {}).complexity || 'Unknown'
+                agentClass: (activityTypes[tName] || {}).agentClass || 'Human-Centric'
             });
         }
         sortedTypes.sort(function(a, b) { return a.order - b.order; });
@@ -9755,7 +9810,7 @@ sup.ref {
             var st = sortedTypes[si];
             var tc = (activityTypes[st.typeName] || {}).color || '#888';
             var n5 = { id: '5-' + st.typeName, name: st.typeName, depth: 5, color: tc, time: st.totalTime,
-                        path: 'Activity Type: ' + st.typeName + ' (' + st.complexity + ' Complexity)' };
+                        path: st.agentClass + ': ' + st.typeName + ' (' + st.totalTime + ' activities)' };
             nodesByDepth[5].push(n5);
             allNodes.push(n5);
         }
@@ -9827,7 +9882,7 @@ sup.ref {
         var nodeMap = {};
         for (var ni = 0; ni < allNodes.length; ni++) nodeMap[allNodes[ni].id] = allNodes[ni];
 
-        /* ── Draw links — smooth bézier ── */
+        /* ── Draw links — smooth bézier, tier-colored for L4→L5 ── */
         for (var li = 0; li < links.length; li++) {
             var lk = links[li];
             var src = nodeMap[lk.source], tgt = nodeMap[lk.target];
@@ -9835,32 +9890,79 @@ sup.ref {
             var sx = src.x + src.width, sy = src.y + src.height / 2;
             var tx = tgt.x,             ty = tgt.y + tgt.height / 2;
             var xi = (tx - sx) * 0.5;
+
+            /* Determine link color — tier color for L4→L5, domain color otherwise */
+            var linkColor = lk.color;
+            var linkOpacity = '0.35';
+            var linkTier = null;
+            if (tgt.depth === 5) {
+                var ac = (activityTypes[tgt.name] || {}).agentClass || 'Human-Centric';
+                linkTier = ac;
+                linkColor = TIER_COLORS[ac] || lk.color;
+                linkOpacity = '0.45';
+            } else if (src.depth === 4 || tgt.depth === 4) {
+                /* L3→L4: blend toward tier color using activity type */
+                var at = tgt.activityType || src.activityType;
+                if (at) {
+                    var ac2 = (activityTypes[at] || {}).agentClass || 'Human-Centric';
+                    linkTier = ac2;
+                }
+            }
+            /* Tier filter dimming */
+            if (activeTierFilter !== 'all') {
+                if (linkTier && linkTier !== activeTierFilter) {
+                    linkOpacity = '0.06';
+                } else if (!linkTier) {
+                    linkOpacity = '0.12';
+                }
+            }
+
             var p = document.createElementNS(SVG_NS, 'path');
             p.setAttribute('d', 'M ' + sx + ' ' + sy + ' C ' + (sx+xi) + ' ' + sy + ', ' + (tx-xi) + ' ' + ty + ', ' + tx + ' ' + ty);
             p.setAttribute('fill', 'none');
-            p.setAttribute('stroke', lk.color);
-            p.setAttribute('stroke-opacity', '0.35');
+            p.setAttribute('stroke', linkColor);
+            p.setAttribute('stroke-opacity', linkOpacity);
             p.setAttribute('stroke-width', Math.max(1, Math.min(tgt.height, 28)));
             p.style.cursor = 'pointer';
             p.style.transition = 'stroke-opacity 0.15s';
-            p.addEventListener('mouseenter', (function(s, t, v) {
+            p.addEventListener('mouseenter', (function(s, t, v, lt) {
                 return function(ev) {
                     this.setAttribute('stroke-opacity', '0.75');
-                    var fte = (v / hoursPerFTE).toFixed(1);
-                    showTip(ev, '<div style="font-weight:700;margin-bottom:4px;">' + s.name + ' \u2192 ' + t.name + '</div>' +
+                    var fte = (v * FTE_PER_ACTIVITY).toFixed(0);
+                    var tierTag = lt ? '<span style="color:'+TIER_COLORS[lt]+';font-size:9px;"> \u25CF '+lt+'</span>' : '';
+                    showTip(ev, '<div style="font-weight:700;margin-bottom:4px;">' + s.name + ' \u2192 ' + t.name + tierTag + '</div>' +
                         '<div style="color:rgba(255,255,255,0.55);font-size:10px;">' + t.path + '</div>' +
                         '<div style="margin-top:4px;">Activities: <b style="color:#fff;">' + v + '</b> &nbsp;|&nbsp; FTE: <b style="color:#fff;">' + fte + '</b></div>');
                 };
-            })(src, tgt, lk.value));
+            })(src, tgt, lk.value, linkTier));
             p.addEventListener('mousemove', function(ev) { tooltip.style.left = Math.min(ev.clientX+14, window.innerWidth-360)+'px'; tooltip.style.top=(ev.clientY-30)+'px'; });
-            p.addEventListener('mouseleave', function() { this.setAttribute('stroke-opacity','0.35'); hideTip(); });
+            p.addEventListener('mouseleave', function() { this.setAttribute('stroke-opacity', linkOpacity); hideTip(); });
             svg.appendChild(p);
         }
 
-        /* ── Draw nodes ── */
+        /* ── Draw nodes — with tier filter dimming ── */
         for (var ni = 0; ni < allNodes.length; ni++) {
             var nd = allNodes[ni];
             var g  = document.createElementNS(SVG_NS, 'g');
+
+            /* Tier filter: dim L5 nodes not matching active tier */
+            var nodeTier = null;
+            var nodeOpacity = '1';
+            if (nd.depth === 5) {
+                nodeTier = (activityTypes[nd.name] || {}).agentClass || 'Human-Centric';
+                if (activeTierFilter !== 'all' && nodeTier !== activeTierFilter) {
+                    nodeOpacity = '0.12';
+                }
+            } else if (nd.depth === 4 && nd.activityType) {
+                nodeTier = (activityTypes[nd.activityType] || {}).agentClass || 'Human-Centric';
+                if (activeTierFilter !== 'all' && nodeTier !== activeTierFilter) {
+                    nodeOpacity = '0.18';
+                }
+            } else if (activeTierFilter !== 'all' && nd.depth <= 3) {
+                nodeOpacity = '0.4';
+            }
+            g.setAttribute('opacity', nodeOpacity);
+
             var r  = document.createElementNS(SVG_NS, 'rect');
             r.setAttribute('x', nd.x);
             r.setAttribute('y', nd.y);
@@ -9870,16 +9972,17 @@ sup.ref {
             r.setAttribute('stroke', 'rgba(255,255,255,0.3)');
             r.setAttribute('rx', '3');
             r.style.cursor = 'pointer';
-            r.addEventListener('mouseenter', (function(n) {
+            r.addEventListener('mouseenter', (function(n, nt) {
                 return function(ev) {
                     this.setAttribute('stroke', 'rgba(255,255,255,0.7)');
                     this.setAttribute('stroke-width', '1.5');
-                    var fte = (n.time / hoursPerFTE).toFixed(1);
+                    var fte = (n.time * FTE_PER_ACTIVITY).toFixed(0);
+                    var tierLabel = nt ? '<div style="color:'+TIER_COLORS[nt]+';font-size:9px;font-weight:600;margin-top:3px;">\u25CF '+nt+'</div>' : '';
                     showTip(ev, '<div style="color:' + n.color + ';font-weight:700;margin-bottom:3px;">' + n.name + '</div>' +
                         '<div style="color:rgba(255,255,255,0.55);font-size:10px;">' + n.path + '</div>' +
-                        '<div style="margin-top:4px;">Activities: <b style="color:#fff;">' + n.time + '</b> &nbsp;|&nbsp; FTE: <b style="color:#fff;">' + fte + '</b></div>');
+                        '<div style="margin-top:4px;">Activities: <b style="color:#fff;">' + n.time + '</b> &nbsp;|&nbsp; FTE: <b style="color:#fff;">' + fte + '</b></div>' + tierLabel);
                 };
-            })(nd));
+            })(nd, nodeTier));
             r.addEventListener('mousemove', function(ev) { tooltip.style.left=Math.min(ev.clientX+14,window.innerWidth-360)+'px'; tooltip.style.top=(ev.clientY-30)+'px'; });
             r.addEventListener('mouseleave', function() { this.setAttribute('stroke','rgba(255,255,255,0.3)'); this.setAttribute('stroke-width','1'); hideTip(); });
             g.appendChild(r);
@@ -9902,7 +10005,7 @@ sup.ref {
         }
 
         /* ── Column headers ── */
-        var depthLabels = ['Domain', 'Process', 'Sub-Process', 'Activity', 'Human Activity Type'];
+        var depthLabels = ['Domain', 'Process', 'Sub-Process', 'Activity', 'Agentification'];
         for (var d = 1; d <= maxDepth; d++) {
             var ht = document.createElementNS(SVG_NS, 'text');
             ht.setAttribute('x', padding.left + (d - 1) * columnWidth + 10);
@@ -9915,25 +10018,28 @@ sup.ref {
         }
 
         /* ═════════════════════════════════════════════════
-           AL0–AL4 COLUMNS  (FTE Reduction)
+           AL0–AL4 COLUMNS  (FTE Reduction: 2,877 → ~575)
+           Agent-Ready / Agent-Assisted / Human-Centric
            ═════════════════════════════════════════════════ */
-        var complexityTotals = { High: 0, Medium: 0, Low: 0 };
-        var complexityPos    = {
-            High:   { minY: Infinity, maxY: 0 },
-            Medium: { minY: Infinity, maxY: 0 },
-            Low:    { minY: Infinity, maxY: 0 }
+        var tierTotals = { 'Agent-Ready': 0, 'Agent-Assisted': 0, 'Human-Centric': 0 };
+        var tierPos    = {
+            'Agent-Ready':    { minY: Infinity, maxY: 0 },
+            'Agent-Assisted': { minY: Infinity, maxY: 0 },
+            'Human-Centric':  { minY: Infinity, maxY: 0 }
         };
         if (nodesByDepth[5]) {
             for (var i = 0; i < nodesByDepth[5].length; i++) {
                 var nd5 = nodesByDepth[5][i];
-                var cx  = (activityTypes[nd5.name] || {}).complexity || 'Low';
-                complexityTotals[cx] += nd5.time;
-                complexityPos[cx].minY = Math.min(complexityPos[cx].minY, nd5.y);
-                complexityPos[cx].maxY = Math.max(complexityPos[cx].maxY, nd5.y + nd5.height);
+                var ac  = (activityTypes[nd5.name] || {}).agentClass || 'Human-Centric';
+                tierTotals[ac] = (tierTotals[ac] || 0) + nd5.time;
+                tierPos[ac].minY = Math.min(tierPos[ac].minY, nd5.y);
+                tierPos[ac].maxY = Math.max(tierPos[ac].maxY, nd5.y + nd5.height);
             }
         }
 
-        var cxColors = { High: '#e74c3c', Medium: '#f39c12', Low: '#27ae60' };
+        /* Tier colors — use global TIER_COLORS / TIER_ORDER constants */
+        var tierColors = TIER_COLORS;
+        var tierOrder  = TIER_ORDER;
         var summaryW  = colWidth * 0.8;
         var colSpc    = summaryW + 8;
         var al4X = width - padding.right - summaryW;
@@ -9943,15 +10049,16 @@ sup.ref {
         var al0X = al1X - colSpc;
         var legendX = al0X - 35;
 
-        /* Complexity legend bars */
-        for (var cx in cxColors) {
-            var pos = complexityPos[cx];
+        /* Tier legend bars — vertical colored bars beside column 5 */
+        for (var ti = 0; ti < tierOrder.length; ti++) {
+            var tier = tierOrder[ti];
+            var pos = tierPos[tier];
             if (pos.minY === Infinity) continue;
             var boxY = pos.minY, boxH = Math.max(pos.maxY - pos.minY, 30);
             var ll = document.createElementNS(SVG_NS, 'line');
             ll.setAttribute('x1', legendX); ll.setAttribute('y1', boxY);
             ll.setAttribute('x2', legendX); ll.setAttribute('y2', boxY + boxH);
-            ll.setAttribute('stroke', cxColors[cx]); ll.setAttribute('stroke-width', '3');
+            ll.setAttribute('stroke', tierColors[tier]); ll.setAttribute('stroke-width', '3');
             ll.setAttribute('stroke-opacity', '0.9');
             svg.appendChild(ll);
             if (boxH > 25) {
@@ -9960,18 +10067,34 @@ sup.ref {
                 lb.setAttribute('y', boxY + boxH / 2);
                 lb.setAttribute('text-anchor', 'middle');
                 lb.setAttribute('dominant-baseline', 'middle');
-                lb.setAttribute('fill', cxColors[cx]);
+                lb.setAttribute('fill', tierColors[tier]);
                 lb.setAttribute('font-size', '9');
                 lb.setAttribute('font-weight', '600');
                 lb.setAttribute('transform', 'rotate(-90, ' + (legendX - 8) + ', ' + (boxY + boxH / 2) + ')');
-                lb.textContent = cx;
+                lb.textContent = tier;
                 svg.appendChild(lb);
+            }
+            /* Percentage badge next to tier label */
+            var pctVal = Math.round(tierTotals[tier] * 100 / TOTAL_ACTIVITIES);
+            if (boxH > 18) {
+                var pctTxt = document.createElementNS(SVG_NS, 'text');
+                pctTxt.setAttribute('x', legendX - 20);
+                pctTxt.setAttribute('y', boxY + boxH / 2);
+                pctTxt.setAttribute('text-anchor', 'middle');
+                pctTxt.setAttribute('dominant-baseline', 'middle');
+                pctTxt.setAttribute('fill', tierColors[tier]);
+                pctTxt.setAttribute('font-size', '8');
+                pctTxt.setAttribute('font-weight', '700');
+                pctTxt.setAttribute('transform', 'rotate(-90, ' + (legendX - 20) + ', ' + (boxY + boxH / 2) + ')');
+                pctTxt.textContent = pctVal + '%';
+                svg.appendChild(pctTxt);
             }
         }
 
         /* AL column headers */
         var alLabels   = ['AL0', 'AL1', 'AL2', 'AL3', 'AL4'];
-        var alSubs     = ['Human Only', 'AI Assisted', 'AI Exec, Human Approves', 'Human on Exc.', 'AI Autonomous'];
+        var alSubs     = ['Current State', 'AI Augmented', 'AI Co-Pilot', 'AI Autonomous', 'Fully Transformed'];
+        var alFTELabels = ['2,877 FTE', '~2,300 FTE', '~1,500 FTE', '~860 FTE', '~575 FTE'];
         var alXPos     = [al0X, al1X, al2X, al3X, al4X];
         for (var ai = 0; ai < 5; ai++) {
             var x = alXPos[ai];
@@ -9991,8 +10114,8 @@ sup.ref {
             svg.appendChild(h2);
         }
 
-        /* Helper — draw one AL box */
-        function drawAlBox(alX, boxY, boxH, fillCol, fillOp, rawVal) {
+        /* Helper — draw one AL box with FTE numbers */
+        function drawAlBox(alX, boxY, boxH, fillCol, fillOp, actCount) {
             var g = document.createElementNS(SVG_NS, 'g');
             g.style.cursor = 'pointer';
             var bx = document.createElementNS(SVG_NS, 'rect');
@@ -10001,19 +10124,20 @@ sup.ref {
             bx.setAttribute('fill', fillCol); bx.setAttribute('fill-opacity', fillOp);
             bx.setAttribute('stroke', 'rgba(255,255,255,0.5)'); bx.setAttribute('rx', '4');
             g.appendChild(bx);
-            var fte = rawVal / hoursPerFTE;
+            var fte = Math.round(actCount * FTE_PER_ACTIVITY);
             if (boxH >= 22) {
                 var t1 = document.createElementNS(SVG_NS, 'text');
                 t1.setAttribute('x', alX + summaryW / 2);
-                t1.setAttribute('y', boxY + boxH / 2 - 4);
+                t1.setAttribute('y', boxY + boxH / 2 - (boxH >= 30 ? 4 : 0));
                 t1.setAttribute('text-anchor', 'middle');
                 t1.setAttribute('fill', '#fff');
-                t1.setAttribute('font-size', '8');
+                t1.setAttribute('font-size', '9');
+                t1.setAttribute('font-weight', '600');
                 t1.setAttribute('pointer-events', 'none');
-                t1.textContent = Math.round(fte).toLocaleString();
+                t1.textContent = fte.toLocaleString();
                 g.appendChild(t1);
             }
-            if (boxH >= 30) {
+            if (boxH >= 32) {
                 var t2 = document.createElementNS(SVG_NS, 'text');
                 t2.setAttribute('x', alX + summaryW / 2);
                 t2.setAttribute('y', boxY + boxH / 2 + 8);
@@ -10021,77 +10145,138 @@ sup.ref {
                 t2.setAttribute('fill', 'rgba(255,255,255,0.65)');
                 t2.setAttribute('font-size', '7');
                 t2.setAttribute('pointer-events', 'none');
-                t2.textContent = fte.toFixed(1) + ' FTE';
+                t2.textContent = 'FTE';
                 g.appendChild(t2);
             }
             return g;
         }
 
-        /* ── AL0: Human Only (100%) ── */
-        for (var cx in complexityTotals) {
-            var tot = complexityTotals[cx];
-            if (tot === 0) continue;
-            var pos = complexityPos[cx];
-            if (pos.minY === Infinity) continue;
-            var bY = pos.minY, bH = Math.max(pos.maxY - pos.minY, 40);
-            var g0 = drawAlBox(al0X, bY, bH, cxColors[cx], '0.15', tot);
-            g0.addEventListener('mouseenter', (function(cx2, t){ return function(ev){
-                showTip(ev, '<div style="font-weight:700;margin-bottom:4px;">AL0 — Human Only</div><div style="color:'+cxColors[cx2]+';margin-bottom:4px;">'+cx2+' Complexity</div><div>Activities: <b>'+t+'</b> | FTE: <b>'+(t/hoursPerFTE).toFixed(1)+'</b></div>');
-            }; })(cx, tot));
-            g0.addEventListener('mouseleave', hideTip);
-            svg.appendChild(g0);
-        }
-
-        /* ── AL1: AI Assisted ── */
-        var al1Totals = { High: 0, Medium: 0, Low: 0 };
-        if (nodesByDepth[5]) {
-            for (var i = 0; i < nodesByDepth[5].length; i++) {
-                var nd5 = nodesByDepth[5][i];
-                var at  = activityTypes[nd5.name] || {};
-                var cx  = at.complexity || 'Low';
-                al1Totals[cx] += nd5.time * (1 - (at.aiImprovement || 0));
-            }
-        }
-        for (var cx in al1Totals) {
-            var a0 = complexityTotals[cx];
-            if (a0 === 0) continue;
-            var pos = complexityPos[cx]; if (pos.minY === Infinity) continue;
-            var bY = pos.minY, a0H = Math.max(pos.maxY - pos.minY, 40);
-            var bH = a0H * (al1Totals[cx] / a0);
-            var g1 = drawAlBox(al1X, bY, bH, cxColors[cx], '0.3', al1Totals[cx]);
-            g1.addEventListener('mouseenter', (function(cx2, a1, a0){ return function(ev){
-                showTip(ev, '<div style="font-weight:700;margin-bottom:4px;">AL1 — AI Assisted</div><div style="color:'+cxColors[cx2]+';">'+cx2+' Complexity</div><div>FTE: <b>'+(a1/hoursPerFTE).toFixed(1)+'</b> | Saved: <b>'+((a0-a1)/hoursPerFTE).toFixed(1)+'</b></div>');
-            }; })(cx, al1Totals[cx], a0));
-            g1.addEventListener('mouseleave', hideTip);
-            svg.appendChild(g1);
-        }
-
-        /* AL2-AL4 human-effort % by complexity */
+        /*
+         * AL0–AL4 human-effort percentages by agentification tier
+         *
+         * AL0: Current State — 100% human (2,877 FTE)
+         * AL1: AI Augmented — AI assists, human still does work (~80% of current = ~2,300 FTE)
+         * AL2: AI Co-Pilot — AI executes, human approves (~52% = ~1,500 FTE)
+         * AL3: AI Autonomous — AI handles most, human on exception (~30% = ~860 FTE)
+         * AL4: Fully Transformed — near-autonomous (~20% = ~575 FTE → 80% reduction)
+         */
         var alPct = {
-            AL2: { High: 50, Medium: 30, Low: 20 },
-            AL3: { High: 25, Medium: 12, Low: 6  },
-            AL4: { High: 10, Medium: 5,  Low: 2  }
+            AL0: { 'Agent-Ready': 100, 'Agent-Assisted': 100, 'Human-Centric': 100 },
+            AL1: { 'Agent-Ready': 70,  'Agent-Assisted': 85,  'Human-Centric': 95  },
+            AL2: { 'Agent-Ready': 35,  'Agent-Assisted': 60,  'Human-Centric': 85  },
+            AL3: { 'Agent-Ready': 14,  'Agent-Assisted': 35,  'Human-Centric': 70  },
+            AL4: { 'Agent-Ready': 8,   'Agent-Assisted': 22,  'Human-Centric': 55  }
         };
-        var alXMap   = { AL2: al2X, AL3: al3X, AL4: al4X };
-        var alColors = { AL2: '#3498db', AL3: '#2ecc71', AL4: '#9b59b6' };
-        var alOpac   = { AL2: '0.4',    AL3: '0.4',    AL4: '0.5' };
-        var alNames  = { AL2: 'AI Exec, Human Approves', AL3: 'AI Exec, Human on Exception', AL4: 'AI Autonomous' };
+
+        var alXMap   = { AL0: al0X, AL1: al1X, AL2: al2X, AL3: al3X, AL4: al4X };
+        var alFills  = { AL0: 'rgba(255,255,255,0.1)', AL1: '#3498db', AL2: '#2980b9', AL3: '#2ecc71', AL4: '#9b59b6' };
+        var alOpac   = { AL0: '0.15', AL1: '0.3', AL2: '0.4', AL3: '0.4', AL4: '0.5' };
+        var alDescr  = { AL0: 'Current State — 100% Human', AL1: 'AI Augmented — AI assists humans', AL2: 'AI Co-Pilot — AI executes, human approves', AL3: 'AI Autonomous — human on exception only', AL4: 'Fully Transformed — near-autonomous' };
 
         for (var alKey in alPct) {
-            for (var cx in complexityTotals) {
-                var tot = complexityTotals[cx];
-                if (tot === 0) continue;
-                var pos = complexityPos[cx]; if (pos.minY === Infinity) continue;
-                var humanTime = tot * (alPct[alKey][cx] / 100);
-                var bY = pos.minY, a0H = Math.max(pos.maxY - pos.minY, 40);
-                var bH = a0H * Math.max(humanTime / tot, alKey === 'AL4' ? 0.05 : 0.08);
-                var gAl = drawAlBox(alXMap[alKey], bY, bH, alColors[alKey], alOpac[alKey], humanTime);
-                gAl.addEventListener('mouseenter', (function(alK, cx2, ht, pct){ return function(ev){
-                    showTip(ev, '<div style="font-weight:700;margin-bottom:4px;">'+alK+' — '+alNames[alK]+'</div><div style="color:'+cxColors[cx2]+';">'+cx2+' Complexity</div><div>FTE: <b>'+(ht/hoursPerFTE).toFixed(1)+'</b> ('+pct+'%)</div>');
-                }; })(alKey, cx, humanTime, alPct[alKey][cx]));
+            for (var ti = 0; ti < tierOrder.length; ti++) {
+                var tier = tierOrder[ti];
+                var tot = tierTotals[tier];
+                if (!tot || tot === 0) continue;
+                var pos = tierPos[tier]; if (pos.minY === Infinity) continue;
+                var pctHuman = alPct[alKey][tier];
+                var humanAct = tot * (pctHuman / 100);
+                var bY = pos.minY;
+                var a0H = Math.max(pos.maxY - pos.minY, 40);
+                var bH = a0H * Math.max(pctHuman / 100, 0.04);
+                var fillColor = alKey === 'AL0' ? tierColors[tier] : alFills[alKey];
+                var gAl = drawAlBox(alXMap[alKey], bY, bH, fillColor, alOpac[alKey], humanAct);
+                gAl.addEventListener('mouseenter', (function(alK, tier2, ha, pct){ return function(ev){
+                    var fte = Math.round(ha * FTE_PER_ACTIVITY);
+                    showTip(ev, '<div style="font-weight:700;margin-bottom:4px;">'+alK+' — '+alDescr[alK]+'</div>' +
+                        '<div style="color:'+tierColors[tier2]+';margin-bottom:4px;">'+tier2+' ('+pct+'% human effort remaining)</div>' +
+                        '<div>FTE: <b style="color:#fff;">'+fte+'</b> &nbsp;|&nbsp; Activities: <b>'+Math.round(ha)+'</b></div>');
+                }; })(alKey, tier, humanAct, pctHuman));
                 gAl.addEventListener('mouseleave', hideTip);
                 svg.appendChild(gAl);
             }
+        }
+
+        /* ── AL Total FTE labels below each column ── */
+        var alKeys = ['AL0','AL1','AL2','AL3','AL4'];
+        for (var ki = 0; ki < alKeys.length; ki++) {
+            var alK = alKeys[ki];
+            var totalHumanAct = 0;
+            for (var ti = 0; ti < tierOrder.length; ti++) {
+                var tier = tierOrder[ti];
+                totalHumanAct += (tierTotals[tier] || 0) * (alPct[alK][tier] / 100);
+            }
+            var totalFTE = Math.round(totalHumanAct * FTE_PER_ACTIVITY);
+            var pctReduc = Math.round((1 - totalHumanAct / TOTAL_ACTIVITIES) * 100);
+            var bottomY = Math.max.apply(null, tierOrder.map(function(t){ return tierPos[t].maxY || 0; })) + 18;
+            var fteLbl = document.createElementNS(SVG_NS, 'text');
+            fteLbl.setAttribute('x', alXMap[alK] + summaryW / 2);
+            fteLbl.setAttribute('y', bottomY);
+            fteLbl.setAttribute('text-anchor', 'middle');
+            fteLbl.setAttribute('fill', 'rgba(255,255,255,0.85)');
+            fteLbl.setAttribute('font-size', '9');
+            fteLbl.setAttribute('font-weight', '700');
+            fteLbl.textContent = totalFTE.toLocaleString() + ' FTE';
+            svg.appendChild(fteLbl);
+            if (alK !== 'AL0') {
+                var redLbl = document.createElementNS(SVG_NS, 'text');
+                redLbl.setAttribute('x', alXMap[alK] + summaryW / 2);
+                redLbl.setAttribute('y', bottomY + 12);
+                redLbl.setAttribute('text-anchor', 'middle');
+                redLbl.setAttribute('fill', pctReduc >= 70 ? '#2ecc71' : '#f39c12');
+                redLbl.setAttribute('font-size', '8');
+                redLbl.setAttribute('font-weight', '600');
+                redLbl.textContent = '\u2193' + pctReduc + '%';
+                svg.appendChild(redLbl);
+            }
+        }
+
+        /* ── Summary annotation: Agentifiable % ── */
+        var agentifiableAct = (tierTotals['Agent-Ready'] || 0) + (tierTotals['Agent-Assisted'] || 0);
+        var agentifiablePct = Math.round(agentifiableAct * 100 / TOTAL_ACTIVITIES);
+        var annoY = padding.top - 5;
+        var annoX = legendX - 40;
+
+        /* Compute AL4 FTE for the FTE savings badge */
+        var al4TotalHuman = 0;
+        for (var ti = 0; ti < tierOrder.length; ti++) {
+            var t = tierOrder[ti];
+            al4TotalHuman += (tierTotals[t] || 0) * (alPct.AL4[t] / 100);
+        }
+        var al4FTE = Math.round(al4TotalHuman * FTE_PER_ACTIVITY);
+        var fteSaved = TOTAL_FTE - al4FTE;
+        var fteReduction = Math.round(fteSaved * 100 / TOTAL_FTE);
+
+        /* Badge row — 3 KPI badges stacked vertically */
+        var badges = [
+            { label: agentifiablePct + '% Agentifiable', color: '#27ae60', sub: tierTotals['Agent-Ready'] + ' Agent-Ready + ' + tierTotals['Agent-Assisted'] + ' Agent-Assisted' },
+            { label: TOTAL_FTE.toLocaleString() + ' \u2192 ' + al4FTE.toLocaleString() + ' FTE', color: '#9b59b6', sub: '\u2193' + fteReduction + '% at AL4 — ' + fteSaved.toLocaleString() + ' FTE saved' },
+            { label: TOTAL_ACTIVITIES.toLocaleString() + ' Activities', color: '#3498db', sub: '18 Domains \u2022 38 Processes \u2022 98 Sub-Processes' }
+        ];
+        for (var bi = 0; bi < badges.length; bi++) {
+            var b = badges[bi];
+            var bx = annoX - 85;
+            var by = annoY - 12 + bi * 24;
+            var bg = document.createElementNS(SVG_NS, 'rect');
+            bg.setAttribute('x', bx); bg.setAttribute('y', by);
+            bg.setAttribute('width', 170); bg.setAttribute('height', 20);
+            bg.setAttribute('fill', b.color); bg.setAttribute('fill-opacity', '0.1');
+            bg.setAttribute('stroke', b.color); bg.setAttribute('stroke-opacity', '0.35');
+            bg.setAttribute('rx', '10');
+            svg.appendChild(bg);
+            var bt = document.createElementNS(SVG_NS, 'text');
+            bt.setAttribute('x', bx + 85); bt.setAttribute('y', by + 13);
+            bt.setAttribute('text-anchor', 'middle');
+            bt.setAttribute('fill', b.color);
+            bt.setAttribute('font-size', '9'); bt.setAttribute('font-weight', '700');
+            bt.textContent = b.label;
+            svg.appendChild(bt);
+            /* Sub-text tooltip on hover */
+            bg.style.cursor = 'pointer';
+            bg.addEventListener('mouseenter', (function(bd){ return function(ev){
+                showTip(ev, '<div style="font-weight:700;color:'+bd.color+';margin-bottom:4px;">'+bd.label+'</div><div style="font-size:11px;">'+bd.sub+'</div>');
+            }; })(b));
+            bg.addEventListener('mouseleave', hideTip);
         }
 
         /* Render */
